@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Raspberry Gateway Configuration</title>
+    <style>
+        input, label, span, h1 {
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Raspberry Gateway Configuration</h1>
+    <pre>
+ _____ _           _____             
+|_   _|_|_____ ___|__   |___ ___ ___ 
+  | | | |     | -_|   __| . |   | -_|
+  |_| |_|_|_|_|___|_____|___|_|_|___|
+Set Your timezone for all services:</pre>
+    <form method="POST" action="/save">
+        <label for="ur_timezone">Timezone:</label>
+        <input type="text" name="ur_timezone" value="{{.URTimezone}}"><br>
+    <pre>
+ ____  _____ _____       _____ _ _____     _     
+|    \|   | |   __|     |  _  |_|  |  |___| |___ 
+|  |  | | | |__   |     |   __| |     | . | | -_|
+|____/|_|___|_____|     |__|  |_|__|__|___|_|___|
+DNS and Pi-Hole configuration:</pre>
+
+        <label for="unbound_dns_enable">Unbound DNS:</label>
+        <input type="checkbox" name="unbound_dns_enable" {{if .UnboundDNSEnable}}checked{{end}}><br>
+
+        <label for="pihole_enable">Pi-hole:</label>
+        <input type="checkbox" name="pihole_enable" {{if .PiholeEnable}}checked{{end}}><br>
+
+        <label for="pihole_with_unbound">Pi-hole with Unbound DNS:</label>
+        <input type="checkbox" name="pihole_with_unbound" {{if .PiholeWithUnbound}}checked{{end}}><br>
+
+        <label for="pihole_password">Pi-hole Password:</label>
+        <input type="password" name="pihole_password" value="{{.PiholePassword}}"><br><br>
+
+        <label for="tech_dns_enable">TechnitiumDNS:</label>
+        <input type="checkbox" name="tech_dns_enable" {{if .TechDNSEnable}}checked{{end}}><br>
+
+        <label for="tech_dns_password">TechnitiumDNS Password:</label>
+        <input type="password" name="tech_dns_password" value="{{.TechDNSPassword}}"><br>
+        <pre>
+ _____             _____ _____ _____ 
+|     |___ ___ ___|  |  |  _  |   | |
+|  |  | . | -_|   |  |  |   __| | | |
+|_____|  _|___|_|_|\___/|__|  |_|___|
+      |_|
+OpenVPN Server configuration: </pre>
+
+        <label for="ovpn_server_enable">OpenVPN Server:</label>
+        <input type="checkbox" name="ovpn_server_enable" {{if .OpenVPNServer}}checked{{end}}><br>
+
+        <label for="ovpnui_password">OpenVPN Server Web UI Password:</label>
+        <input type="password" name="ovpnui_password" value="{{.OpenVPNUIPassword}}"><br><br>        
+
+        <label for="ovpn_client_enable">OpenVPN Client:</label>
+        <input type="checkbox" name="ovpn_client_enable" {{if .OpenVPNClient}}checked{{end}}><br>
+
+        <label for="ovpn_client_cert">OpenVPN Client Certificate:</label>
+        <input type="text" name="ovpn_client_cert" value="{{.OpenVPNClientCert}}"><br>     
+
+        <label for="ovpn_client_allowed_subnet">OpenVPN Client Allowed Subnet:</label>
+        <input type="text" name="ovpn_client_allowed_subnet" value="{{.OpenVPNClientAllowedSub}}"><br>
+        <pre>
+ _ _ _ _         _____               _ 
+| | | |_|___ ___|   __|_ _ ___ ___ _| |
+| | | | |  _| -_|  |  | | | .'|  _| . |
+|_____|_|_| |___|_____|___|__,|_| |___|
+WireGuard Server configuration:</pre>  
+
+        <label for="wireguard_server_enable">WireGuard Server:</label>
+        <input type="checkbox" name="wireguard_server_enable" {{if .WireGuardServer}}checked{{end}}><br>
+
+        <label for="wireguard_password">WireGuard Server Web UI Password:</label>   
+        <input type="password" name="wireguard_password" value="{{.WireGuardServerPassword}}"><br>
+        <pre>
+ _____         _       _ 
+|  _  |___ ___| |_ ___|_|___ ___ ___ 
+|   __| . |  _|  _| .'| |   | -_|  _|
+|__|  |___|_| |_| |__,|_|_|_|___|_|  
+Portainer configuration.</pre>  
+
+        <label for="portainer_enable">Portainer:</label>
+        <input type="checkbox" name="portainer_enable" {{if .PortainerEnable}}checked{{end}}><br>
+        <pre>
+     _____ _ _   _____                     _   
+ ___| __  |_| |_|_   _|___ ___ ___ ___ ___| |_ 
+| . | __ -| |  _| | | | . |  _|  _| -_|   |  _|
+|_  |_____|_|_|   |_| |___|_| |_| |___|_|_|_|  
+  |_|                                         
+QbitTorrent configuration:</pre>
+
+        <label for="qbittorrent_enable">qBitTorrent:</label>
+        <input type="checkbox" name="qbittorrent_enable" {{if .QbitTorrentEnable}}checked{{end}}><br>
+
+        <label for="qbittorrent_default_password">qBitTorrent Web UI Password:</label>   
+        <input type="text" name="qbittorrent_default_password" value="{{.QbitTorrentPassword}}"><br>
+
+        <label for="qbittorrent_inside_vpn">Route qBitTorrent via VPN Client connection:</label>
+        <input type="checkbox" name="qbittorrent_inside_vpn" {{if .QbitTorrentInVPN}}checked{{end}}><br>
+        <pre>
+ _____         _ _               
+|     |___ ___|_| |_ ___ ___ ___ 
+| | | | . |   | |  _| . |  _|_ -|
+|_|_|_|___|_|_|_|_| |___|_| |___|
+Raspberry-monitoring configuration:</pre>
+
+        <label for="monitoring_enable">Global Monitoring:</label>
+        <input type="checkbox" name="monitoring_enable" {{if .MonitoringEnable}}checked{{end}}><br>
+
+        <label for="monitoring_grafana_admin_password">Grafana Password for first Login:</label>   
+        <input type="text" name="monitoring_grafana_admin_password" value="{{.MonitoringGrafPassword}}"><br>
+
+        <label for="openvpn_monitoring_enable">OpenVPN Server Monitoring:</label>
+        <input type="checkbox" name="openvpn_monitoring_enable" {{if .OpenVPNMonitoringEnable}}checked{{end}}><br>
+
+        <label for="pikvm_monitoring_enable">PiKVM Monitoring:</label>
+        <input type="checkbox" name="pikvm_monitoring_enable" {{if .PiKVMMonitoringEnable}}checked{{end}}><br>
+
+        <label for="airgradient_monitoring_enable">AirGradient Monitoring:</label>
+        <input type="checkbox" name="airgradient_monitoring_enable" {{if .AirGradientMonitoring}}checked{{end}}><br>
+
+        <label for="starlink_monitoring_enable">StarLink Monitoring:</label>
+        <input type="checkbox" name="starlink_monitoring_enable" {{if .StarLinkMonitoring}}checked{{end}}><br>
+
+        <label for="shelly_plug_monitoring_enable">ShellyPlug Monitoring:</label>
+        <input type="checkbox" name="shelly_plug_monitoring_enable" {{if .ShellyPlugMonitoring}}checked{{end}}><br><br>
+
+        <input type="submit" value="Save">
+    </form>
+
+    <form method="POST" action="/install">
+        <input type="submit" value="Install">
+    </form>
+</body>
+</html>
