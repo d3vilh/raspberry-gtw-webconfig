@@ -67,7 +67,7 @@ func main() {
 
 	// Create a new server
 	srv := &http.Server{
-		Addr:    ":8080",
+		Addr:    ":8081",
 		Handler: r,
 	}
 
