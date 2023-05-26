@@ -28,7 +28,7 @@ Set Your timezone for all services:</pre>
 DNS and Pi-Hole configuration:</pre>
 
         <label for="unbound_dns_enable">Unbound DNS:</label>
-        <input type="checkbox" name="unbound_dns_enable" {{if .UnboundDNSEnable}}checked{{end}}><br>
+        <input type="checkbox" name="unbound_dns_enable" id="unbound_dns_enable" {{if .UnboundDNSEnable}}checked{{end}}><br>
 
         <label for="pihole_enable">Pi-hole:</label>
         <input type="checkbox" name="pihole_enable" {{if .PiholeEnable}}checked{{end}}><br>
@@ -40,7 +40,7 @@ DNS and Pi-Hole configuration:</pre>
         <input type="password" name="pihole_password" value="{{.PiholePassword}}"><br><br>
 
         <label for="tech_dns_enable">TechnitiumDNS:</label>
-        <input type="checkbox" name="tech_dns_enable" {{if .TechDNSEnable}}checked{{end}}><br>
+        <input type="checkbox" name="tech_dns_enable" id="tech_dns_enable" {{if .TechDNSEnable}}checked{{end}}><br>
 
         <label for="tech_dns_password">TechnitiumDNS Password:</label>
         <input type="password" name="tech_dns_password" value="{{.TechDNSPassword}}"><br>
@@ -92,7 +92,7 @@ Portainer configuration.</pre>
  ___| __  |_| |_|_   _|___ ___ ___ ___ ___| |_ 
 | . | __ -| |  _| | | | . |  _|  _| -_|   |  _|
 |_  |_____|_|_|   |_| |___|_| |_| |___|_|_|_|  
-  |_|                                         
+  |_|                                          
 QbitTorrent configuration:</pre>
 
         <label for="qbittorrent_enable">qBitTorrent:</label>
@@ -111,25 +111,25 @@ QbitTorrent configuration:</pre>
 Raspberry-monitoring configuration:</pre>
 
         <label for="monitoring_enable">Global Monitoring:</label>
-        <input type="checkbox" name="monitoring_enable" {{if .MonitoringEnable}}checked{{end}}><br>
+        <input type="checkbox" name="monitoring_enable" id="monitoring_enable" {{if .MonitoringEnable}}checked{{end}}><br>
 
         <label for="monitoring_grafana_admin_password">Grafana Password for first Login:</label>   
         <input type="text" name="monitoring_grafana_admin_password" value="{{.MonitoringGrafPassword}}"><br>
 
         <label for="openvpn_monitoring_enable">OpenVPN Server Monitoring:</label>
-        <input type="checkbox" name="openvpn_monitoring_enable" {{if .OpenVPNMonitoringEnable}}checked{{end}}><br>
+        <input type="checkbox" name="openvpn_monitoring_enable" id="openvpn_monitoring_enable" {{if .OpenVPNMonitoringEnable}}checked{{end}}><br>
 
         <label for="pikvm_monitoring_enable">PiKVM Monitoring:</label>
-        <input type="checkbox" name="pikvm_monitoring_enable" {{if .PiKVMMonitoringEnable}}checked{{end}}><br>
+        <input type="checkbox" name="pikvm_monitoring_enable" id="pikvm_monitoring_enable" {{if .PiKVMMonitoringEnable}}checked{{end}}><br>
 
         <label for="airgradient_monitoring_enable">AirGradient Monitoring:</label>
-        <input type="checkbox" name="airgradient_monitoring_enable" {{if .AirGradientMonitoring}}checked{{end}}><br>
+        <input type="checkbox" name="airgradient_monitoring_enable" id="airgradient_monitoring_enable" {{if .AirGradientMonitoring}}checked{{end}}><br>
 
         <label for="starlink_monitoring_enable">StarLink Monitoring:</label>
-        <input type="checkbox" name="starlink_monitoring_enable" {{if .StarLinkMonitoring}}checked{{end}}><br>
+        <input type="checkbox" name="starlink_monitoring_enable" id="starlink_monitoring_enable" {{if .StarLinkMonitoring}}checked{{end}}><br>
 
         <label for="shelly_plug_monitoring_enable">ShellyPlug Monitoring:</label>
-        <input type="checkbox" name="shelly_plug_monitoring_enable" {{if .ShellyPlugMonitoring}}checked{{end}}><br><br>
+        <input type="checkbox" name="shelly_plug_monitoring_enable" id="shelly_plug_monitoring_enable" {{if .ShellyPlugMonitoring}}checked{{end}}><br><br>
 
         <input type="submit" value="Save">
     </form>
@@ -137,5 +137,78 @@ Raspberry-monitoring configuration:</pre>
     <form method="POST" action="/install">
         <input type="submit" value="Install">
     </form>
+
+    <script>
+        const unboundDnsEnable = document.getElementById('unbound_dns_enable');
+        const piholeEnable = document.querySelector('input[name="pihole_enable"]');
+        const piholeWithUnbound = document.querySelector('input[name="pihole_with_unbound"]');
+        const techDnsEnable = document.getElementById('tech_dns_enable');
+
+        unboundDnsEnable.addEventListener('change', () => {
+          if (unboundDnsEnable.checked) {
+            techDnsEnable.checked = false;
+          }
+        });
+        
+        piholeEnable.addEventListener('change', () => {
+          if (piholeEnable.checked) {
+            techDnsEnable.checked = false;
+          }
+        });
+        
+        piholeWithUnbound.addEventListener('change', () => {
+          if (piholeWithUnbound.checked) {
+            techDnsEnable.checked = false;
+            unboundDnsEnable.checked = true;
+            piholeEnable.checked = true;
+          }
+        });
+        
+        techDnsEnable.addEventListener('change', () => {
+          if (techDnsEnable.checked) {
+            unboundDnsEnable.checked = false;
+            piholeEnable.checked = false;
+            piholeWithUnbound.checked = false;
+          }
+        });
+
+        const monitoringEnable = document.getElementById('monitoring_enable');
+        const openvpnMonitoringEnable = document.getElementById('openvpn_monitoring_enable');
+        const piKvmMonitoringEnable = document.getElementById('pikvm_monitoring_enable');
+        const airGradientMonitoring = document.getElementById('airgradient_monitoring_enable');
+        const starLinkMonitoring = document.getElementById('starlink_monitoring_enable');
+        const shellyPlugMonitoring = document.getElementById('shelly_plug_monitoring_enable');
+
+        openvpnMonitoringEnable.addEventListener('change', () => {
+          if (openvpnMonitoringEnable.checked) {
+            monitoringEnable.checked = true;
+          }
+        });
+
+        piKvmMonitoringEnable.addEventListener('change', () => {
+          if (piKvmMonitoringEnable.checked) {
+            monitoringEnable.checked = true;
+          }
+        });
+        
+        airGradientMonitoring.addEventListener('change', () => {
+          if (airGradientMonitoring.checked) {
+            monitoringEnable.checked = true;
+          }
+        });
+
+        starLinkMonitoring.addEventListener('change', () => {
+          if (starLinkMonitoring.checked) {
+            monitoringEnable.checked = true;
+          }
+        });
+
+        shellyPlugMonitoring.addEventListener('change', () => {
+          if (shellyPlugMonitoring.checked) {
+            monitoringEnable.checked = true;
+          }
+        });
+
+    </script>
 </body>
 </html>
