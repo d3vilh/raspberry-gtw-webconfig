@@ -216,6 +216,20 @@
           }
         });
 
+        const output = document.getElementById("output");
+        const source = new EventSource("/install");
+
+        source.onmessage = function(event) {
+          const data = event.data.trim();
+          if (data !== "") {
+            output.innerHTML += data + "<br>";
+          }
+        };
+
+        source.onerror = function(event) {
+         output.innerHTML += "Error: " + event.data + "<br>";
+        };
+
     </script>
 </body>
 </html>

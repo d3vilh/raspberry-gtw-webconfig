@@ -1,8 +1,9 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
-	"io/ioutil"
+
 	"log"
 	"net/http"
 	"os"
@@ -144,17 +145,37 @@ func saveConfig(w http.ResponseWriter, r *http.Request) {
 }
 
 func install(w http.ResponseWriter, r *http.Request) {
-	cmd := exec.Command("ansible-playbook", "main.yml")
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
+	w.Header().Set("Content-Type", "text/event-stream")
+	w.Header().Set("Cache-Control", "no-cache")
+	w.Header().Set("Connection", "keep-alive")
 
-	err := cmd.Run()
+	cmd := exec.Command("ansible-playbook", "main.yml")
+	stdout, err := cmd.StdoutPipe()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	fmt.Fprintln(w, "Installation complete!")
+	err = cmd.Start()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	scanner := bufio.NewScanner(stdout)
+	for scanner.Scan() {
+		fmt.Fprintf(w, "data: %s\n\n", scanner.Text())
+		w.(http.Flusher).Flush()
+	}
+
+	err = cmd.Wait()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	fmt.Fprintln(w, "data: Installation complete!")
+	w.(http.Flusher).Flush()
 }
 
 func readConfig() (Config, error) {
@@ -210,12 +231,12 @@ func writeConfig(config Config) error {
 }
 
 func copyFile(src, dst string) error {
-	data, err := ioutil.ReadFile(src)
+	input, err := os.ReadFile(src)
 	if err != nil {
 		return err
 	}
 
-	err = ioutil.WriteFile(dst, data, 0644)
+	err = os.WriteFile(dst, input, 0644)
 	if err != nil {
 		return err
 	}
