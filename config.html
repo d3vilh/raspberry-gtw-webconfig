@@ -116,7 +116,7 @@
         <input type="checkbox" name="monitoring_enable" id="monitoring_enable" {{if .MonitoringEnable}}checked{{end}}><br>
 
         <label for="monitoring_grafana_admin_password">Grafana Password for first login:</label>   
-        <input type="text" name="monitoring_grafana_admin_password" value="{{.MonitoringGrafPassword}}" disabled><br>
+        <input type="text" name="monitoring_grafana_admin_password" value="{{.MonitoringGrafPassword}}"><br>
 
         <label for="openvpn_monitoring_enable">OpenVPN Server Monitoring:</label>
         <input type="checkbox" name="openvpn_monitoring_enable" id="openvpn_monitoring_enable" {{if .OpenVPNMonitoringEnable}}checked{{end}}><br>
