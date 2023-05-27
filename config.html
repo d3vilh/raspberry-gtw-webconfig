@@ -6,52 +6,70 @@
         input, label, span, h1 {
             font-family: monospace;
         }
+        input[type="submit"] {
+            width: 120px;
+            height: 30px;
+            font-size: 23px;
+            font-family: monospace;
+            border-radius: 5px;
+        }
+        span {
+            color: #636262;
+        }
+        p {
+          font-family: monospace;
+          color: #000000;
+          margin-top: 0px;
+          margin-bottom: 0px;
+        }
+        h1 {
+          margin-bottom: 0px;
+        }
     </style>
 </head>
 <body>
+<pre>
+ _____ _____ _ _ _    _ _ _     _      _____     _           
+| __  |   __| | | |  | | | |___| |_   |   __|___| |_ _ _ ___ 
+|    -|  |  | | | |  | | | | -_| . |  |__   | -_|  _| | | . |
+|__|__|_____|_____|  |_____|___|___|  |_____|___|_| |___|  _|
+ Raspberry Gateway Web-based Configuration & Install.   |_|</pre>
 
-    <h1>Raspberry Gateway Configuration</h1>
-    <pre>
- _____ _           _____             
-|_   _|_|_____ ___|__   |___ ___ ___ 
-  | | | |     | -_|   __| . |   | -_|
-  |_| |_|_|_|_|___|_____|___|_|_|___|
-Set Your timezone for all services:</pre>
+    <h1>Main Configuration</h1>
+    <p>Standard configuration definitions.</p><br>
     <form method="POST" action="/save">
         <label for="ur_timezone">Timezone:</label>
         <input type="text" name="ur_timezone" value="{{.URTimezone}}"><br>
-    <pre>
- ____  _____ _____       _____ _ _____     _     
-|    \|   | |   __|     |  _  |_|  |  |___| |___ 
-|  |  | | | |__   |     |   __| |     | . | | -_|
-|____/|_|___|_____|     |__|  |_|__|__|___|_|___|
-DNS and Pi-Hole configuration:</pre>
-
+        <span>Local Raspberry gateway Timezone. Used for various containers.<br>
+        <a href="https://ipapi.co/timezone" target="_blank">Define current TZ</a></span><br><br>
+        <label for="portainer_enable" title="UI for Containers management">Install Portainer:</label>
+        <input type="checkbox" name="portainer_enable" {{if .PortainerEnable}}checked{{end}}><br>
+        <span>Portainer is a containers management interface.</span><br>
+        <h1>Local DNS and ad-blocking</h1>
+        <p>Setting up Local DNS and add-blockers.</p>
+        <span>Beaware, you can't use TechnitiumDNS and Unbound or Pi-Hole at the same time.</span><br>
+        <span>Advanced configuration available in advanced.config.yml</span><br><br>
         <label for="unbound_dns_enable">Unbound DNS:</label>
         <input type="checkbox" name="unbound_dns_enable" id="unbound_dns_enable" {{if .UnboundDNSEnable}}checked{{end}}><br>
 
         <label for="pihole_enable">Pi-hole:</label>
         <input type="checkbox" name="pihole_enable" {{if .PiholeEnable}}checked{{end}}><br>
 
-        <label for="pihole_with_unbound">Pi-hole with Unbound DNS:</label>
+        <label for="pihole_with_unbound">Pi-hole with Unbound as Local DNS:</label>
         <input type="checkbox" name="pihole_with_unbound" {{if .PiholeWithUnbound}}checked{{end}}><br>
 
-        <label for="pihole_password">Pi-hole Password:</label>
+        <label for="pihole_password">Pi-hole Web UI Password:</label>
         <input type="password" name="pihole_password" value="{{.PiholePassword}}"><br><br>
 
         <label for="tech_dns_enable">TechnitiumDNS:</label>
         <input type="checkbox" name="tech_dns_enable" id="tech_dns_enable" {{if .TechDNSEnable}}checked{{end}}><br>
 
-        <label for="tech_dns_password">TechnitiumDNS Password:</label>
+        <label for="tech_dns_password">TechnitiumDNS Web UI Password:</label>
         <input type="password" name="tech_dns_password" value="{{.TechDNSPassword}}"><br>
-        <pre>
- _____             _____ _____ _____ 
-|     |___ ___ ___|  |  |  _  |   | |
-|  |  | . | -_|   |  |  |   __| | | |
-|_____|  _|___|_|_|\___/|__|  |_|___|
-      |_|
-OpenVPN Server configuration: </pre>
 
+        <h1>OpenVPN</h1>
+        <p>OpenVPN Server & Client setup.</p>
+        <span>Advanced Server and Client configuration available in advanced.config.yml</span><br><br>
         <label for="ovpn_server_enable">OpenVPN Server:</label>
         <input type="checkbox" name="ovpn_server_enable" {{if .OpenVPNServer}}checked{{end}}><br>
 
@@ -61,60 +79,44 @@ OpenVPN Server configuration: </pre>
         <label for="ovpn_client_enable">OpenVPN Client:</label>
         <input type="checkbox" name="ovpn_client_enable" {{if .OpenVPNClient}}checked{{end}}><br>
 
-        <label for="ovpn_client_cert">OpenVPN Client Certificate:</label>
+        <label for="ovpn_client_cert">OpenVPN Client Certificate filename:</label>
         <input type="text" name="ovpn_client_cert" value="{{.OpenVPNClientCert}}"><br>     
+        <span>File should be manually put into ~/raspberry-gateway/openvpn-client/ directory.</span><br><br>
 
         <label for="ovpn_client_allowed_subnet">OpenVPN Client Allowed Subnet:</label>
         <input type="text" name="ovpn_client_allowed_subnet" value="{{.OpenVPNClientAllowedSub}}"><br>
-        <pre>
- _ _ _ _         _____               _ 
-| | | |_|___ ___|   __|_ _ ___ ___ _| |
-| | | | |  _| -_|  |  | | | .'|  _| . |
-|_____|_|_| |___|_____|___|__,|_| |___|
-WireGuard Server configuration:</pre>  
+        <span>Subnet allowed to access resources externally when VPN tunnel is up.<br> 
+          In most cases, it should be your local WiFi network. <br>This is necessary to set to be able to access qBitTorrent Web UI from your local network when VPN-client tunnel in connected.</span><br>
 
+        <h1>WireGuard</h1>
+        <p>WireGuard VPN and UI setup.</p><br>
         <label for="wireguard_server_enable">WireGuard Server:</label>
         <input type="checkbox" name="wireguard_server_enable" {{if .WireGuardServer}}checked{{end}}><br>
 
         <label for="wireguard_password">WireGuard Server Web UI Password:</label>   
         <input type="password" name="wireguard_password" value="{{.WireGuardServerPassword}}"><br>
-        <pre>
- _____         _       _ 
-|  _  |___ ___| |_ ___|_|___ ___ ___ 
-|   __| . |  _|  _| .'| |   | -_|  _|
-|__|  |___|_| |_| |__,|_|_|_|___|_|  
-Portainer configuration.</pre>  
 
-        <label for="portainer_enable">Portainer:</label>
-        <input type="checkbox" name="portainer_enable" {{if .PortainerEnable}}checked{{end}}><br>
-        <pre>
-     _____ _ _   _____                     _   
- ___| __  |_| |_|_   _|___ ___ ___ ___ ___| |_ 
-| . | __ -| |  _| | | | . |  _|  _| -_|   |  _|
-|_  |_____|_|_|   |_| |___|_| |_| |___|_|_|_|  
-  |_|                                          
-QbitTorrent configuration:</pre>
-
-        <label for="qbittorrent_enable">qBitTorrent:</label>
+        <h1>qBitTorrent</h1>
+        <p>An open-source software torrent tracker.</p><br>
+        <label for="qbittorrent_enable">Instal qBitTorrent:</label>
         <input type="checkbox" name="qbittorrent_enable" {{if .QbitTorrentEnable}}checked{{end}}><br>
 
-        <label for="qbittorrent_default_password">qBitTorrent Web UI Password:</label>   
-        <input type="text" name="qbittorrent_default_password" value="{{.QbitTorrentPassword}}"><br>
-
-        <label for="qbittorrent_inside_vpn">Route qBitTorrent via VPN Client connection:</label>
+        <label for="qbittorrent_default_password">Default Web UI Password:</label>   
+        <input type="text" name="qbittorrent_default_password" value="{{.QbitTorrentPassword}}" disabled><br>
+        <span>Change this default password via WebUI at first login.</span><br><br>
+        <label for="qbittorrent_inside_vpn">Route traffic via VPN:</label>
         <input type="checkbox" name="qbittorrent_inside_vpn" {{if .QbitTorrentInVPN}}checked{{end}}><br>
-        <pre>
- _____         _ _               
-|     |___ ___|_| |_ ___ ___ ___ 
-| | | | . |   | |  _| . |  _|_ -|
-|_|_|_|___|_|_|_|_| |___|_| |___|
-Raspberry-monitoring configuration:</pre>
+        <span>Route all qBitTorrent traffic via VPN Client connection.<br>
+        Don't forget to set your local subnet into setting "OpenVPN Client Allowed Subnet" above.</span><br>
 
-        <label for="monitoring_enable">Global Monitoring:</label>
+        <h1>Monitoring</h1>
+        <p>OpenVPN Server & Client setup.</p>
+        <span>Advanced Monitoring configuration available in advanced.config.yml</span><br><br>
+        <label for="monitoring_enable">Enable Monitoring:</label>
         <input type="checkbox" name="monitoring_enable" id="monitoring_enable" {{if .MonitoringEnable}}checked{{end}}><br>
 
-        <label for="monitoring_grafana_admin_password">Grafana Password for first Login:</label>   
-        <input type="text" name="monitoring_grafana_admin_password" value="{{.MonitoringGrafPassword}}"><br>
+        <label for="monitoring_grafana_admin_password">Grafana Password for first login:</label>   
+        <input type="text" name="monitoring_grafana_admin_password" value="{{.MonitoringGrafPassword}}" disabled><br>
 
         <label for="openvpn_monitoring_enable">OpenVPN Server Monitoring:</label>
         <input type="checkbox" name="openvpn_monitoring_enable" id="openvpn_monitoring_enable" {{if .OpenVPNMonitoringEnable}}checked{{end}}><br>
@@ -134,8 +136,10 @@ Raspberry-monitoring configuration:</pre>
         <input type="submit" value="Save">
     </form>
 
+    <h1>Installation</h1>
+    <p>Experimentally run Installation from this UI.</p><br>
     <form method="POST" action="/install">
-        <input type="submit" value="Install">
+        <input type="submit" value="Install"> <br><br>
     </form>
 
     <script>
