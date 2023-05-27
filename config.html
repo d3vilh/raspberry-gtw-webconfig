@@ -216,19 +216,6 @@
           }
         });
 
-        const output = document.getElementById("output");
-        const socket = new WebSocket("ws://" + window.location.host + "/install");
-
-        socket.onmessage = function(event) {
-          const data = event.data.trim();
-          if (data !== "") {
-            output.innerHTML += data + "<br>";
-          }
-        };
-
-        socket.onerror = function(event) {
-          output.innerHTML += "Error: " + event.data + "<br>";
-        };
     </script>
 </body>
 </html>

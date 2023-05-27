@@ -1,26 +1,17 @@
 package main
 
 import (
-	"bufio"
+	_ "embed"
 	"fmt"
-
 	"log"
 	"net/http"
 	"os"
 	"os/exec"
 	"text/template"
 
-	_ "embed"
-
 	"github.com/gorilla/mux"
-	"github.com/gorilla/websocket"
 	"gopkg.in/yaml.v3"
 )
-
-var upgrader = websocket.Upgrader{
-	ReadBufferSize:  1024,
-	WriteBufferSize: 1024,
-}
 
 type Config struct {
 	ConfigDir               string `yaml:"config_dir"`
@@ -60,13 +51,10 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	// Log the welcome message
 	log.Printf("Welcome! The web interface will guide you on installation process.\n")
-
 	// Create a new router
 	r := mux.NewRouter()
-
 	// Register the routes
 	r.HandleFunc("/", editConfig)
 	r.HandleFunc("/save", saveConfig)
@@ -80,37 +68,31 @@ func main() {
 
 	// Log the server startup message
 	log.Printf("Starting web server on %s...\n", srv.Addr)
-
 	// Start the server
 	err = srv.ListenAndServe()
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	// Log the server shutdown message
 	log.Println("Server stopped.")
 }
-
 func editConfig(w http.ResponseWriter, r *http.Request) {
 	config, err := readConfig()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
 	tmpl, err := template.New("config").Parse(configHTML)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
 	err = tmpl.Execute(w, config)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 }
-
 func saveConfig(w http.ResponseWriter, r *http.Request) {
 	config := Config{
 		ConfigDir:               r.FormValue("config_dir"),
@@ -140,116 +122,65 @@ func saveConfig(w http.ResponseWriter, r *http.Request) {
 		StarLinkMonitoring:      r.FormValue("starlink_monitoring_enable") == "on",
 		ShellyPlugMonitoring:    r.FormValue("shelly_plug_monitoring_enable") == "on",
 	}
-
 	err := writeConfig(config)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
-
 func install(w http.ResponseWriter, r *http.Request) {
-	// Upgrade the HTTP connection to a WebSocket connection
-	conn, err := upgrader.Upgrade(w, r, nil)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	defer conn.Close()
-
-	// Run the ansible playbook command
 	cmd := exec.Command("ansible-playbook", "main.yml")
-	stdout, err := cmd.StdoutPipe()
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	err := cmd.Run()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
-	err = cmd.Start()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	// Stream the logs to the WebSocket connection
-	scanner := bufio.NewScanner(stdout)
-	for scanner.Scan() {
-		message := scanner.Text()
-		err = conn.WriteMessage(websocket.TextMessage, []byte(message))
-		if err != nil {
-			fmt.Println("Error writing message:", err)
-			break
-		}
-	}
-
-	err = cmd.Wait()
-	if err != nil {
-		fmt.Println("Command failed:", err)
-		return
-	}
-
-	message := "Installation complete!"
-	err = conn.WriteMessage(websocket.TextMessage, []byte(message))
-	if err != nil {
-		fmt.Println("Error writing message:", err)
-		return
-	}
+	fmt.Fprintln(w, "Installation complete!")
 }
-
 func readConfig() (Config, error) {
 	var config Config
-
 	file, err := os.Open("config.yml")
 	if err != nil {
 		return config, err
 	}
 	defer file.Close()
-
 	stat, err := file.Stat()
 	if err != nil {
 		return config, err
 	}
-
 	data := make([]byte, stat.Size())
 	_, err = file.Read(data)
 	if err != nil {
 		return config, err
 	}
-
 	err = yaml.Unmarshal(data, &config)
 	if err != nil {
 		return config, err
 	}
-
 	return config, nil
 }
-
 func writeConfig(config Config) error {
 	if config.ConfigDir == "" {
 		config.ConfigDir = "~"
 	}
-
 	data, err := yaml.Marshal(config)
 	if err != nil {
 		return err
 	}
-
 	file, err := os.Create("config.yml")
 	if err != nil {
 		return err
 	}
 	defer file.Close()
-
 	_, err = file.Write(data)
 	if err != nil {
 		return err
 	}
-
 	return nil
 }
-
 func copyFile(src, dst string) error {
 	input, err := os.ReadFile(src)
 	if err != nil {
@@ -260,6 +191,5 @@ func copyFile(src, dst string) error {
 	if err != nil {
 		return err
 	}
-
 	return nil
 }
