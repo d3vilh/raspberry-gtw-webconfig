@@ -13,8 +13,14 @@ import (
 	_ "embed"
 
 	"github.com/gorilla/mux"
+	"github.com/gorilla/websocket"
 	"gopkg.in/yaml.v3"
 )
+
+var upgrader = websocket.Upgrader{
+	ReadBufferSize:  1024,
+	WriteBufferSize: 1024,
+}
 
 type Config struct {
 	ConfigDir               string `yaml:"config_dir"`
@@ -145,10 +151,15 @@ func saveConfig(w http.ResponseWriter, r *http.Request) {
 }
 
 func install(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/event-stream")
-	w.Header().Set("Cache-Control", "no-cache")
-	w.Header().Set("Connection", "keep-alive")
+	// Upgrade the HTTP connection to a WebSocket connection
+	conn, err := upgrader.Upgrade(w, r, nil)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer conn.Close()
 
+	// Run the ansible playbook command
 	cmd := exec.Command("ansible-playbook", "main.yml")
 	stdout, err := cmd.StdoutPipe()
 	if err != nil {
@@ -162,20 +173,29 @@ func install(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Stream the logs to the WebSocket connection
 	scanner := bufio.NewScanner(stdout)
 	for scanner.Scan() {
-		fmt.Fprintf(w, "data: %s\n\n", scanner.Text())
-		w.(http.Flusher).Flush()
+		message := scanner.Text()
+		err = conn.WriteMessage(websocket.TextMessage, []byte(message))
+		if err != nil {
+			fmt.Println("Error writing message:", err)
+			break
+		}
 	}
 
 	err = cmd.Wait()
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		fmt.Println("Command failed:", err)
 		return
 	}
 
-	fmt.Fprintln(w, "data: Installation complete!")
-	w.(http.Flusher).Flush()
+	message := "Installation complete!"
+	err = conn.WriteMessage(websocket.TextMessage, []byte(message))
+	if err != nil {
+		fmt.Println("Error writing message:", err)
+		return
+	}
 }
 
 func readConfig() (Config, error) {
