@@ -175,8 +175,9 @@ func install(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 	// Redirect to the previous page
-	http.Redirect(w, r, r.Header.Get("Referer"), http.StatusSeeOther)
+	//http.Redirect(w, r, r.Header.Get("Referer"), http.StatusSeeOther)
 }
 
 func readConfig() (Config, error) {
