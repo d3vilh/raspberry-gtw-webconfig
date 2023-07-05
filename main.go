@@ -130,54 +130,47 @@ func saveConfig(w http.ResponseWriter, r *http.Request) {
 }
 
 func install(w http.ResponseWriter, r *http.Request) {
-	cmd := exec.Command("ansible-playbook", "main.yml")
-	stdout, err := cmd.StdoutPipe()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	defer stdout.Close()
+	go func() {
+		cmd := exec.Command("ansible-playbook", "main.yml")
+		stdout, err := cmd.StdoutPipe()
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer stdout.Close()
 
-	file, err := os.Create("output.txt")
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	defer file.Close()
+		file, err := os.Create("output.txt")
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer file.Close()
 
-	writer := io.MultiWriter(os.Stdout, file)
-	cmd.Stdout = writer
-	cmd.Stderr = os.Stderr
+		writer := io.MultiWriter(os.Stdout, file)
+		cmd.Stdout = writer
+		cmd.Stderr = os.Stderr
 
-	err = cmd.Start()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
+		err = cmd.Start()
+		if err != nil {
+			log.Fatal(err)
+		}
 
-	err = cmd.Wait()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
+		err = cmd.Wait()
+		if err != nil {
+			log.Fatal(err)
+		}
 
-	// Extract the last 20 lines of the output and redirect them to the file
-	cmd = exec.Command("tail", "-n", "20", "output.txt")
-	output, err := cmd.Output()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
+		// Extract the last 20 lines of the output and redirect them to the file
+		cmd = exec.Command("tail", "-n", "20", "output.txt")
+		output, err := cmd.Output()
+		if err != nil {
+			log.Fatal(err)
+		}
 
-	err = ioutil.WriteFile("output.txt", output, 0644)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
+		err = ioutil.WriteFile("output.txt", output, 0644)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}()
 	http.Redirect(w, r, "/", http.StatusSeeOther)
-	// Redirect to the previous page
-	//http.Redirect(w, r, r.Header.Get("Referer"), http.StatusSeeOther)
 }
 
 func readConfig() (Config, error) {
