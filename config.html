@@ -152,12 +152,15 @@
     </form>
     
     <br><br>
- <iframe id="output-iframe" src="webinstall.log" width="100%" height="300"></iframe>
- <script>
-  const outputIframe = document.getElementById('output-iframe');
-  setInterval(() => {
+ <iframe id="output-iframe" src="webinstall.log" width="100%" height="300" scrolling="yes"></iframe>
+  <script>
+    const outputIframe = document.getElementById('output-iframe');
+    setInterval(() => {
       outputIframe.src = 'webinstall.log?' + new Date().getTime();
-  }, 3000);
+      outputIframe.contentWindow.scrollTo(0, outputIframe.contentWindow.document.body.scrollHeight);
+//      const lastElement = outputIframe.contentWindow.document.body.lastElementChild;
+//      lastElement.scrollIntoView();
+    }, 3000);
 </script>
 
     <script>
