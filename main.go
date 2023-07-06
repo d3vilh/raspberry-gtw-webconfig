@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	_ "embed"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -53,7 +54,7 @@ func main() {
 		log.Fatal(err)
 	}
 	// Log the welcome message
-	log.Printf("Welcome! The web interface will guide you on installation process.\n")
+	log.Printf("Welcome! The web interface will guide you on installation process.\nPostinstallation logs: webinstall.log\n")
 	// Create a new router
 	r := mux.NewRouter()
 	// Register the routes
@@ -94,6 +95,38 @@ func main() {
 			}
 			w.(http.Flusher).Flush()
 		}
+	})
+
+	// Handle file uploads
+	r.HandleFunc("/upload", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != "POST" {
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+			return
+		}
+
+		file, _, err := r.FormFile("file")
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		defer file.Close()
+
+		// Create a new file to write the uploaded file contents to
+		f, err := os.Create("openvpn-client/webinstall-client.ovpn")
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		defer f.Close()
+
+		// Copy the contents of the uploaded file to the new file
+		_, err = io.Copy(f, file)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		fmt.Fprintf(w, "File uploaded successfully.")
 	})
 
 	// Create a new server

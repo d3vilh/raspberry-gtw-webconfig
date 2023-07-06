@@ -6,10 +6,17 @@
         input, label, span, h1 {
             font-family: monospace;
         }
-        input[type="submit"] {
+        input[type="submit-bg"] {
             width: 120px;
             height: 30px;
             font-size: 23px;
+            font-family: monospace;
+            border-radius: 5px;
+        }
+        input[type="submit-gg"] {
+            width: 65px;
+            height: 23px;
+            font-size: 11px;
             font-family: monospace;
             border-radius: 5px;
         }
@@ -29,11 +36,11 @@
 </head>
 <body>
 <pre>
- _____ _____ _ _ _    _ _ _     _      _____     _           
-| __  |   __| | | |  | | | |___| |_   |   __|___| |_ _ _ ___ 
-|    -|  |  | | | |  | | | | -_| . |  |__   | -_|  _| | | . |
-|__|__|_____|_____|  |_____|___|___|  |_____|___|_| |___|  _|
- Raspberry Gateway Web-based Configuration & Install.   |_|</pre>
+  _____             _                      _____     _       _ _ _ 
+ | __  |___ ___ ___| |_ ___ ___ ___ _ _   |   __|___| |_ ___| | | |___ _ _ 
+ |    -| . |_ -| . | . | -_|  _|  _| | |  |  |  | . |  _| -_| | | | . | | |
+ |__|__|_|_|___|  _|___|___|_| |_| |_  |  |_____|_|_|_| |___|_____|_|_|_  |
+               |_| Web-based       |___|   Configuration & Install    |___| </pre>
 
     <h1>Main Configuration</h1>
     <p>Standard configuration definitions.</p><br>
@@ -43,29 +50,29 @@
       <span>Local Raspberry gateway Timezone. Used for various containers.<br>
       <a href="https://ipapi.co/timezone" target="_blank">Define current TZ</a></span><br><br>
 
-      <label for="portainer_enable" title="UI for Containers management">Install Portainer:</label>
-      <input type="checkbox" name="portainer_enable" {{if .PortainerEnable}}checked{{end}}><br>
+      <input type="checkbox" name="portainer_enable" {{if .PortainerEnable}}checked{{end}}>      
+      <label for="portainer_enable" title="UI for Containers management">Install Portainer</label><br>
       <span>Portainer is a containers management interface.</span><br>
 
       <h1>Local DNS and ad-blocking</h1>
       <p>Setting up Local DNS and add-blockers.</p>
-      <span>Beaware, you can't use TechnitiumDNS and Unbound or Pi-Hole at the same time.</span><br>
+      <span>You can't use TechnitiumDNS and Unbound + Pi-Hole at the same time, as both utilize same 53 port for DNS.</span><br>
       <span>Advanced configuration available in advanced.config.yml</span><br><br>
 
-      <label for="unbound_dns_enable">Unbound DNS:</label>
-      <input type="checkbox" name="unbound_dns_enable" id="unbound_dns_enable" {{if .UnboundDNSEnable}}checked{{end}}><br>
+      <input type="checkbox" name="unbound_dns_enable" id="unbound_dns_enable" {{if .UnboundDNSEnable}}checked{{end}}>
+      <label for="unbound_dns_enable">Unbound DNS</label><br>
 
-      <label for="pihole_enable">Pi-hole:</label>
-      <input type="checkbox" name="pihole_enable" {{if .PiholeEnable}}checked{{end}}><br>
+      <input type="checkbox" name="pihole_enable" {{if .PiholeEnable}}checked{{end}}>
+      <label for="pihole_enable">Pi-hole</label><br>
 
-      <label for="pihole_with_unbound">Pi-hole with Unbound as Local DNS:</label>
-      <input type="checkbox" name="pihole_with_unbound" {{if .PiholeWithUnbound}}checked{{end}}><br>
+      <input type="checkbox" name="pihole_with_unbound" {{if .PiholeWithUnbound}}checked{{end}}>
+      <label for="pihole_with_unbound">Pi-hole with Unbound as Local DNS</label><br>
 
       <label for="pihole_password">Pi-hole Web UI Password:</label>
       <input type="password" name="pihole_password" value="{{.PiholePassword}}"><br><br>
 
-      <label for="tech_dns_enable">TechnitiumDNS:</label>
-      <input type="checkbox" name="tech_dns_enable" id="tech_dns_enable" {{if .TechDNSEnable}}checked{{end}}><br>
+      <input type="checkbox" name="tech_dns_enable" id="tech_dns_enable" {{if .TechDNSEnable}}checked{{end}}>
+      <label for="tech_dns_enable">TechnitiumDNS</label><br>
 
       <label for="tech_dns_password">TechnitiumDNS Web UI Password:</label>
       <input type="password" name="tech_dns_password" value="{{.TechDNSPassword}}"><br>
@@ -74,29 +81,32 @@
       <p>OpenVPN Server & Client setup.</p>
       <span>Advanced Server and Client configuration available in advanced.config.yml</span><br><br>
 
-      <label for="ovpn_server_enable">OpenVPN Server:</label>
-      <input type="checkbox" name="ovpn_server_enable" {{if .OpenVPNServer}}checked{{end}}><br>
+      <input type="checkbox" name="ovpn_server_enable" {{if .OpenVPNServer}}checked{{end}}>
+      <label for="ovpn_server_enable">OpenVPN Server</label><br>
 
       <label for="ovpnui_password">OpenVPN Server Web UI Password:</label>
       <input type="password" name="ovpnui_password" value="{{.OpenVPNUIPassword}}"><br><br>        
 
-      <label for="ovpn_client_enable">OpenVPN Client:</label>
-      <input type="checkbox" name="ovpn_client_enable" {{if .OpenVPNClient}}checked{{end}}><br>
-
-      <label for="ovpn_client_cert">OpenVPN Client Certificate filename:</label>
-      <input type="text" name="ovpn_client_cert" value="{{.OpenVPNClientCert}}"><br>     
-      <span>File should be manually put into ~/raspberry-gateway/openvpn-client/ directory.</span><br><br>
+      <input type="checkbox" name="ovpn_client_enable" {{if .OpenVPNClient}}checked{{end}}>
+      <label for="ovpn_client_enable">OpenVPN Client</label><br>
+      <div>
+        <label for="ovpn_client_cert">OpenVPN Client Certificate:</label>
+          <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
+            <input type="file" name="file">
+            <input type="submit" value="Upload">
+          </form>     
+        <br><span>File will be uploaded as ~/raspberry-gateway/openvpn-client/{{.OpenVPNClientCert}}</span><br><br>
+      </div>
 
       <label for="ovpn_client_allowed_subnet">OpenVPN Client Allowed Subnet:</label>
       <input type="text" name="ovpn_client_allowed_subnet" value="{{.OpenVPNClientAllowedSub}}"><br>
-      <span>Subnet allowed to access resources externally when VPN tunnel is up.<br> 
-        In most cases, it should be your local WiFi network. <br>This is necessary to set to be able to access qBitTorrent Web UI from your local network when VPN-client tunnel in connected.</span><br>
+      <span> This should be your local WiFi network. <br>This is to allow access to qBitTorrent Web UI from your local network when VPN-client tunnel in connected.</span><br>
 
       <h1>WireGuard</h1>
       <p>WireGuard VPN and UI setup.</p><br>
  
-      <label for="wireguard_server_enable">WireGuard Server:</label>
-      <input type="checkbox" name="wireguard_server_enable" {{if .WireGuardServer}}checked{{end}}><br>
+      <input type="checkbox" name="wireguard_server_enable" {{if .WireGuardServer}}checked{{end}}>
+      <label for="wireguard_server_enable">WireGuard Server</label><br>
 
       <label for="wireguard_password">WireGuard Server Web UI Password:</label>   
       <input type="password" name="wireguard_password" value="{{.WireGuardServerPassword}}"><br>
@@ -104,15 +114,15 @@
       <h1>qBitTorrent</h1>
       <p>An open-source software torrent tracker.</p><br>
 
-      <label for="qbittorrent_enable">Instal qBitTorrent:</label>
-      <input type="checkbox" name="qbittorrent_enable" {{if .QbitTorrentEnable}}checked{{end}}><br>
+      <input type="checkbox" name="qbittorrent_enable" {{if .QbitTorrentEnable}}checked{{end}}>
+      <label for="qbittorrent_enable">Instal qBitTorrent</label><br>
 
       <label for="qbittorrent_default_password">Default Web UI Password:</label>   
       <input type="text" name="qbittorrent_default_password" value="{{.QbitTorrentPassword}}" disabled><br>
       <span>Change this default password via WebUI at first login.</span><br><br>
 
-      <label for="qbittorrent_inside_vpn">Route traffic via VPN:</label>
-      <input type="checkbox" name="qbittorrent_inside_vpn" {{if .QbitTorrentInVPN}}checked{{end}}><br>
+      <input type="checkbox" name="qbittorrent_inside_vpn" {{if .QbitTorrentInVPN}}checked{{end}}>
+      <label for="qbittorrent_inside_vpn">Route traffic via VPN</label><br>
       <span>Route all qBitTorrent traffic via VPN Client connection.<br>
       Don't forget to set your local subnet into setting "OpenVPN Client Allowed Subnet" above.</span><br>
 
@@ -120,50 +130,73 @@
       <p>OpenVPN Server & Client setup.</p>
       <span>Advanced Monitoring configuration available in advanced.config.yml</span><br><br>
 
-      <label for="monitoring_enable">Enable Monitoring:</label>
-      <input type="checkbox" name="monitoring_enable" id="monitoring_enable" {{if .MonitoringEnable}}checked{{end}}><br>
+      <input type="checkbox" name="monitoring_enable" id="monitoring_enable" {{if .MonitoringEnable}}checked{{end}}>
+      <label for="monitoring_enable">Enable Monitoring</label><br>
 
       <label for="monitoring_grafana_admin_password">Grafana Password for first login:</label>   
       <input type="text" name="monitoring_grafana_admin_password" value="{{.MonitoringGrafPassword}}"><br>
 
-      <label for="openvpn_monitoring_enable">OpenVPN Server Monitoring:</label>
-      <input type="checkbox" name="openvpn_monitoring_enable" id="openvpn_monitoring_enable" {{if .OpenVPNMonitoringEnable}}checked{{end}}><br>
+      <input type="checkbox" name="openvpn_monitoring_enable" id="openvpn_monitoring_enable" {{if .OpenVPNMonitoringEnable}}checked{{end}}>
+      <label for="openvpn_monitoring_enable">OpenVPN Server Monitoring</label><br>
 
-      <label for="pikvm_monitoring_enable">PiKVM Monitoring:</label>
-      <input type="checkbox" name="pikvm_monitoring_enable" id="pikvm_monitoring_enable" {{if .PiKVMMonitoringEnable}}checked{{end}}><br>
+      <input type="checkbox" name="pikvm_monitoring_enable" id="pikvm_monitoring_enable" {{if .PiKVMMonitoringEnable}}checked{{end}}>
+      <label for="pikvm_monitoring_enable">PiKVM Monitoring</label><br>
 
-      <label for="airgradient_monitoring_enable">AirGradient Monitoring:</label>
-      <input type="checkbox" name="airgradient_monitoring_enable" id="airgradient_monitoring_enable" {{if .AirGradientMonitoring}}checked{{end}}><br>
+      <input type="checkbox" name="airgradient_monitoring_enable" id="airgradient_monitoring_enable" {{if .AirGradientMonitoring}}checked{{end}}>
+      <label for="airgradient_monitoring_enable">AirGradient Monitoring</label><br>
 
-      <label for="starlink_monitoring_enable">StarLink Monitoring:</label>
-      <input type="checkbox" name="starlink_monitoring_enable" id="starlink_monitoring_enable" {{if .StarLinkMonitoring}}checked{{end}}><br>
+      <input type="checkbox" name="starlink_monitoring_enable" id="starlink_monitoring_enable" {{if .StarLinkMonitoring}}checked{{end}}>
+      <label for="starlink_monitoring_enable">StarLink Monitoring</label><br>
 
-      <label for="shelly_plug_monitoring_enable">ShellyPlug Monitoring:</label>
-      <input type="checkbox" name="shelly_plug_monitoring_enable" id="shelly_plug_monitoring_enable" {{if .ShellyPlugMonitoring}}checked{{end}}><br><br>
+      <input type="checkbox" name="shelly_plug_monitoring_enable" id="shelly_plug_monitoring_enable" {{if .ShellyPlugMonitoring}}checked{{end}}>
+      <label for="shelly_plug_monitoring_enable">ShellyPlug Monitoring</label><br><br>
 
       <input type="submit" value="Save">
     </form>
 
     <h1>Installation</h1>
-    <p>Installation process will take some time.</p>
+    <p>The installation process will take some time. Once that's done, it'll be like you have a new gateway. </p>
 
     <form method="POST" action="/install">
         <input type="submit" value="Install" onclick="return confirm('Are you sure you want to install?');">
     </form>
-    
     <br><br>
- <iframe id="output-iframe" src="webinstall.log" width="100%" height="300" scrolling="yes"></iframe>
-  <script>
-    const outputIframe = document.getElementById('output-iframe');
-    setInterval(() => {
-      outputIframe.src = 'webinstall.log?' + new Date().getTime();
-      outputIframe.contentWindow.scrollTo(0, outputIframe.contentWindow.document.body.scrollHeight);
-//      const lastElement = outputIframe.contentWindow.document.body.lastElementChild;
-//      lastElement.scrollIntoView();
-    }, 3000);
-</script>
+
+    <iframe id="output-iframe" src="webinstall.log" width="100%" height="300" scrolling="yes"></iframe>
+    <script>
+      // Auto refresh iframe for webinstall.log
+      const outputIframe = document.getElementById('output-iframe');
+      setInterval(() => {
+        outputIframe.src = 'webinstall.log?' + new Date().getTime();
+        outputIframe.contentWindow.scrollTo(0, outputIframe.contentWindow.document.body.scrollHeight);
+        // const lastElement = outputIframe.contentWindow.document.body.lastElementChild;
+        // lastElement.scrollIntoView();
+      }, 3000);
+    </script>
 
     <script>
+    // File upload section
+    const form = document.getElementById('upload-form');
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const formData = new FormData(form);
+        fetch('/upload', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.text())
+        .then(result => {
+          console.log(result);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+      });
+    </script>
+
+    <script>
+    // Checkbox logic  
         const unboundDnsEnable = document.getElementById('unbound_dns_enable');
         const piholeEnable = document.querySelector('input[name="pihole_enable"]');
         const piholeWithUnbound = document.querySelector('input[name="pihole_with_unbound"]');
