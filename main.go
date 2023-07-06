@@ -4,7 +4,6 @@ import (
 	"bufio"
 	_ "embed"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -16,12 +15,32 @@ import (
 )
 
 type Config struct {
-	ConfigDir         string `yaml:"config_dir"`
-	UnboundDNSEnable  bool   `yaml:"unbound_dns_enable"`
-	PiholeEnable      bool   `yaml:"pihole_enable"`
-	PiholeWithUnbound bool   `yaml:"pihole_with_unbound"`
-	PiholePassword    string `yaml:"pihole_password"`
-	TechDNSEnable     bool   `yaml:"tech_dns_enable"`
+	ConfigDir               string `yaml:"config_dir"`
+	URTimezone              string `yaml:"ur_timezone"`
+	UnboundDNSEnable        bool   `yaml:"unbound_dns_enable"`
+	PiholeEnable            bool   `yaml:"pihole_enable"`
+	PiholeWithUnbound       bool   `yaml:"pihole_with_unbound"`
+	PiholePassword          string `yaml:"pihole_password"`
+	TechDNSEnable           bool   `yaml:"tech_dns_enable"`
+	TechDNSPassword         string `yaml:"tech_dns_password"`
+	OpenVPNServer           bool   `yaml:"ovpn_server_enable"`
+	OpenVPNUIPassword       string `yaml:"ovpnui_password"`
+	OpenVPNClient           bool   `yaml:"ovpn_client_enable"`
+	OpenVPNClientCert       string `yaml:"ovpn_client_cert"`
+	OpenVPNClientAllowedSub string `yaml:"ovpn_client_allowed_subnet"`
+	WireGuardServer         bool   `yaml:"wireguard_server_enable"`
+	WireGuardServerPassword string `yaml:"wireguard_password"`
+	PortainerEnable         bool   `yaml:"portainer_enable"`
+	QbitTorrentEnable       bool   `yaml:"qbittorrent_enable"`
+	QbitTorrentPassword     string `yaml:"qbittorrent_default_password"`
+	QbitTorrentInVPN        bool   `yaml:"qbittorrent_inside_vpn"`
+	MonitoringEnable        bool   `yaml:"monitoring_enable"`
+	MonitoringGrafPassword  string `yaml:"monitoring_grafana_admin_password"`
+	OpenVPNMonitoringEnable bool   `yaml:"openvpn_monitoring_enable"`
+	PiKVMMonitoringEnable   bool   `yaml:"pikvm_monitoring_enable"`
+	AirGradientMonitoring   bool   `yaml:"airgradient_monitoring_enable"`
+	StarLinkMonitoring      bool   `yaml:"starlink_monitoring_enable"`
+	ShellyPlugMonitoring    bool   `yaml:"shelly_plug_monitoring_enable"`
 }
 
 //go:embed config.html
@@ -41,15 +60,15 @@ func main() {
 	r.HandleFunc("/", editConfig)
 	r.HandleFunc("/save", saveConfig)
 	r.HandleFunc("/install", install)
-	r.HandleFunc("/output.txt", func(w http.ResponseWriter, r *http.Request) {
-		// Truncate the output.txt file
-		//	err := os.Truncate("output.txt", 0)
+	r.HandleFunc("/webinstall.log", func(w http.ResponseWriter, r *http.Request) {
+		// Truncate the webinstall.log file
+		//	err := os.Truncate("webinstall.log", 0)
 		//	if err != nil {
 		//		http.Error(w, "Error truncating file", http.StatusInternalServerError)
 		//		return
 		//	}
-		// Open the output.txt file
-		f, err := os.Open("output.txt")
+		// Open the webinstall.log file
+		f, err := os.Open("webinstall.log")
 		if err != nil {
 			http.Error(w, "Error opening file", http.StatusInternalServerError)
 			return
@@ -114,12 +133,32 @@ func editConfig(w http.ResponseWriter, r *http.Request) {
 
 func saveConfig(w http.ResponseWriter, r *http.Request) {
 	config := Config{
-		ConfigDir:         r.FormValue("config_dir"),
-		UnboundDNSEnable:  r.FormValue("unbound_dns_enable") == "on",
-		PiholeEnable:      r.FormValue("pihole_enable") == "on",
-		PiholeWithUnbound: r.FormValue("pihole_with_unbound") == "on",
-		PiholePassword:    r.FormValue("pihole_password"),
-		TechDNSEnable:     r.FormValue("tech_dns_enable") == "on",
+		ConfigDir:               r.FormValue("config_dir"),
+		URTimezone:              r.FormValue("ur_timezone"),
+		UnboundDNSEnable:        r.FormValue("unbound_dns_enable") == "on",
+		PiholeEnable:            r.FormValue("pihole_enable") == "on",
+		PiholeWithUnbound:       r.FormValue("pihole_with_unbound") == "on",
+		PiholePassword:          r.FormValue("pihole_password"),
+		TechDNSEnable:           r.FormValue("tech_dns_enable") == "on",
+		TechDNSPassword:         r.FormValue("tech_dns_password"),
+		OpenVPNServer:           r.FormValue("ovpn_server_enable") == "on",
+		OpenVPNUIPassword:       r.FormValue("ovpnui_password"),
+		OpenVPNClient:           r.FormValue("ovpn_client_enable") == "on",
+		OpenVPNClientCert:       r.FormValue("ovpn_client_cert"),
+		OpenVPNClientAllowedSub: r.FormValue("ovpn_client_allowed_subnet"),
+		WireGuardServer:         r.FormValue("wireguard_server_enable") == "on",
+		WireGuardServerPassword: r.FormValue("wireguard_password"),
+		PortainerEnable:         r.FormValue("portainer_enable") == "on",
+		QbitTorrentEnable:       r.FormValue("qbittorrent_enable") == "on",
+		QbitTorrentPassword:     r.FormValue("qbittorrent_default_password"),
+		QbitTorrentInVPN:        r.FormValue("qbittorrent_inside_vpn") == "on",
+		MonitoringEnable:        r.FormValue("monitoring_enable") == "on",
+		MonitoringGrafPassword:  r.FormValue("monitoring_grafana_admin_password"),
+		OpenVPNMonitoringEnable: r.FormValue("openvpn_monitoring_enable") == "on",
+		PiKVMMonitoringEnable:   r.FormValue("pikvm_monitoring_enable") == "on",
+		AirGradientMonitoring:   r.FormValue("airgradient_monitoring_enable") == "on",
+		StarLinkMonitoring:      r.FormValue("starlink_monitoring_enable") == "on",
+		ShellyPlugMonitoring:    r.FormValue("shelly_plug_monitoring_enable") == "on",
 	}
 	err := writeConfig(config)
 	if err != nil {
@@ -138,7 +177,7 @@ func install(w http.ResponseWriter, r *http.Request) {
 		}
 		defer stdout.Close()
 
-		file, err := os.Create("output.txt")
+		file, err := os.Create("webinstall.log")
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -159,13 +198,18 @@ func install(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// Extract the last 20 lines of the output and redirect them to the file
-		cmd = exec.Command("tail", "-n", "20", "output.txt")
+		cmd = exec.Command("tail", "-n", "20", "webinstall.log")
 		output, err := cmd.Output()
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		err = ioutil.WriteFile("output.txt", output, 0644)
+		err = file.Chmod(0644)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		_, err = file.Write(output)
 		if err != nil {
 			log.Fatal(err)
 		}
