@@ -53,6 +53,19 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	// Truncate the webinstall.log file
+	f, err := os.OpenFile("webinstall.log", os.O_WRONLY|os.O_TRUNC, 0644)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer f.Close()
+
+	// Write "announcement" to the webinstall.log file
+	if _, err := f.WriteString("Here will be the log of Raspberry Gateway installation progress, when you'll press \"Install\" button.\n"); err != nil {
+		log.Fatal(err)
+	}
+
 	// Log the welcome message
 	log.Printf("Welcome! The web interface will guide you on installation process.\nInstallation logs: webinstall.log\n")
 	// Create a new router
@@ -201,55 +214,6 @@ func saveConfig(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
-func install(w http.ResponseWriter, r *http.Request) {
-	go func() {
-		cmd := exec.Command("ansible-playbook", "main.yml")
-		stdout, err := cmd.StdoutPipe()
-		if err != nil {
-			log.Fatal(err)
-		}
-		defer stdout.Close()
-
-		file, err := os.Create("webinstall.log")
-		if err != nil {
-			log.Fatal(err)
-		}
-		defer file.Close()
-
-		writer := io.MultiWriter(os.Stdout, file)
-		cmd.Stdout = writer
-		cmd.Stderr = os.Stderr
-
-		err = cmd.Start()
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		err = cmd.Wait()
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		// Extract the last 20 lines of the output and redirect them to the file
-		cmd = exec.Command("tail", "-n", "20", "webinstall.log")
-		output, err := cmd.Output()
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		err = file.Chmod(0644)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		_, err = file.Write(output)
-		if err != nil {
-			log.Fatal(err)
-		}
-	}()
-	http.Redirect(w, r, "/", http.StatusSeeOther)
-}
-
 func readConfig() (Config, error) {
 	var config Config
 	file, err := os.Open("config.yml")
@@ -304,4 +268,53 @@ func copyFile(src, dst string) error {
 		return err
 	}
 	return nil
+}
+
+func install(w http.ResponseWriter, r *http.Request) {
+	go func() {
+		cmd := exec.Command("ansible-playbook", "main.yml")
+		stdout, err := cmd.StdoutPipe()
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer stdout.Close()
+
+		file, err := os.Create("webinstall.log")
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer file.Close()
+
+		writer := io.MultiWriter(os.Stdout, file)
+		cmd.Stdout = writer
+		cmd.Stderr = os.Stderr
+
+		err = cmd.Start()
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		err = cmd.Wait()
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		// Extract the last 20 lines of the output and redirect them to the file
+		cmd = exec.Command("tail", "-n", "20", "webinstall.log")
+		output, err := cmd.Output()
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		err = file.Chmod(0644)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		_, err = file.Write(output)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}()
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 }

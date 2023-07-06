@@ -100,7 +100,7 @@
 
       <label for="ovpn_client_allowed_subnet">OpenVPN Client Allowed Subnet:</label>
       <input type="text" name="ovpn_client_allowed_subnet" value="{{.OpenVPNClientAllowedSub}}"><br>
-      <span> This should be your local WiFi network. <br>This is to allow access to qBitTorrent Web UI from your local network when VPN-client tunnel in connected.</span><br>
+      <span> This should be your local WiFi network. <br>This is to allow access to qBitTorrent Web UI from your local network when VPN-client tunnel is connected.</span><br>
 
       <h1>WireGuard</h1>
       <p>WireGuard VPN and UI setup.</p><br>
@@ -155,10 +155,10 @@
     </form>
 
     <h1>Installation</h1>
-    <p>The installation process will take some time. Once that's done, it'll be like you have a new gateway. </p> <br>
+    <p>The installation process will take some time. Once that's done, it'll be like you have a new Raspberry-gateway up and running. </p> <br>
 
     <form method="POST" action="/install">
-        <input type="submit" value="Install" style="font-size: 2em; width: 130px; height: 40px; onclick="return confirm('Are you sure you want to install?');">
+        <input type="submit" value="Install" style="font-size: 2em; width: 130px; height: 40px;" onclick="return confirm('Are you sure you want to install?');">
     </form>
     <br><br>
 
