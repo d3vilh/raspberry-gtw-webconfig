@@ -40,7 +40,7 @@
  | __  |___ ___ ___| |_ ___ ___ ___ _ _   |   __|___| |_ ___| | | |___ _ _ 
  |    -| . |_ -| . | . | -_|  _|  _| | |  |  |  | . |  _| -_| | | | . | | |
  |__|__|_|_|___|  _|___|___|_| |_| |_  |  |_____|_|_|_| |___|_____|_|_|_  |
-               |_| Web-based       |___|   Configuration & Install    |___| </pre>
+               |_|       Web-based |___|      Configuration & Install |___| </pre>
 
     <h1>Main Configuration</h1>
     <p>Standard configuration definitions.</p><br>
@@ -54,7 +54,7 @@
       <label for="portainer_enable" title="UI for Containers management">Install Portainer</label><br>
       <span>Portainer is a containers management interface.</span><br>
 
-      <h1>Local DNS and ad-blocking</h1>
+      <h1>Local DNS and AD-Blocking</h1>
       <p>Setting up Local DNS and add-blockers.</p>
       <span>You can't use TechnitiumDNS and Unbound + Pi-Hole at the same time, as both utilize same 53 port for DNS.</span><br>
       <span>Advanced configuration available in advanced.config.yml</span><br><br>
@@ -87,7 +87,7 @@
       <label for="ovpnui_password">OpenVPN Server Web UI Password:</label>
       <input type="password" name="ovpnui_password" value="{{.OpenVPNUIPassword}}"><br><br>        
 
-      <input type="checkbox" name="ovpn_client_enable" {{if .OpenVPNClient}}checked{{end}}>
+      <input type="checkbox" name="ovpn_client_enable" id="ovpn_client_enable" {{if .OpenVPNClient}}checked{{end}}>
       <label for="ovpn_client_enable">OpenVPN Client</label><br>
       <div>
         <label for="ovpn_client_cert">OpenVPN Client Certificate:</label>
@@ -114,17 +114,17 @@
       <h1>qBitTorrent</h1>
       <p>An open-source software torrent tracker.</p><br>
 
-      <input type="checkbox" name="qbittorrent_enable" {{if .QbitTorrentEnable}}checked{{end}}>
+      <input type="checkbox" name="qbittorrent_enable" id="qbittorrent_enable" {{if .QbitTorrentEnable}}checked{{end}}>
       <label for="qbittorrent_enable">Instal qBitTorrent</label><br>
 
       <label for="qbittorrent_default_password">Default Web UI Password:</label>   
       <input type="text" name="qbittorrent_default_password" value="{{.QbitTorrentPassword}}" disabled><br>
       <span>Change this default password via WebUI at first login.</span><br><br>
 
-      <input type="checkbox" name="qbittorrent_inside_vpn" {{if .QbitTorrentInVPN}}checked{{end}}>
-      <label for="qbittorrent_inside_vpn">Route traffic via VPN</label><br>
+      <input type="checkbox" name="qbittorrent_inside_vpn" id="qbittorrent_inside_vpn" {{if .QbitTorrentInVPN}}checked{{end}}>
+      <label for="qbittorrent_inside_vpn">Route torrent traffic via VPN</label><br>
       <span>Route all qBitTorrent traffic via VPN Client connection.<br>
-      Don't forget to set your local subnet into setting "OpenVPN Client Allowed Subnet" above.</span><br>
+      Don't forget to upload your "OpenVPN Client Certificate" and set "OpenVPN Client Allowed Subnet" above.</span><br>
 
       <h1>Monitoring</h1>
       <p>OpenVPN Server & Client setup.</p>
@@ -151,18 +151,19 @@
       <input type="checkbox" name="shelly_plug_monitoring_enable" id="shelly_plug_monitoring_enable" {{if .ShellyPlugMonitoring}}checked{{end}}>
       <label for="shelly_plug_monitoring_enable">ShellyPlug Monitoring</label><br><br>
 
-      <input type="submit" value="Save">
+      <input type="submit" value="Save" style="font-size: 2em; width: 100px; height: 40px;">
     </form>
 
     <h1>Installation</h1>
-    <p>The installation process will take some time. Once that's done, it'll be like you have a new gateway. </p>
+    <p>The installation process will take some time. Once that's done, it'll be like you have a new gateway. </p> <br>
 
     <form method="POST" action="/install">
-        <input type="submit" value="Install" onclick="return confirm('Are you sure you want to install?');">
+        <input type="submit" value="Install" style="font-size: 2em; width: 130px; height: 40px; onclick="return confirm('Are you sure you want to install?');">
     </form>
     <br><br>
 
-    <iframe id="output-iframe" src="webinstall.log" width="100%" height="300" scrolling="yes"></iframe>
+    <iframe id="output-iframe" src="webinstall.log" width="100%" height="300" scrolling="yes"></iframe><br>
+    <span>Installation log will be saved to ~/raspberry-gateway/webinstall.log</span><br><br>
     <script>
       // Auto refresh iframe for webinstall.log
       const outputIframe = document.getElementById('output-iframe');
@@ -230,6 +231,19 @@
           }
         });
 
+        const ovpnClientEnable = document.getElementById('ovpn_client_enable');
+        const qbittorrentEnable = document.getElementById('qbittorrent_enable');
+        const qbittorrentInsideVpn = document.getElementById('qbittorrent_inside_vpn');
+
+        qbittorrentInsideVpn.addEventListener('change', () => {
+          if (qbittorrentInsideVpn.checked) {
+            ovpnClientEnable.checked = true;
+            qbittorrentEnable.checked = true;
+          } else {
+            ovpnClientEnable.checked = false;
+          }
+        });        
+
         const monitoringEnable = document.getElementById('monitoring_enable');
         const openvpnMonitoringEnable = document.getElementById('openvpn_monitoring_enable');
         const piKvmMonitoringEnable = document.getElementById('pikvm_monitoring_enable');
@@ -266,6 +280,7 @@
             monitoringEnable.checked = true;
           }
         });
+
     </script>
 
 </body>

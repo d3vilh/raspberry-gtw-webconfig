@@ -54,7 +54,7 @@ func main() {
 		log.Fatal(err)
 	}
 	// Log the welcome message
-	log.Printf("Welcome! The web interface will guide you on installation process.\nPostinstallation logs: webinstall.log\n")
+	log.Printf("Welcome! The web interface will guide you on installation process.\nInstallation logs: webinstall.log\n")
 	// Create a new router
 	r := mux.NewRouter()
 	// Register the routes
