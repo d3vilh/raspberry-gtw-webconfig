@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	_ "embed"
-	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -53,12 +52,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	// Copy example.inventory.ini to inventory.ini
-	err := copyFile("example.inventory.ini", "inventory.ini")
-	if err != nil {
-		log.Fatal(err)
-	}
+	log.Printf("DBG: example.config.yml copied to config.yml")
 
 	// Truncate the webinstall.log file
 	f, err := os.OpenFile("webinstall.log", os.O_WRONLY|os.O_TRUNC, 0644)
@@ -66,11 +60,13 @@ func main() {
 		log.Fatal(err)
 	}
 	defer f.Close()
+	log.Printf("DBG: webinstall.log truncated")
 
 	// Write "announcement" to the webinstall.log file
-	if _, err := f.WriteString("Here will be the log of Raspberry Gateway installation progress, when you'll press \"Install\" button.\n"); err != nil {
+	if _, err := f.WriteString("Here will be the log of Raspberry Gateway installation progress, after you'll press \"Install\" button.\n"); err != nil {
 		log.Fatal(err)
 	}
+	log.Printf("DBG: webinstall.log updated with \"announcement\"")
 
 	// Log the welcome message
 	log.Printf("Welcome! The web interface will guide you on installation process.\nInstallation logs: webinstall.log\n")
@@ -81,12 +77,6 @@ func main() {
 	r.HandleFunc("/save", saveConfig)
 	r.HandleFunc("/install", install)
 	r.HandleFunc("/webinstall.log", func(w http.ResponseWriter, r *http.Request) {
-		// Truncate the webinstall.log file
-		//	err := os.Truncate("webinstall.log", 0)
-		//	if err != nil {
-		//		http.Error(w, "Error truncating file", http.StatusInternalServerError)
-		//		return
-		//	}
 		// Open the webinstall.log file
 		f, err := os.Open("webinstall.log")
 		if err != nil {
@@ -118,6 +108,9 @@ func main() {
 
 	// Handle file uploads
 	r.HandleFunc("/upload", func(w http.ResponseWriter, r *http.Request) {
+
+		log.Printf("DBG: /upload called from webui")
+
 		if r.Method != "POST" {
 			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 			return
@@ -138,6 +131,7 @@ func main() {
 		}
 		defer f.Close()
 
+		log.Printf("DBG: File created: %s", f.Name())
 		// Copy the contents of the uploaded file to the new file
 		_, err = io.Copy(f, file)
 		if err != nil {
@@ -145,7 +139,7 @@ func main() {
 			return
 		}
 
-		fmt.Fprintf(w, "File uploaded successfully.")
+		log.Printf("DBG: ovpn. file upload sucesfully")
 	})
 
 	// Create a new server
@@ -196,13 +190,13 @@ func saveConfig(w http.ResponseWriter, r *http.Request) {
 		OpenVPNServer:           r.FormValue("ovpn_server_enable") == "on",
 		OpenVPNUIPassword:       r.FormValue("ovpnui_password"),
 		OpenVPNClient:           r.FormValue("ovpn_client_enable") == "on",
-		OpenVPNClientCert:       r.FormValue("ovpn_client_cert"),
+		OpenVPNClientCert:       "webinstall-client.ovpn",
 		OpenVPNClientAllowedSub: r.FormValue("ovpn_client_allowed_subnet"),
 		WireGuardServer:         r.FormValue("wireguard_server_enable") == "on",
 		WireGuardServerPassword: r.FormValue("wireguard_password"),
 		PortainerEnable:         r.FormValue("portainer_enable") == "on",
 		QbitTorrentEnable:       r.FormValue("qbittorrent_enable") == "on",
-		QbitTorrentPassword:     r.FormValue("qbittorrent_default_password"),
+		QbitTorrentPassword:     "adminadmin",
 		QbitTorrentInVPN:        r.FormValue("qbittorrent_inside_vpn") == "on",
 		MonitoringEnable:        r.FormValue("monitoring_enable") == "on",
 		MonitoringGrafPassword:  r.FormValue("monitoring_grafana_admin_password"),
@@ -305,22 +299,19 @@ func install(w http.ResponseWriter, r *http.Request) {
 			log.Fatal(err)
 		}
 
-		// Extract the last 20 lines of the output and redirect them to the file
-		cmd = exec.Command("tail", "-n", "20", "webinstall.log")
-		output, err := cmd.Output()
+		// Open the file in append mode and write the new line to it
+		f, err := os.OpenFile("webinstall.log", os.O_WRONLY|os.O_APPEND, 0644)
 		if err != nil {
 			log.Fatal(err)
+		}
+		defer f.Close()
+
+		// Write "install complete" to the webinstall.log file
+		if _, err := f.WriteString("Installation completed! \nIf there is zero failed tasks - \"failed=0\", you good! \n"); err != nil {
+			log.Fatal(err)
+			log.Println("Installation completed!")
 		}
 
-		err = file.Chmod(0644)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		_, err = file.Write(output)
-		if err != nil {
-			log.Fatal(err)
-		}
 	}()
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }

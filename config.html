@@ -6,20 +6,6 @@
         input, label, span, h1 {
             font-family: monospace;
         }
-        input[type="submit-bg"] {
-            width: 120px;
-            height: 30px;
-            font-size: 23px;
-            font-family: monospace;
-            border-radius: 5px;
-        }
-        input[type="submit-gg"] {
-            width: 65px;
-            height: 23px;
-            font-size: 11px;
-            font-family: monospace;
-            border-radius: 5px;
-        }
         span {
             color: #636262;
         }
@@ -44,7 +30,7 @@
 
     <h1>Main Configuration</h1>
     <p>Standard configuration definitions.</p><br>
-    <form method="POST" action="/save">
+    <form id="config-form1" method="POST" action="/save">
       <label for="ur_timezone">Timezone:</label>
       <input type="text" name="ur_timezone" value="{{.URTimezone}}"><br>
       <span>Local Raspberry gateway Timezone. Used for various containers.<br>
@@ -89,14 +75,15 @@
 
       <input type="checkbox" name="ovpn_client_enable" id="ovpn_client_enable" {{if .OpenVPNClient}}checked{{end}}>
       <label for="ovpn_client_enable">OpenVPN Client</label><br>
-      <div>
-        <label for="ovpn_client_cert">OpenVPN Client Certificate:</label>
-          <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
-            <input type="file" name="file">
-            <input type="submit" value="Upload">
-          </form>     
-        <br><span>File will be uploaded as ~/raspberry-gateway/openvpn-client/{{.OpenVPNClientCert}}</span><br><br>
-      </div>
+    
+      <label for="ovpn_client_cert">OpenVPN Client Certificate:</label>
+   <!--  <div>
+        <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
+          <input type="file" name="file">
+          <input type="submit" value="Upload">
+        </form>   
+      </div> --> 
+      <br><span>File will be uploaded as ~/raspberry-gateway/openvpn-client/{{.OpenVPNClientCert}}</span><br><br>
 
       <label for="ovpn_client_allowed_subnet">OpenVPN Client Allowed Subnet:</label>
       <input type="text" name="ovpn_client_allowed_subnet" value="{{.OpenVPNClientAllowedSub}}"><br>
@@ -154,54 +141,51 @@
       <input type="submit" value="Save" style="font-size: 2em; width: 100px; height: 40px;">
     </form>
 
-    <h1>Installation</h1>
-    <p>The installation process will take some time. Once that's done, it'll be like you have a new Raspberry-gateway up and running. </p> <br>
+    <label for="ovpn_client_cert">OpenVPN Client Certificate:</label>
+    <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
+      <input type="file" name="file">
+      <input type="submit" value="Upload">
+    </form>     
+    <br><span>File will be uploaded as ~/raspberry-gateway/openvpn-client/{{.OpenVPNClientCert}}</span><br><br>
 
-    <form method="POST" action="/install">
+  
+    <h1>Installation</h1>
+    <p>The installation process will take some time. Once that's done, it'll be like you have a new <a href="https://github.com/d3vilh/raspberry-gateway" target="_blank">Raspberry Gateway</a> up and running. </p> <br>
+
+    <form id="install-form" method="POST" action="/install">
         <input type="submit" value="Install" style="font-size: 2em; width: 130px; height: 40px;" onclick="return confirm('Are you sure you want to install?');">
     </form>
     <br><br>
 
     <iframe id="output-iframe" src="webinstall.log" width="100%" height="300" scrolling="yes"></iframe><br>
-    <span>Installation log will be saved to ~/raspberry-gateway/webinstall.log</span><br><br>
+    <span>Latest installation log will be saved to ~/raspberry-gateway/webinstall.log</span><br><br>
+    
     <script>
-      // Auto refresh iframe for webinstall.log
-      const outputIframe = document.getElementById('output-iframe');
-      setInterval(() => {
-        outputIframe.src = 'webinstall.log?' + new Date().getTime();
-        outputIframe.onload = () => {
-          outputIframe.contentWindow.scrollTo(0, outputIframe.contentWindow.document.body.scrollHeight);
-        };
-      }, 3000);
-    </script>
+    // Auto refresh iframe for webinstall.log
+        const outputIframe = document.getElementById('output-iframe');
+        setInterval(() => {
+          outputIframe.src = 'webinstall.log?' + new Date().getTime();
+          outputIframe.onload = () => {
+            outputIframe.contentWindow.scrollTo(0, outputIframe.contentWindow.document.body.scrollHeight);
+          };
+        }, 3000);
 
-    <script>
-    // File upload section
-    const form = document.getElementById('upload-form');
-
-      form.addEventListener('submit', (event) => {
-        event.preventDefault();
-        const formData = new FormData(form);
-        fetch('/upload', {
-          method: 'POST',
-          body: formData
-        })
-        .then(response => response.text())
-        .then(result => {
-          console.log(result);
-        })
-        .catch(error => {
-          console.error(error);
-        });
-      });
-    </script>
-
-    <script>
     // Checkbox logic  
         const unboundDnsEnable = document.getElementById('unbound_dns_enable');
         const piholeEnable = document.querySelector('input[name="pihole_enable"]');
         const piholeWithUnbound = document.querySelector('input[name="pihole_with_unbound"]');
         const techDnsEnable = document.getElementById('tech_dns_enable');
+
+        const ovpnClientEnable = document.getElementById('ovpn_client_enable');
+        const qbittorrentEnable = document.getElementById('qbittorrent_enable');
+        const qbittorrentInsideVpn = document.getElementById('qbittorrent_inside_vpn');
+        
+        const monitoringEnable = document.getElementById('monitoring_enable');
+        const openvpnMonitoringEnable = document.getElementById('openvpn_monitoring_enable');
+        const piKvmMonitoringEnable = document.getElementById('pikvm_monitoring_enable');
+        const airGradientMonitoring = document.getElementById('airgradient_monitoring_enable');
+        const starLinkMonitoring = document.getElementById('starlink_monitoring_enable');
+        const shellyPlugMonitoring = document.getElementById('shelly_plug_monitoring_enable');
 
         unboundDnsEnable.addEventListener('change', () => {
           if (unboundDnsEnable.checked) {
@@ -231,10 +215,6 @@
           }
         });
 
-        const ovpnClientEnable = document.getElementById('ovpn_client_enable');
-        const qbittorrentEnable = document.getElementById('qbittorrent_enable');
-        const qbittorrentInsideVpn = document.getElementById('qbittorrent_inside_vpn');
-
         qbittorrentInsideVpn.addEventListener('change', () => {
           if (qbittorrentInsideVpn.checked) {
             ovpnClientEnable.checked = true;
@@ -243,13 +223,6 @@
             ovpnClientEnable.checked = false;
           }
         });        
-
-        const monitoringEnable = document.getElementById('monitoring_enable');
-        const openvpnMonitoringEnable = document.getElementById('openvpn_monitoring_enable');
-        const piKvmMonitoringEnable = document.getElementById('pikvm_monitoring_enable');
-        const airGradientMonitoring = document.getElementById('airgradient_monitoring_enable');
-        const starLinkMonitoring = document.getElementById('starlink_monitoring_enable');
-        const shellyPlugMonitoring = document.getElementById('shelly_plug_monitoring_enable');
 
         openvpnMonitoringEnable.addEventListener('change', () => {
           if (openvpnMonitoringEnable.checked) {
@@ -281,6 +254,27 @@
           }
         });
 
+    // OVPN Certificate upload section
+        document.addEventListener('DOMContentLoaded', () => {
+          const form = document.getElementById('upload-form');
+          // Rest of the code goes here
+            form.addEventListener('submit', (event) => {
+              event.preventDefault();
+              console.log("DBG: Form submitted");
+              const formData = new FormData(form);
+              fetch('/upload', {
+                method: 'POST',
+                body: formData
+              })
+              .then(response => response.text())
+              .then(result => {
+                console.log(result);
+              })
+              .catch(error => {
+                console.error(error);
+              });
+            });
+          });
     </script>
 
 </body>
