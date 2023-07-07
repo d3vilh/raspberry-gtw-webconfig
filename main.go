@@ -5,6 +5,7 @@ import (
 	_ "embed"
 	"io"
 	"log"
+	"net"
 	"net/http"
 	"os"
 	"os/exec"
@@ -148,8 +149,13 @@ func main() {
 		Handler: r,
 	}
 
+	ip, err := getServerIP()
+	if err != nil {
+		log.Fatalf("Failed to get server IP: %v", err)
+	}
+
 	// Log the server startup message
-	log.Printf("Starting web server on %s...\n", srv.Addr)
+	log.Printf("Starting web server on http://%s%s\n", ip, srv.Addr)
 	// Start the server
 	err = srv.ListenAndServe()
 	if err != nil {
@@ -157,6 +163,23 @@ func main() {
 	}
 	// Log the server shutdown message
 	log.Println("Server stopped.")
+}
+
+func getServerIP() (string, error) {
+	addrs, err := net.InterfaceAddrs()
+	if err != nil {
+		return "", err
+	}
+
+	for _, addr := range addrs {
+		if ipnet, ok := addr.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
+			if ipnet.IP.To4() != nil {
+				return ipnet.IP.String(), nil
+			}
+		}
+	}
+
+	return "", nil
 }
 
 func editConfig(w http.ResponseWriter, r *http.Request) {
