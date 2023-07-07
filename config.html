@@ -75,16 +75,16 @@
 
       <input type="checkbox" name="ovpn_client_enable" id="ovpn_client_enable" {{if .OpenVPNClient}}checked{{end}}>
       <label for="ovpn_client_enable">OpenVPN Client</label><br>
-    
-      <label for="ovpn_client_cert">OpenVPN Client Certificate:</label>
-   <!--  <div>
-        <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
-          <input type="file" name="file">
-          <input type="submit" value="Upload">
-        </form>   
-      </div> --> 
-      <br><span>File will be uploaded as ~/raspberry-gateway/openvpn-client/{{.OpenVPNClientCert}}</span><br><br>
+    </form>
 
+    <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
+      <label for="ovpn_client_cert">OpenVPN Client Certificate:</label>
+      <input type="file" name="file">
+      <input type="submit" value="Upload">
+      <br><span>File will be uploaded as ~/raspberry-gateway/openvpn-client/{{.OpenVPNClientCert}}</span><br><br>
+    </form>   
+
+    <form id="config-form2" method="POST" action="/save">
       <label for="ovpn_client_allowed_subnet">OpenVPN Client Allowed Subnet:</label>
       <input type="text" name="ovpn_client_allowed_subnet" value="{{.OpenVPNClientAllowedSub}}"><br>
       <span> This should be your local WiFi network. <br>This is to allow access to qBitTorrent Web UI from your local network when VPN-client tunnel is connected.</span><br>
@@ -137,17 +137,9 @@
 
       <input type="checkbox" name="shelly_plug_monitoring_enable" id="shelly_plug_monitoring_enable" {{if .ShellyPlugMonitoring}}checked{{end}}>
       <label for="shelly_plug_monitoring_enable">ShellyPlug Monitoring</label><br><br>
-
-      <input type="submit" value="Save" style="font-size: 2em; width: 100px; height: 40px;">
+       <!--  <input type="submit" value="Save" style="font-size: 2em; width: 100px; height: 40px;">-->
     </form>
-
-    <label for="ovpn_client_cert">OpenVPN Client Certificate:</label>
-    <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
-      <input type="file" name="file">
-      <input type="submit" value="Upload">
-    </form>     
-    <br><span>File will be uploaded as ~/raspberry-gateway/openvpn-client/{{.OpenVPNClientCert}}</span><br><br>
-
+    <button id="submit-btn" style="font-family: monospace; font-size: 2em; width: 100px; height: 40px;">Save</button>
   
     <h1>Installation</h1>
     <p>The installation process will take some time. Once that's done, it'll be like you have a new <a href="https://github.com/d3vilh/raspberry-gateway" target="_blank">Raspberry Gateway</a> up and running. </p> <br>
@@ -161,6 +153,30 @@
     <span>Latest installation log will be saved to ~/raspberry-gateway/webinstall.log</span><br><br>
     
     <script>
+    // Combine config-form1 and config-form2 into one form and submit it
+        document.getElementById('submit-btn').addEventListener('click', function(event) {
+          event.preventDefault();
+          var formData1 = new FormData(document.getElementById('config-form1'));
+          var formData2 = new FormData(document.getElementById('config-form2'));
+          var formData = new FormData();
+          for (var pair of formData1.entries()) {
+            formData.append(pair[0], pair[1]);
+          }
+          for (var pair of formData2.entries()) {
+            formData.append(pair[0], pair[1]);
+          }
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', '/save');
+          xhr.onload = function() {
+              // handle success response
+              console.log(xhr.responseText);
+            };
+            xhr.onerror = function() {
+              // handle error response
+            };
+            xhr.send(formData);
+        });
+
     // Auto refresh iframe for webinstall.log
         const outputIframe = document.getElementById('output-iframe');
         setInterval(() => {
