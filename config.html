@@ -169,9 +169,9 @@
       const outputIframe = document.getElementById('output-iframe');
       setInterval(() => {
         outputIframe.src = 'webinstall.log?' + new Date().getTime();
-        outputIframe.contentWindow.scrollTo(0, outputIframe.contentWindow.document.body.scrollHeight);
-        // const lastElement = outputIframe.contentWindow.document.body.lastElementChild;
-        // lastElement.scrollIntoView();
+        outputIframe.onload = () => {
+          outputIframe.contentWindow.scrollTo(0, outputIframe.contentWindow.document.body.scrollHeight);
+        };
       }, 3000);
     </script>
 

@@ -54,6 +54,12 @@ func main() {
 		log.Fatal(err)
 	}
 
+	// Copy example.inventory.ini to inventory.ini
+	err := copyFile("example.inventory.ini", "inventory.ini")
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	// Truncate the webinstall.log file
 	f, err := os.OpenFile("webinstall.log", os.O_WRONLY|os.O_TRUNC, 0644)
 	if err != nil {
