@@ -42,6 +42,7 @@ type Config struct {
 	AirGradientMonitoring   bool   `yaml:"airgradient_monitoring_enable"`
 	StarLinkMonitoring      bool   `yaml:"starlink_monitoring_enable"`
 	ShellyPlugMonitoring    bool   `yaml:"shelly_plug_monitoring_enable"`
+	IPAddress               string // to pass your IP address to the template
 }
 
 //go:embed config.html
@@ -188,11 +189,21 @@ func editConfig(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+
+	ip, err := getServerIP()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	config.IPAddress = ip // Add the IP address to the config variable
+
 	tmpl, err := template.New("config").Parse(configHTML)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+
 	err = tmpl.Execute(w, config)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

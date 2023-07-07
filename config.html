@@ -151,9 +151,40 @@
 
     <iframe id="output-iframe" src="webinstall.log" width="100%" height="300" scrolling="yes"></iframe><br>
     <span>Latest installation log will be saved to ~/raspberry-gateway/webinstall.log</span><br><br>
-    
+<pre>
+   _____     _     _      __    _     _   _____ 
+  |     |_ _|_|___| |_   |  |  |_|___| |_|   __|
+ _|  |  | | | |  _| '_|  |  |__| |   | '_|__   |_ 
+|_|__  _|___|_|___|_,_|  |_____|_|_|_|_,_|_____|_|
+     |__| Quick Links to installed enviroment.</pre>
+     <p>Presenting an amusing array of locally installed software links!<br>Some are wide awake, while others are enjoying a little siesta. Because you didn't install it... </p>
+    <h1>Portainer</h1>
+    <p>May be awake on <a href="http://{{ .IPAddress }}:9000" target="_blank">http://{{.IPAddress}}:9000</a></p>
+
+    <h1>Pi-Hole</h1>
+    <p>May be awake on <a href="http://{{ .IPAddress }}:80" target="_blank">http://{{.IPAddress}}:80</a></p>
+
+    <h1>OpenVPN Server</h1>
+    <p>May be awake on <a href="http://{{ .IPAddress }}:8080" target="_blank">http://{{.IPAddress}}:8080</a></p>
+
+    <h1>qBitTorrent</h1>
+    <p>May be awake on <a href="http://{{ .IPAddress }}:8090" target="_blank">http://{{.IPAddress}}:8090</a></p>
+
+    <h1>Raspberry Monitoring</h1>
+    <p>May be awake on <a href="http://{{ .IPAddress }}:3030" target="_blank">http://{{.IPAddress}}:3030</a></p>
+
+    <h1>Prometheus</h1>
+    <p>May be awake on <a href="http://{{ .IPAddress }}:9090" target="_blank">http://{{.IPAddress}}:9090</a></p>
+
+    <h1>Technitium DNS</h1>
+    <p>May be awake on <a href="http://{{ .IPAddress }}:5380" target="_blank">http://{{.IPAddress}}:5380</a></p>
+
+    <h1>WireGuard</h1>
+    <p>May be awake on <a href="http://{{ .IPAddress }}:5000" target="_blank">http://{{.IPAddress}}:5000</a></p><br><br><br>
+
+    <span>2023 by <a href="https://github.com/d3vilh" target="_blank">d3vilh</a> for <a href="https://github.com/d3vilh/raspberry-gateway" target="_blank">raspberry-gateway</a> project.</span><br>
     <script>
-    // Combine config-form1 and config-form2 into one form and submit it
+    // Combine config-form1 and config-form2 into one fom and submit it
         document.getElementById('submit-btn').addEventListener('click', function(event) {
           event.preventDefault();
           var formData1 = new FormData(document.getElementById('config-form1'));
