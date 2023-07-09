@@ -11,7 +11,6 @@ import (
 	"os/exec"
 	"text/template"
 
-	"github.com/gorilla/mux"
 	"gopkg.in/yaml.v3"
 )
 
@@ -89,7 +88,7 @@ func main() {
 	log.Printf("Welcome! The web interface will guide you on installation process.\nInstallation logs: webinstall.log\n")
 
 	// Create a new router
-	r := mux.NewRouter()
+	r := http.NewServeMux()
 
 	// Register the routes
 	r.HandleFunc("/", editConfig)
