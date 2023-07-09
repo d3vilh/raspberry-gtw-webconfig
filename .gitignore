@@ -1,4 +1,4 @@
 .DS_Store
 config.yml
 openvpn-client/webinstall-client.ovpn
-inventory.yaml
+inventory.yml

@@ -64,12 +64,12 @@ var configHTML string
 func main() {
 	// Copy example.config.yml to config.yml
 	err := copyFile("example.config.yml", "config.yml")
-	copyFile("example.inventory.yaml", "inventory.yaml")
+	copyFile("example.inventory.yml", "inventory.yml")
 	if err != nil {
 		log.Fatal(err)
 	}
 	//log.Printf("DBG: example.config.yml copied to config.yml")
-	//log.Printf("DBG: example.inventory.yaml copied to inventory.yaml")
+	//log.Printf("DBG: example.inventory.yml copied to inventory.yml")
 
 	// Truncate the webinstall.log file
 	f, err := os.OpenFile("webinstall.log", os.O_WRONLY|os.O_TRUNC, 0644)
@@ -201,7 +201,7 @@ func getServerIP() (string, error) {
 
 func readInventoryConfig() (InventoryConfig, error) {
 	var config InventoryConfig
-	file, err := os.Open("inventory.yaml")
+	file, err := os.Open("inventory.yml")
 	if err != nil {
 		return config, err
 	}
@@ -229,7 +229,7 @@ func writeInventoryConfig(config InventoryConfig) error {
 	if err != nil {
 		return err
 	}
-	file, err := os.Create("inventory.yaml")
+	file, err := os.Create("inventory.yml")
 	if err != nil {
 		return err
 	}
@@ -430,7 +430,7 @@ func copyFile(src, dst string) error {
 
 func install(w http.ResponseWriter, r *http.Request) {
 	go func() {
-		cmd := exec.Command("ansible-playbook", "main.yml", "-i", "inventory.yaml")
+		cmd := exec.Command("ansible-playbook", "main.yml", "-i", "inventory.yml")
 		stdout, err := cmd.StdoutPipe()
 		if err != nil {
 			log.Fatal(err)
