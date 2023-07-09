@@ -30,13 +30,14 @@
 
     <h1>Main Configuration</h1>
     <p>Standard configuration definitions.</p><br>
+
     <form id="config-form1" method="POST" action="/save">
       <label for="ur_timezone">Timezone:</label>
-      <input type="text" name="ur_timezone" value="{{.URTimezone}}"><br>
+      <input type="text" name="ur_timezone" value="{{.Config.URTimezone}}"><br>
       <span>Local Raspberry gateway Timezone. Used for various containers.<br>
       <a href="https://ipapi.co/timezone" target="_blank">Define current TZ</a></span><br><br>
 
-      <input type="checkbox" name="portainer_enable" {{if .PortainerEnable}}checked{{end}}>      
+      <input type="checkbox" name="portainer_enable" {{if .Config.PortainerEnable}}checked{{end}}>      
       <label for="portainer_enable" title="UI for Containers management">Install Portainer</label><br>
       <span>Portainer is a containers management interface.</span><br>
 
@@ -45,35 +46,35 @@
       <span>You can't use TechnitiumDNS and Unbound + Pi-Hole at the same time, as both utilize same 53 port for DNS.</span><br>
       <span>Advanced configuration available in advanced.config.yml</span><br><br>
 
-      <input type="checkbox" name="unbound_dns_enable" id="unbound_dns_enable" {{if .UnboundDNSEnable}}checked{{end}}>
+      <input type="checkbox" name="unbound_dns_enable" id="unbound_dns_enable" {{if .Config.UnboundDNSEnable}}checked{{end}}>
       <label for="unbound_dns_enable">Unbound DNS</label><br>
 
-      <input type="checkbox" name="pihole_enable" {{if .PiholeEnable}}checked{{end}}>
+      <input type="checkbox" name="pihole_enable" {{if .Config.PiholeEnable}}checked{{end}}>
       <label for="pihole_enable">Pi-hole</label><br>
 
-      <input type="checkbox" name="pihole_with_unbound" {{if .PiholeWithUnbound}}checked{{end}}>
+      <input type="checkbox" name="pihole_with_unbound" {{if .Config.PiholeWithUnbound}}checked{{end}}>
       <label for="pihole_with_unbound">Pi-hole with Unbound as Local DNS</label><br>
 
       <label for="pihole_password">Pi-hole Web UI Password:</label>
-      <input type="password" name="pihole_password" value="{{.PiholePassword}}"><br><br>
+      <input type="password" name="pihole_password" value="{{.Config.PiholePassword}}"><br><br>
 
-      <input type="checkbox" name="tech_dns_enable" id="tech_dns_enable" {{if .TechDNSEnable}}checked{{end}}>
+      <input type="checkbox" name="tech_dns_enable" id="tech_dns_enable" {{if .Config.TechDNSEnable}}checked{{end}}>
       <label for="tech_dns_enable">TechnitiumDNS</label><br>
 
       <label for="tech_dns_password">TechnitiumDNS Web UI Password:</label>
-      <input type="password" name="tech_dns_password" value="{{.TechDNSPassword}}"><br>
+      <input type="password" name="tech_dns_password" value="{{.Config.TechDNSPassword}}"><br>
 
       <h1>OpenVPN</h1>
       <p>OpenVPN Server & Client setup.</p>
       <span>Advanced Server and Client configuration available in advanced.config.yml</span><br><br>
 
-      <input type="checkbox" name="ovpn_server_enable" {{if .OpenVPNServer}}checked{{end}}>
+      <input type="checkbox" name="ovpn_server_enable" {{if .Config.OpenVPNServer}}checked{{end}}>
       <label for="ovpn_server_enable">OpenVPN Server</label><br>
 
       <label for="ovpnui_password">OpenVPN Server Web UI Password:</label>
-      <input type="password" name="ovpnui_password" value="{{.OpenVPNUIPassword}}"><br><br>        
+      <input type="password" name="ovpnui_password" value="{{.Config.OpenVPNUIPassword}}"><br><br>        
 
-      <input type="checkbox" name="ovpn_client_enable" id="ovpn_client_enable" {{if .OpenVPNClient}}checked{{end}}>
+      <input type="checkbox" name="ovpn_client_enable" id="ovpn_client_enable" {{if .Config.OpenVPNClient}}checked{{end}}>
       <label for="ovpn_client_enable">OpenVPN Client</label><br>
     </form>
 
@@ -81,34 +82,34 @@
       <label for="ovpn_client_cert">OpenVPN Client Certificate:</label>
       <input type="file" name="file">
       <input type="submit" value="Upload">
-      <br><span>File will be uploaded as ~/raspberry-gateway/openvpn-client/{{.OpenVPNClientCert}}</span><br><br>
+      <br><span>File will be uploaded as ~/raspberry-gateway/openvpn-client/{{.Config.OpenVPNClientCert}}</span><br><br>
     </form>   
 
     <form id="config-form2" method="POST" action="/save">
       <label for="ovpn_client_allowed_subnet">OpenVPN Client Allowed Subnet:</label>
-      <input type="text" name="ovpn_client_allowed_subnet" value="{{.OpenVPNClientAllowedSub}}"><br>
+      <input type="text" name="ovpn_client_allowed_subnet" value="{{.Config.OpenVPNClientAllowedSub}}"><br>
       <span> This should be your local WiFi network. <br>This is to allow access to qBitTorrent Web UI from your local network when VPN-client tunnel is connected.</span><br>
 
       <h1>WireGuard</h1>
       <p>WireGuard VPN and UI setup.</p><br>
  
-      <input type="checkbox" name="wireguard_server_enable" {{if .WireGuardServer}}checked{{end}}>
+      <input type="checkbox" name="wireguard_server_enable" {{if .Config.WireGuardServer}}checked{{end}}>
       <label for="wireguard_server_enable">WireGuard Server</label><br>
 
       <label for="wireguard_password">WireGuard Server Web UI Password:</label>   
-      <input type="password" name="wireguard_password" value="{{.WireGuardServerPassword}}"><br>
+      <input type="password" name="wireguard_password" value="{{.Config.WireGuardServerPassword}}"><br>
 
       <h1>qBitTorrent</h1>
       <p>An open-source software torrent tracker.</p><br>
 
-      <input type="checkbox" name="qbittorrent_enable" id="qbittorrent_enable" {{if .QbitTorrentEnable}}checked{{end}}>
+      <input type="checkbox" name="qbittorrent_enable" id="qbittorrent_enable" {{if .Config.QbitTorrentEnable}}checked{{end}}>
       <label for="qbittorrent_enable">Instal qBitTorrent</label><br>
 
       <label for="qbittorrent_default_password">Default Web UI Password:</label>   
-      <input type="text" name="qbittorrent_default_password" value="{{.QbitTorrentPassword}}" disabled><br>
+      <input type="text" name="qbittorrent_default_password" value="{{.Config.QbitTorrentPassword}}" disabled><br>
       <span>Change this default password via WebUI at first login.</span><br><br>
 
-      <input type="checkbox" name="qbittorrent_inside_vpn" id="qbittorrent_inside_vpn" {{if .QbitTorrentInVPN}}checked{{end}}>
+      <input type="checkbox" name="qbittorrent_inside_vpn" id="qbittorrent_inside_vpn" {{if .Config.QbitTorrentInVPN}}checked{{end}}>
       <label for="qbittorrent_inside_vpn">Route torrent traffic via VPN</label><br>
       <span>Route all qBitTorrent traffic via VPN Client connection.<br>
       Don't forget to upload your "OpenVPN Client Certificate" and set "OpenVPN Client Allowed Subnet" above.</span><br>
@@ -117,28 +118,37 @@
       <p>OpenVPN Server & Client setup.</p>
       <span>Advanced Monitoring configuration available in advanced.config.yml</span><br><br>
 
-      <input type="checkbox" name="monitoring_enable" id="monitoring_enable" {{if .MonitoringEnable}}checked{{end}}>
+      <input type="checkbox" name="monitoring_enable" id="monitoring_enable" {{if .Config.MonitoringEnable}}checked{{end}}>
       <label for="monitoring_enable">Enable Monitoring</label><br>
 
       <label for="monitoring_grafana_admin_password">Grafana Password for first login:</label>   
-      <input type="text" name="monitoring_grafana_admin_password" value="{{.MonitoringGrafPassword}}"><br>
+      <input type="text" name="monitoring_grafana_admin_password" value="{{.Config.MonitoringGrafPassword}}"><br>
 
-      <input type="checkbox" name="openvpn_monitoring_enable" id="openvpn_monitoring_enable" {{if .OpenVPNMonitoringEnable}}checked{{end}}>
+      <input type="checkbox" name="openvpn_monitoring_enable" id="openvpn_monitoring_enable" {{if .Config.OpenVPNMonitoringEnable}}checked{{end}}>
       <label for="openvpn_monitoring_enable">OpenVPN Server Monitoring</label><br>
 
-      <input type="checkbox" name="pikvm_monitoring_enable" id="pikvm_monitoring_enable" {{if .PiKVMMonitoringEnable}}checked{{end}}>
+      <input type="checkbox" name="pikvm_monitoring_enable" id="pikvm_monitoring_enable" {{if .Config.PiKVMMonitoringEnable}}checked{{end}}>
       <label for="pikvm_monitoring_enable">PiKVM Monitoring</label><br>
 
-      <input type="checkbox" name="airgradient_monitoring_enable" id="airgradient_monitoring_enable" {{if .AirGradientMonitoring}}checked{{end}}>
+      <input type="checkbox" name="airgradient_monitoring_enable" id="airgradient_monitoring_enable" {{if .Config.AirGradientMonitoring}}checked{{end}}>
       <label for="airgradient_monitoring_enable">AirGradient Monitoring</label><br>
 
-      <input type="checkbox" name="starlink_monitoring_enable" id="starlink_monitoring_enable" {{if .StarLinkMonitoring}}checked{{end}}>
+      <input type="checkbox" name="starlink_monitoring_enable" id="starlink_monitoring_enable" {{if .Config.StarLinkMonitoring}}checked{{end}}>
       <label for="starlink_monitoring_enable">StarLink Monitoring</label><br>
 
-      <input type="checkbox" name="shelly_plug_monitoring_enable" id="shelly_plug_monitoring_enable" {{if .ShellyPlugMonitoring}}checked{{end}}>
+      <input type="checkbox" name="shelly_plug_monitoring_enable" id="shelly_plug_monitoring_enable" {{if .Config.ShellyPlugMonitoring}}checked{{end}}>
       <label for="shelly_plug_monitoring_enable">ShellyPlug Monitoring</label><br><br>
        <!--  <input type="submit" value="Save" style="font-size: 2em; width: 100px; height: 40px;">-->
-    </form>
+       <h2>Ansible Inventory</h2>
+       <label for="raspberry_gateway_ip">Raspberry Gateway IP:</label>
+       <input type="text" name="raspberry_gateway_ip" value="{{.InventoryConfig.All.Hosts.RaspberryGateway.IP}}"><br>
+       <label for="raspberry_gateway_ansible_user">Raspberry Gateway Ansible User:</label>
+       <input type="text" name="raspberry_gateway_ansible_user" value="{{.InventoryConfig.All.Hosts.RaspberryGateway.AnsibleUser}}"><br>
+       <label for="raspberry_gateway_ansible_connection">Raspberry Gateway Ansible Connection:</label>
+       <input type="text" name="raspberry_gateway_ansible_connection" value="{{.InventoryConfig.All.Hosts.RaspberryGateway.AnsibleConnection}}"><br>
+       <label for="raspberry_gateway_ansible_use">Raspberry Gateway Ansible Use:</label>
+       <input type="text" name="raspberry_gateway_ansible_use" value="{{.InventoryConfig.All.Hosts.RaspberryGateway.AnsibleUse}}"><br>
+      </form>
     <button id="submit-btn" style="font-family: monospace; font-size: 2em; width: 100px; height: 40px;">Save</button>
   
     <h1>Installation</h1>
@@ -159,28 +169,28 @@
      |__| Quick Links to installed enviroment.</pre>
      <p>Presenting an amusing array of locally installed software links!<br>Some are wide awake, while others are enjoying a little siesta. <span>Because you didn't install it...</span></p>
     <h1>Portainer</h1>
-    <p>May be awake on <a href="http://{{ .IPAddress }}:9000" target="_blank">http://{{.IPAddress}}:9000</a></p>
+    <p>May be awake on <a href="http://{{ .Config.IPAddress }}:9000" target="_blank">http://{{.Config.IPAddress}}:9000</a></p>
 
     <h1>Pi-Hole</h1>
-    <p>May be awake on <a href="http://{{ .IPAddress }}:80" target="_blank">http://{{.IPAddress}}:80</a></p>
+    <p>May be awake on <a href="http://{{ .Config.IPAddress }}:80" target="_blank">http://{{.Config.IPAddress}}:80</a></p>
 
     <h1>OpenVPN Server</h1>
-    <p>May be awake on <a href="http://{{ .IPAddress }}:8080" target="_blank">http://{{.IPAddress}}:8080</a></p>
+    <p>May be awake on <a href="http://{{ .Config.IPAddress }}:8080" target="_blank">http://{{.Config.IPAddress}}:8080</a></p>
 
     <h1>qBitTorrent</h1>
-    <p>May be awake on <a href="http://{{ .IPAddress }}:8090" target="_blank">http://{{.IPAddress}}:8090</a></p>
+    <p>May be awake on <a href="http://{{ .Config.IPAddress }}:8090" target="_blank">http://{{.Config.IPAddress}}:8090</a></p>
 
     <h1>Raspberry Monitoring</h1>
-    <p>May be awake on <a href="http://{{ .IPAddress }}:3030" target="_blank">http://{{.IPAddress}}:3030</a></p>
+    <p>May be awake on <a href="http://{{ .Config.IPAddress }}:3030" target="_blank">http://{{.Config.IPAddress}}:3030</a></p>
 
     <h1>Prometheus</h1>
-    <p>May be awake on <a href="http://{{ .IPAddress }}:9090" target="_blank">http://{{.IPAddress}}:9090</a></p>
+    <p>May be awake on <a href="http://{{ .Config.IPAddress }}:9090" target="_blank">http://{{.Config.IPAddress}}:9090</a></p>
 
     <h1>Technitium DNS</h1>
-    <p>May be awake on <a href="http://{{ .IPAddress }}:5380" target="_blank">http://{{.IPAddress}}:5380</a></p>
+    <p>May be awake on <a href="http://{{ .Config.IPAddress }}:5380" target="_blank">http://{{.Config.IPAddress}}:5380</a></p>
 
     <h1>WireGuard</h1>
-    <p>May be awake on <a href="http://{{ .IPAddress }}:5000" target="_blank">http://{{.IPAddress}}:5000</a></p><br><br><br>
+    <p>May be awake on <a href="http://{{ .Config.IPAddress }}:5000" target="_blank">http://{{.Config.IPAddress}}:5000</a></p><br><br><br>
 
     <span>2023 by <a href="https://github.com/d3vilh" target="_blank">d3vilh</a> for <a href="https://github.com/d3vilh/raspberry-gateway" target="_blank">raspberry-gateway</a> project.</span><br>
     <script>

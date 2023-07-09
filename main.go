@@ -45,16 +45,31 @@ type Config struct {
 	IPAddress               string // to pass your IP address to the template
 }
 
+type InventoryConfig struct {
+	All struct {
+		Hosts struct {
+			RaspberryGateway struct {
+				IP                string `yaml:"ansible_host"`
+				AnsibleUser       string `yaml:"ansible_user"`
+				AnsibleConnection string `yaml:"ansible_connection"`
+				AnsibleUse        string `yaml:"ansible_use"`
+			} `yaml:"raspberry_gateway"`
+		} `yaml:"hosts"`
+	} `yaml:"all"`
+}
+
 //go:embed config.html
 var configHTML string
 
 func main() {
 	// Copy example.config.yml to config.yml
 	err := copyFile("example.config.yml", "config.yml")
+	copyFile("example.inventory.yaml", "inventory.yaml")
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Printf("DBG: example.config.yml copied to config.yml")
+	//log.Printf("DBG: example.config.yml copied to config.yml")
+	//log.Printf("DBG: example.inventory.yaml copied to inventory.yaml")
 
 	// Truncate the webinstall.log file
 	f, err := os.OpenFile("webinstall.log", os.O_WRONLY|os.O_TRUNC, 0644)
@@ -62,23 +77,26 @@ func main() {
 		log.Fatal(err)
 	}
 	defer f.Close()
-	log.Printf("DBG: webinstall.log truncated")
+	//log.Printf("DBG: webinstall.log truncated")
 
 	// Write "announcement" to the webinstall.log file
 	if _, err := f.WriteString("Here will be the log of Raspberry Gateway installation progress, after you'll press \"Install\" button.\n"); err != nil {
 		log.Fatal(err)
 	}
-	log.Printf("DBG: webinstall.log updated with \"announcement\"")
+	//log.Printf("DBG: webinstall.log updated with \"announcement\"")
 
 	// Log the welcome message
 	log.Printf("Welcome! The web interface will guide you on installation process.\nInstallation logs: webinstall.log\n")
+
 	// Create a new router
 	r := mux.NewRouter()
+
 	// Register the routes
 	r.HandleFunc("/", editConfig)
 	r.HandleFunc("/save", saveConfig)
 	r.HandleFunc("/install", install)
 	r.HandleFunc("/webinstall.log", func(w http.ResponseWriter, r *http.Request) {
+
 		// Open the webinstall.log file
 		f, err := os.Open("webinstall.log")
 		if err != nil {
@@ -110,8 +128,7 @@ func main() {
 
 	// Handle file uploads
 	r.HandleFunc("/upload", func(w http.ResponseWriter, r *http.Request) {
-
-		log.Printf("DBG: /upload called from webui")
+		//log.Printf("DBG: /upload called from webui")
 
 		if r.Method != "POST" {
 			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
@@ -132,16 +149,15 @@ func main() {
 			return
 		}
 		defer f.Close()
+		//log.Printf("DBG: File created: %s", f.Name())
 
-		log.Printf("DBG: File created: %s", f.Name())
 		// Copy the contents of the uploaded file to the new file
 		_, err = io.Copy(f, file)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-
-		log.Printf("DBG: ovpn. file upload sucesfully")
+		//log.Printf("DBG: ovpn. file upload sucesfully")
 	})
 
 	// Create a new server
@@ -183,12 +199,63 @@ func getServerIP() (string, error) {
 	return "", nil
 }
 
+func readInventoryConfig() (InventoryConfig, error) {
+	var config InventoryConfig
+	file, err := os.Open("inventory.yaml")
+	if err != nil {
+		return config, err
+	}
+	defer file.Close()
+	stat, err := file.Stat()
+	if err != nil {
+		return config, err
+	}
+	data := make([]byte, stat.Size())
+	_, err = file.Read(data)
+	if err != nil {
+		return config, err
+	}
+	err = yaml.Unmarshal(data, &config)
+	if err != nil {
+		return config, err
+	}
+	//log.Printf("DBG: Func Read inventory config. Data:\n")
+	//log.Printf("DBG: %+v", config)
+	return config, nil
+}
+
+func writeInventoryConfig(config InventoryConfig) error {
+	data, err := yaml.Marshal(config)
+	if err != nil {
+		return err
+	}
+	file, err := os.Create("inventory.yaml")
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+	_, err = file.Write(data)
+	if err != nil {
+		return err
+	}
+	//log.Printf("DBG: Func Write inventory config")
+	return nil
+}
+
 func editConfig(w http.ResponseWriter, r *http.Request) {
 	config, err := readConfig()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	//log.Printf("DBG: editConfig called. Starting to read inventory config")
+
+	inventoryConfig, err := readInventoryConfig()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	//log.Printf("DBG: inventory config read. Starting to get server IP")
 
 	ip, err := getServerIP()
 	if err != nil {
@@ -204,7 +271,20 @@ func editConfig(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = tmpl.Execute(w, config)
+	type TemplateData struct {
+		Config          Config
+		InventoryConfig InventoryConfig
+	}
+	//log.Printf("DBG: defined TemplateData struct. for inventory")
+
+	data := TemplateData{
+		Config:          config,
+		InventoryConfig: inventoryConfig,
+	}
+	//log.Printf("DBG: defined data constan. Starting to combine template with data:\n")
+	//log.Printf("DBG: %+v", data)
+
+	err = tmpl.Execute(w, data)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -245,6 +325,50 @@ func saveConfig(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	//log.Printf("DBG: main config saved")
+
+	inventoryConfig := InventoryConfig{
+		All: struct {
+			Hosts struct {
+				RaspberryGateway struct {
+					IP                string `yaml:"ansible_host"`
+					AnsibleUser       string `yaml:"ansible_user"`
+					AnsibleConnection string `yaml:"ansible_connection"`
+					AnsibleUse        string `yaml:"ansible_use"`
+				} `yaml:"raspberry_gateway"`
+			} `yaml:"hosts"`
+		}{
+			Hosts: struct {
+				RaspberryGateway struct {
+					IP                string `yaml:"ansible_host"`
+					AnsibleUser       string `yaml:"ansible_user"`
+					AnsibleConnection string `yaml:"ansible_connection"`
+					AnsibleUse        string `yaml:"ansible_use"`
+				} `yaml:"raspberry_gateway"`
+			}{
+				RaspberryGateway: struct {
+					IP                string `yaml:"ansible_host"`
+					AnsibleUser       string `yaml:"ansible_user"`
+					AnsibleConnection string `yaml:"ansible_connection"`
+					AnsibleUse        string `yaml:"ansible_use"`
+				}{
+					IP:                r.FormValue("raspberry_gateway_ip"),
+					AnsibleUser:       r.FormValue("raspberry_gateway_ansible_user"),
+					AnsibleConnection: r.FormValue("raspberry_gateway_ansible_connection"),
+					AnsibleUse:        r.FormValue("raspberry_gateway_ansible_use"),
+				},
+			},
+		},
+	}
+	//log.Printf("DBG: Inventory config saved. Starting writeInventoryConfig")
+
+	err = writeInventoryConfig(inventoryConfig)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	//log.Printf("DBG: writeInventoryConfig done. redirecting to /")
+
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
@@ -306,7 +430,7 @@ func copyFile(src, dst string) error {
 
 func install(w http.ResponseWriter, r *http.Request) {
 	go func() {
-		cmd := exec.Command("ansible-playbook", "main.yml")
+		cmd := exec.Command("ansible-playbook", "main.yml", "-i", "inventory.yaml")
 		stdout, err := cmd.StdoutPipe()
 		if err != nil {
 			log.Fatal(err)
