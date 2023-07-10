@@ -360,7 +360,7 @@
         <td></td>
       </tr>
     </table><br><br>
-    <span>2023 by <a href="https://github.com/d3vilh" target="_blank">d3vilh</a> for <a href="https://github.com/d3vilh/raspberry-gateway" target="_blank">raspberry-gateway</a>.</span><br>
+    <span style="font-size: 0.8em;">2023 by <a href="https://github.com/d3vilh" target="_blank">d3vilh</a> for <a href="https://github.com/d3vilh/raspberry-gateway" target="_blank">raspberry-gateway</a>.</span><br>
 
 <script>
     // Combine config-form1 and config-form2 into one fom and submit it
@@ -380,8 +380,10 @@
           xhr.onload = function() {
               // handle success response
               console.log(xhr.responseText);
+              alert("New configuration have been saved.");
             };
             xhr.onerror = function() {
+              alert("Something went wrong.");
               // handle error response
             };
             xhr.send(formData);
