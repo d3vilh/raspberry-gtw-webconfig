@@ -3,7 +3,7 @@
 <head>
     <title>Raspberry Gateway Configuration</title>
     <style>
-        input, label, span, h1 {
+        input, label, span, table, h1 {
             font-family: monospace;
         }
         span {
@@ -75,7 +75,7 @@
         </tr>
         <tr>
           <td>
-            &nbsp&nbsp&nbsp
+            &nbsp
           </td>
           <td>
             <label for="pihole_password">Pi-hole Web UI Password:</label> <input type="password" name="pihole_password" value="{{.Config.PiholePassword}}">
@@ -99,7 +99,7 @@
         </tr>
         <tr>
           <td>
-            &nbsp&nbsp&nbsp
+            &nbsp
           </td>
           <td>
             <label for="tech_dns_password">TechnitiumDNS Web UI Password:</label> <input type="password" name="tech_dns_password" value="{{.Config.TechDNSPassword}}">
@@ -142,7 +142,7 @@
       <table>
         <tr>
           <td>
-          &nbsp &nbsp &nbsp
+          <input type="checkbox" style="visibility: hidden;" disabled>
           </td>
           <td>
             <b><label for="ovpn_client_cert">OpenVPN Client Certificate:</label> </b><input type="file" name="file"> <input type="submit" value="Upload">
@@ -163,7 +163,7 @@
       <table style="background-color: transparent">
         <tr>
           <td>
-            &nbsp &nbsp &nbsp
+            <input type="checkbox" style="visibility: hidden;" disabled>
           </td>
           <td>
             <b><label for="ovpn_client_allowed_subnet">OpenVPN Client Allowed Subnet:</label> </b><input type="text" name="ovpn_client_allowed_subnet" value="{{.Config.OpenVPNClientAllowedSub}}">
@@ -171,7 +171,7 @@
         </tr>
         <tr>
           <td>
-            &nbsp &nbsp &nbsp
+            &nbsp
           </td>
           <td>
             <span> This should be your local WiFi network. <br>This is to allow access to qBitTorrent Web UI from your local network when VPN-client tunnel is connected.</span>
@@ -311,7 +311,7 @@
             &nbsp
           </td>
           <td>
-            <label for="raspberry_gateway_ansible_use">Ansible Use:</label> <input type="text" name="raspberry_gateway_ansible_use" value="{{.InventoryConfig.All.Hosts.RaspberryGateway.AnsibleUse}}" disabled>
+            <label for="raspberry_gateway_ansible_use" style="visibility: hidden;">Ansible Use:</label> <input type="text" name="raspberry_gateway_ansible_use" value="{{.InventoryConfig.All.Hosts.RaspberryGateway.AnsibleUse}}" style="visibility: hidden;" disabled>
           </td>
         </tr>
       </table>
@@ -327,15 +327,40 @@
     <br>
 
     <iframe id="output-iframe" src="webinstall.log" width="100%" height="300" scrolling="yes"></iframe><br>
-    <p><b>Portainer:</b> <a href="http://{{ .Config.IPAddress }}:9000" target="_blank">http://{{.Config.IPAddress}}:9000</a></p>
-    <p><b>Monitoring:</b> <a href="http://{{ .Config.IPAddress }}:3030" target="_blank">http://{{.Config.IPAddress}}:3030</a></p>
-    <p><b>Pi-Hole:</b> <a href="http://{{ .Config.IPAddress }}:80" target="_blank">http://{{.Config.IPAddress}}:80</a></p>
-    <p><b>OpenVPN Server:</b> <a href="http://{{ .Config.IPAddress }}:8080" target="_blank">http://{{.Config.IPAddress}}:8080</a></p>
-    <p><b>QbitTorrent:</b> <a href="http://{{ .Config.IPAddress }}:8090" target="_blank">http://{{.Config.IPAddress}}:8090</a></p>
-    <p><b>Technitium DNS:</b> <a href="http://{{ .Config.IPAddress }}:5380" target="_blank">http://{{.Config.IPAddress}}:5380</a></p>
-    <p><b>WireGuard:</b> <a href="http://{{ .Config.IPAddress }}:5000" target="_blank">http://{{.Config.IPAddress}}:5000</a></p>
-    <p><b>Prometheus:</b> <a href="http://{{ .Config.IPAddress }}:9090" target="_blank">http://{{.Config.IPAddress}}:9090</a></p><br><br>
-    <span>2023 by <a href="https://github.com/d3vilh" target="_blank">d3vilh</a> for <a href="https://github.com/d3vilh/raspberry-gateway" target="_blank">raspberry-gateway</a> project.</span><br>
+    <table>
+      <tr>
+        <td><b>Portainer:</b></td>
+        <td><a href="http://{{ .Config.IPAddress }}:9000" target="_blank">http://{{.Config.IPAddress}}:9000</a></td>
+        <td><b>Monitoring:</b></td>
+        <td><a href="http://{{ .Config.IPAddress }}:3030" target="_blank">http://{{.Config.IPAddress}}:3030</a></td>
+        <td><b>Prometheus:</b></td>
+        <td><a href="http://{{ .Config.IPAddress }}:9090" target="_blank">http://{{.Config.IPAddress}}:9090</a></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><b>Pi-Hole:</b></td>
+        <td><a href="http://{{ .Config.IPAddress }}:80" target="_blank">http://{{.Config.IPAddress}}:80</a></td>
+        <td><b>Tech. DNS:</b></td>
+        <td><a href="http://{{ .Config.IPAddress }}:5380" target="_blank">http://{{.Config.IPAddress}}:5380</a></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><b>OpenVPN:</b></td>
+        <td><a href="http://{{ .Config.IPAddress }}:8080" target="_blank">http://{{.Config.IPAddress}}:8080</a></td>
+        <td><b>QbitTorrent:</b></td>
+        <td><a href="http://{{ .Config.IPAddress }}:8090" target="_blank">http://{{.Config.IPAddress}}:8090</a></td>
+        <td><b>WireGuard:</b></td>
+        <td><a href="http://{{ .Config.IPAddress }}:5000" target="_blank">http://{{.Config.IPAddress}}:5000</a></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+      </tr>
+    </table><br><br>
+    <span>2023 by <a href="https://github.com/d3vilh" target="_blank">d3vilh</a> for <a href="https://github.com/d3vilh/raspberry-gateway" target="_blank">raspberry-gateway</a>.</span><br>
 
 <script>
     // Combine config-form1 and config-form2 into one fom and submit it
