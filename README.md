@@ -1,14 +1,17 @@
 # raspberry-gtw-webconfig
 Web ui configuration and installation for [Raspberry-gateway](https://github.com/d3vilh/raspberry-gateway).
 
-To build the webinstall binary, run the following command:
+![Webinstall picture 1](/images/Webinstall-01.png)
+
+
+To build the webinstall binary:
 ```shell
 go build -o webinstall main.go
 ```
 
-To compress binary with Ultimate Packer for eXecutables, run the following command:
+To compress new binary with upx:
 ```shell
 sudo apt-get install upx-ucl
-upx -9 webinstall
+upx --best webinstall
 upx -t webinstall
 ```
