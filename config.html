@@ -6,7 +6,7 @@
         body {
             display: flex;
             justify-content: center;
-            max-width: 1000px; /* Set the maximum width of the body content */
+            max-width: 900px; /* Set the maximum width of the body content */
             margin: 0 auto; /* Center the body content horizontally */
             padding: 0 5%; /* Add padding to both left and right sides */
         }
@@ -47,21 +47,21 @@
 
     <form id="config-form1" method="POST" action="/save">
       <label for="ur_timezone"><b>Timezone:</b></label>
-      <input type="text" name="ur_timezone" value="{{.Config.URTimezone}}"><br>
+      <input type="text" name="ur_timezone" placeholder="Local Timezone" value="{{.Config.URTimezone}}"><br>
       <span>Local Raspberry gateway Timezone. Used for various containers.<br>
       <a href="https://ipapi.co/timezone" target="_blank">Define current TZ</a></span><br><br>
 
       <label for="raspberry_gateway_ansible_user"><b>Ansible User:</b></label>
-      <input type="text" name="raspberry_gateway_ansible_user" value="{{.InventoryConfig.All.Hosts.RaspberryGateway.AnsibleUser}}"><br>
+      <input type="text" name="raspberry_gateway_ansible_user" placeholder="Current Linux username" value="{{.InventoryConfig.All.Hosts.RaspberryGateway.AnsibleUser}}"><br>
       <span>Keep default, which is "pi". In most cases should be your local user.</span><br>
       <label for="raspberry_gateway_ansible_connection"><b>Ansible Connection:</b></label>
-      <input type="text" name="raspberry_gateway_ansible_connection" value="{{.InventoryConfig.All.Hosts.RaspberryGateway.AnsibleConnection}}"><br>
+      <input type="text" name="raspberry_gateway_ansible_connection" placeholder="Local or ssh" value="{{.InventoryConfig.All.Hosts.RaspberryGateway.AnsibleConnection}}"><br>
       <span>Keep default - "Local", for local installations, or "ssh" for remote.</span><br>
       <label for="raspberry_gateway_ip"><b>Ansible host IP:</b></label>
-      <input type="text" name="raspberry_gateway_ip" value="{{.InventoryConfig.All.Hosts.RaspberryGateway.IP}}"><br>
+      <input type="text" name="raspberry_gateway_ip" placeholder="IP of remote server" value="{{.InventoryConfig.All.Hosts.RaspberryGateway.IP}}"><br>
       <span>For "Local" istallations - does not make sence, for remote - set remote Raspberry Gateway IP.</span><br><br>
 
-      <input type="checkbox" name="portainer_enable" {{if .Config.PortainerEnable}}checked{{end}}>      
+      <input type="checkbox" name="portainer_enable" id="portainer_enable" {{if .Config.PortainerEnable}}checked{{end}}>      
       <label for="portainer_enable" title="UI for Containers management"><b>Install Portainer</b></label><br>
       <span>Portainer is a containers management interface.</span><br>
       
@@ -81,7 +81,7 @@
         </tr>
         <tr>
           <td>
-            <input type="checkbox" name="pihole_enable" {{if .Config.PiholeEnable}}checked{{end}}>
+            <input type="checkbox" name="pihole_enable" id="pihole_enable" {{if .Config.PiholeEnable}}checked{{end}}>
           </td>
           <td>
             <b><label for="pihole_enable">Pi-hole</label></b>
@@ -92,12 +92,12 @@
             &nbsp
           </td>
           <td>
-            <label for="pihole_password">Pi-hole Web UI Password:</label> <input type="password" name="pihole_password" value="{{.Config.PiholePassword}}">
+            <label for="pihole_password">Pi-hole Web UI Password:</label> <input type="password" autocomplete="off" name="pihole_password" placeholder="Change this password!" value="{{.Config.PiholePassword}}">
           </td>
         </tr>
         <tr>
           <td>
-            <input type="checkbox" name="pihole_with_unbound" {{if .Config.PiholeWithUnbound}}checked{{end}}>
+            <input type="checkbox" name="pihole_with_unbound" id="pihole_with_unbound" {{if .Config.PiholeWithUnbound}}checked{{end}}>
           </td>
           <td>
             <b><label for="pihole_with_unbound">Pi-hole with Unbound as Local DNS</label></b>
@@ -116,7 +116,7 @@
             &nbsp
           </td>
           <td>
-            <label for="tech_dns_password">TechnitiumDNS Web UI Password:</label> <input type="password" name="tech_dns_password" value="{{.Config.TechDNSPassword}}">
+            <label for="tech_dns_password">TechnitiumDNS Web UI Password:</label> <input type="password" autocomplete="off" name="tech_dns_password" placeholder="Change this password!" value="{{.Config.TechDNSPassword}}">
           </td>
         </tr>
       </table>
@@ -127,7 +127,7 @@
       <table>
         <tr>
           <td>
-            <input type="checkbox" name="ovpn_server_enable" {{if .Config.OpenVPNServer}}checked{{end}}>
+            <input type="checkbox" name="ovpn_server_enable" id="ovpn_server_enable" {{if .Config.OpenVPNServer}}checked{{end}}>
           </td>
           <td>
             <b><label for="ovpn_server_enable">OpenVPN Server</label></b>
@@ -138,7 +138,7 @@
             &nbsp
           </td>
           <td>
-            <label for="ovpnui_password">OpenVPN Server Web UI Password:</label> <input type="password" name="ovpnui_password" value="{{.Config.OpenVPNUIPassword}}">
+            <label for="ovpnui_password">OpenVPN Server Web UI Password:</label> <input type="password" autocomplete="off" name="ovpnui_password" placeholder="Change this password!" value="{{.Config.OpenVPNUIPassword}}">
           </td>
         </tr>
         <tr>
@@ -180,7 +180,7 @@
             <input type="checkbox" style="visibility: hidden;" disabled>
           </td>
           <td>
-            <b><label for="ovpn_client_allowed_subnet">OpenVPN Client Allowed Subnet:</label> </b><input type="text" name="ovpn_client_allowed_subnet" value="{{.Config.OpenVPNClientAllowedSub}}">
+            <b><label for="ovpn_client_allowed_subnet">OpenVPN Client Allowed Subnet:</label> </b><input type="text" name="ovpn_client_allowed_subnet" placeholder="Sub&Mask: 1.1.1.1/24" value="{{.Config.OpenVPNClientAllowedSub}}">
           </td>
         </tr>
         <tr>
@@ -199,7 +199,7 @@
       <table>
         <tr>
           <td>
-            <b><input type="checkbox" name="wireguard_server_enable" {{if .Config.WireGuardServer}}checked{{end}}></b>
+            <b><input type="checkbox" name="wireguard_server_enable" id="wireguard_server_enable" {{if .Config.WireGuardServer}}checked{{end}}></b>
           </td>
           <td>
             <b><label for="wireguard_server_enable">WireGuard Server</label></b>
@@ -210,7 +210,7 @@
             &nbsp
           </td>
           <td>
-          <label for="wireguard_password">WireGuard Server Web UI Password:</label>  <input type="password" name="wireguard_password" value="{{.Config.WireGuardServerPassword}}">
+          <label for="wireguard_password">WireGuard Server Web UI Password:</label>  <input type="password" autocomplete="off" name="wireguard_password" placeholder="Change this password!" value="{{.Config.WireGuardServerPassword}}">
           </td>
         </tr>
       </table>
@@ -232,7 +232,7 @@
             &nbsp
           </td>
           <td>
-            <label for="qbittorrent_default_password">Default Web UI Password:</label> <input type="text" name="qbittorrent_default_password" value="{{.Config.QbitTorrentPassword}}" disabled>
+            <label for="qbittorrent_default_password">Default Web UI Password:</label> <input type="text" autocomplete="off" name="qbittorrent_default_password" placeholder="Change this password!" value="{{.Config.QbitTorrentPassword}}" disabled>
           </td>
         </tr>
         <tr>
@@ -279,7 +279,7 @@
             &nbsp
           </td>
           <td>
-            <label for="monitoring_grafana_admin_password">Grafana first login Password:</label> <input type="text" name="monitoring_grafana_admin_password" value="{{.Config.MonitoringGrafPassword}}">
+            <label for="monitoring_grafana_admin_password">Grafana first login Password:</label> <input type="text" name="monitoring_grafana_admin_password" placeholder="admin" value="{{.Config.MonitoringGrafPassword}}">
           </td>
         </tr>
         <tr>
@@ -342,7 +342,7 @@
     </form>
     <br>
 
-    &nbsp<span style="color: black;"><b>Note: </b></span><span>There is Docker bug which may lead to Pi-Hole installation failure (60 sec. timeout). Solution is to run Installation again.</span>
+    &nbsp<span style="color: black;"><b>Note: </b></span><span>There is one bug which leads to Pi-Hole installation failure (60 sec. timeout). To fix - run Install again.</span>
     <iframe id="output-iframe" src="webinstall.log" width="100%" height="300" scrolling="yes"></iframe><br>
 
     <table>
@@ -378,7 +378,7 @@
         <td></td>
       </tr>
     </table><br><br>
-    <span style="font-size: 0.8em;">2023 by <a href="https://github.com/d3vilh" target="_blank">d3vilh</a> for <a href="https://github.com/d3vilh/raspberry-gateway" target="_blank">raspberry-gateway</a>.</span><br>
+    <span style="font-size: 0.8em; text-align: center;">2023 by <a href="https://github.com/d3vilh" target="_blank">d3vilh</a> for <a href="https://github.com/d3vilh/raspberry-gateway" target="_blank">raspberry-gateway</a>.</span><br>
 
     <script>
     // Combine config-form1 and config-form2 into one fom and submit it
