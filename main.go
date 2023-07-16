@@ -41,6 +41,10 @@ type Config struct {
 	AirGradientMonitoring   bool   `yaml:"airgradient_monitoring_enable"`
 	StarLinkMonitoring      bool   `yaml:"starlink_monitoring_enable"`
 	ShellyPlugMonitoring    bool   `yaml:"shelly_plug_monitoring_enable"`
+	GluetunEnable           bool   `yaml:"gluetun_vpnclient_enable"`
+	GluetunServiceProvider  string `yaml:"gluetun_vpn_service_provider"`
+	GluetunOpenvpnUser      string `yaml:"gluetun_openvpn_user"`
+	GluetunOpenvpnPassword  string `yaml:"gluetun_openvpn_password"`
 	IPAddress               string // to pass your IP address to the template
 }
 
@@ -318,6 +322,10 @@ func saveConfig(w http.ResponseWriter, r *http.Request) {
 		AirGradientMonitoring:   r.FormValue("airgradient_monitoring_enable") == "on",
 		StarLinkMonitoring:      r.FormValue("starlink_monitoring_enable") == "on",
 		ShellyPlugMonitoring:    r.FormValue("shelly_plug_monitoring_enable") == "on",
+		GluetunEnable:           r.FormValue("gluetun_vpnclient_enable") == "on",
+		GluetunServiceProvider:  r.FormValue("gluetun_vpn_service_provider"),
+		GluetunOpenvpnUser:      r.FormValue("gluetun_openvpn_user"),
+		GluetunOpenvpnPassword:  r.FormValue("gluetun_openvpn_password"),
 	}
 	err := writeConfig(config)
 	if err != nil {

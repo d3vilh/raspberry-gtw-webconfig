@@ -188,6 +188,45 @@
         </tr>
       </table>
 
+      <h1>GlueTun</h1>
+      <p>GlueTun universal VPN Client setup.</p>
+      <span>Advanced Server and Client configuration available in advanced.config.yml</span><br><br>
+
+      <table style="background-color: transparent">
+        <tr>
+          <td>
+            <input type="checkbox" name="gluetun_vpnclient_enable" id="gluetun_vpnclient_enable" {{if .Config.GluetunEnable}}checked{{end}}>
+          </td>
+          <td>
+            <b><label for="gluetun_vpnclient_enable">GlueTun client</label></b>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="checkbox" style="visibility: hidden;" disabled>
+          </td>
+          <td>
+            <b><label for="gluetun_vpn_service_provider">GlueTun VPN service provider:</label> </b><input type="text" name="gluetun_vpn_service_provider" placeholder="GlueTun Service Provider" value="{{.Config.GluetunServiceProvider}}">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="checkbox" style="visibility: hidden;" disabled>
+          </td>
+          <td>
+            <b><label for="gluetun_openvpn_user">GlueTun OpenVPN User:</label> </b><input type="text" name="gluetun_openvpn_user" placeholder="OpenVPN User" value="{{.Config.GluetunOpenvpnUser}}">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="checkbox" style="visibility: hidden;" disabled>
+          </td>
+          <td>
+            <label for="gluetun_openvpn_password">OpenVPN Server Web UI Password:</label> <input type="password" autocomplete="off" name="gluetun_openvpn_password" placeholder="OpenVpn password" value="{{.Config.GluetunOpenvpnPassword}}">
+          </td>
+        </tr>
+      </table>
+
       <h1>WireGuard</h1>
       <p>WireGuard VPN and UI setup.</p><br>
  
