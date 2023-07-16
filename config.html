@@ -3,6 +3,13 @@
 <head>
     <title>Raspberry Gateway Configuration</title>
     <style>
+        body {
+            display: flex;
+            justify-content: center;
+            max-width: 1000px; /* Set the maximum width of the body content */
+            margin: 0 auto; /* Center the body content horizontally */
+            padding: 0 5%; /* Add padding to both left and right sides */
+        }
         input, label, span, table, h1 {
             font-family: monospace;
         }
@@ -18,16 +25,23 @@
         h1 {
           margin-bottom: 0px;
         }
+
+        /* Add padding to both left and right sides for high-resolution screens */
+        @media only screen and (min-width: 1000px) {
+            body {
+                padding: 0;
+            }
+        }
     </style>
 </head>
 <body>
+<div class="container">
 <pre>
-  _____             _                      _____     _       _ _ _ 
- | __  |___ ___ ___| |_ ___ ___ ___ _ _   |   __|___| |_ ___| | | |___ _ _ 
- |    -| . |_ -| . | . | -_|  _|  _| | |  |  |  | . |  _| -_| | | | . | | |
- |__|__|_|_|___|  _|___|___|_| |_| |_  |  |_____|_|_|_| |___|_____|_|_|_  |
-               |_|       Web-based |___|      Configuration & Install |___| </pre>
-
+ _____             _                      _____     _       _ _ _ 
+| __  |___ ___ ___| |_ ___ ___ ___ _ _   |   __|___| |_ ___| | | |___ _ _ 
+|    -| . |_ -| . | . | -_|  _|  _| | |  |  |  | . |  _| -_| | | | . | | |
+|__|__|_|_|___|  _|___|___|_| |_| |_  |  |_____|_|_|_| |___|_____|_|_|_  |
+              |_|       Web-based |___|      Configuration & Install |___| </pre>
     <h1>Main Configuration</h1>
     <p>Standard configuration definitions.</p><br>
 
@@ -50,7 +64,7 @@
       <input type="checkbox" name="portainer_enable" {{if .Config.PortainerEnable}}checked{{end}}>      
       <label for="portainer_enable" title="UI for Containers management"><b>Install Portainer</b></label><br>
       <span>Portainer is a containers management interface.</span><br>
-
+      
       <h1>Local DNS and AD-Blocking</h1>
       <p>Setting up Local DNS and add-blockers.</p>
       <span>You can't use TechnitiumDNS and Unbound + Pi-Hole at the same time, as both utilize same 53 port for DNS.</span><br>
@@ -110,7 +124,7 @@
       <h1>OpenVPN</h1>
       <p>OpenVPN Server & Client setup.</p>
       <span>Advanced Server and Client configuration available in advanced.config.yml</span><br><br>
-     <table>
+      <table>
         <tr>
           <td>
             <input type="checkbox" name="ovpn_server_enable" {{if .Config.OpenVPNServer}}checked{{end}}>
@@ -178,6 +192,7 @@
           </td>
         </tr>
       </table>
+
       <h1>WireGuard</h1>
       <p>WireGuard VPN and UI setup.</p><br>
  
@@ -202,6 +217,7 @@
 
       <h1>qBitTorrent</h1>
       <p>An open-source software torrent tracker.</p><br>
+      
       <table>
         <tr>
           <td>
@@ -328,6 +344,7 @@
 
     &nbsp<span style="color: black;"><b>Note: </b></span><span>There is Docker bug which may lead to Pi-Hole installation failure (60 sec. timeout). Solution is to run Installation again.</span>
     <iframe id="output-iframe" src="webinstall.log" width="100%" height="300" scrolling="yes"></iframe><br>
+
     <table>
       <tr>
         <td><b>Portainer:</b></td>
@@ -363,7 +380,7 @@
     </table><br><br>
     <span style="font-size: 0.8em;">2023 by <a href="https://github.com/d3vilh" target="_blank">d3vilh</a> for <a href="https://github.com/d3vilh/raspberry-gateway" target="_blank">raspberry-gateway</a>.</span><br>
 
-<script>
+    <script>
     // Combine config-form1 and config-form2 into one fom and submit it
         document.getElementById('submit-btn').addEventListener('click', function(event) {
           event.preventDefault();
@@ -505,6 +522,6 @@
             });
           });
     </script>
-
+</div>
 </body>
 </html>
