@@ -159,15 +159,10 @@
           <input type="checkbox" style="visibility: hidden;" disabled>
           </td>
           <td>
-            <b><label for="ovpn_client_cert">OpenVPN Client Certificate:</label> </b><input type="file" name="file"> <input type="submit" value="Upload">
-          </td>
-        </tr>
-        <tr>
-          <td>
-          &nbsp
-          </td>
-          <td>
-           <span>File will be uploaded as ~/raspberry-gateway/openvpn-client/{{.Config.OpenVPNClientCert}}</span>
+            <b><label for="ovpn_client_cert">OpenVPN Client Certificate:</label> </b>
+            <input type="file" name="file"> 
+            <input type="submit" value="Upload">
+            <p id="success-message" style="display: none; margin-left: 10px;">File uploaded as: <span>~/raspberry-gateway/openvpn-client/{{.Config.OpenVPNClientCert}}</span></p>
           </td>
         </tr>
       </table>
@@ -378,9 +373,18 @@
         <td></td>
       </tr>
     </table><br><br>
-    <span style="font-size: 0.8em; text-align: center;">2023 by <a href="https://github.com/d3vilh" target="_blank">d3vilh</a> for <a href="https://github.com/d3vilh/raspberry-gateway" target="_blank">raspberry-gateway</a>.</span><br>
+    <span style="font-size: 0.8em; display: block; margin: auto; text-align: center;">2023 by <a href="https://github.com/d3vilh" target="_blank">d3vilh</a> for <a href="https://github.com/d3vilh/raspberry-gateway" target="_blank">raspberry-gateway</a>.</span><br>
 
     <script>
+    // File upload logic
+        const uploadForm = document.getElementById('upload-form');
+        const successMessage = document.getElementById('success-message');
+
+        uploadForm.addEventListener('submit', (event) => {
+          event.preventDefault();
+          successMessage.style.display = 'block';
+        });
+
     // Combine config-form1 and config-form2 into one fom and submit it
         document.getElementById('submit-btn').addEventListener('click', function(event) {
           event.preventDefault();
