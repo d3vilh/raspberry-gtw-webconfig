@@ -34,6 +34,7 @@ type Config struct {
 	QbitTorrentEnable       bool   `yaml:"qbittorrent_enable"`
 	QbitTorrentPassword     string `yaml:"qbittorrent_default_password"`
 	QbitTorrentInVPN        bool   `yaml:"qbittorrent_inside_vpn"`
+	QbitTorrentInGluetun    bool   `yaml:"qbittorrent_inside_gluetun"`
 	MonitoringEnable        bool   `yaml:"monitoring_enable"`
 	MonitoringGrafPassword  string `yaml:"monitoring_grafana_admin_password"`
 	OpenVPNMonitoringEnable bool   `yaml:"openvpn_monitoring_enable"`
@@ -45,6 +46,7 @@ type Config struct {
 	GluetunServiceProvider  string `yaml:"gluetun_vpn_service_provider"`
 	GluetunOpenvpnUser      string `yaml:"gluetun_openvpn_user"`
 	GluetunOpenvpnPassword  string `yaml:"gluetun_openvpn_password"`
+	GluetunServerCountries  string `yaml:"gluetun_server_countries"`
 	IPAddress               string // to pass your IP address to the template
 }
 
@@ -315,6 +317,7 @@ func saveConfig(w http.ResponseWriter, r *http.Request) {
 		QbitTorrentEnable:       r.FormValue("qbittorrent_enable") == "on",
 		QbitTorrentPassword:     "adminadmin",
 		QbitTorrentInVPN:        r.FormValue("qbittorrent_inside_vpn") == "on",
+		QbitTorrentInGluetun:    r.FormValue("qbittorrent_inside_gluetun") == "on",
 		MonitoringEnable:        r.FormValue("monitoring_enable") == "on",
 		MonitoringGrafPassword:  r.FormValue("monitoring_grafana_admin_password"),
 		OpenVPNMonitoringEnable: r.FormValue("openvpn_monitoring_enable") == "on",
@@ -326,6 +329,7 @@ func saveConfig(w http.ResponseWriter, r *http.Request) {
 		GluetunServiceProvider:  r.FormValue("gluetun_vpn_service_provider"),
 		GluetunOpenvpnUser:      r.FormValue("gluetun_openvpn_user"),
 		GluetunOpenvpnPassword:  r.FormValue("gluetun_openvpn_password"),
+		GluetunServerCountries:  r.FormValue("gluetun_server_countries"),
 	}
 	err := writeConfig(config)
 	if err != nil {

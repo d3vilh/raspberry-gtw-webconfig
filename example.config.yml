@@ -77,6 +77,7 @@ qbittorrent_enable: false                       # Set true to enable qBittorrent
 qbittorrent_default_password: admin/adminadmin  # !Change this password wia WebUI!
 # Local VPN configuration. Allows qBittorrent runs through VPN client connection.
 qbittorrent_inside_vpn: false                   # Set true to route qBitTorrent traffic via internal OpenVPN client
+qbittorrent_inside_gluetun: false               # Set true to route qBitTorrent traffic via Gluetun VPN client
 
 #    _____         _ _               
 #   |     |___ ___|_| |_ ___ ___ ___ 
@@ -104,7 +105,8 @@ shelly_plug_monitoring_enable: false            # Set true or false
 # TESTING! DO NOT USE ON PRODUCTION!               
 # Gluetun part
 gluetun_vpnclient_enable: false                 # Set true to enable Gluetun
-                                                # See https://github.com/qdm12/gluetun-wiki/tree/main/setup#setup
-gluetun_vpn_service_provider: ivpn              # Set your VPN provider
-gluetun_openvpn_user: "user"                    # Set your VPN username
-gluetun_openvpn_password: "password"            # Set your VPN password
+                                                # See the list of all providers https://github.com/qdm12/gluetun-wiki/tree/main/setup/providers
+gluetun_vpn_service_provider: nordvpn           # Set your VPN provider: cyberghost, expressvpn, fastestvpn, hidemyass, ipvanish, ivpn, nordvpn, perfect privacy, privado, private internet access, privatevpn, protonvpn, purevpn, slickvpn, surfshark, torguard, vpnsecure, vpn unlimited, vyprvpn, wevpn, windscribe
+gluetun_openvpn_user: "SecretUser"              # Set your VPN username
+gluetun_openvpn_password: "gagaZush"            # Set your VPN password
+gluetun_server_countries: "Netherlands"         # Comma separated list of countries
