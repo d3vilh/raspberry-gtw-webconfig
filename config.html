@@ -175,7 +175,8 @@
             <input type="checkbox" style="visibility: hidden;" disabled>
           </td>
           <td>
-            <b><label for="ovpn_client_allowed_subnet">OpenVPN Client Allowed Subnet:</label> </b><input type="text" name="ovpn_client_allowed_subnet" placeholder="Sub&Mask: 1.1.1.1/24" value="{{.Config.OpenVPNClientAllowedSub}}">
+            <b><label for="ovpn_client_allowed_subnet">OpenVPN Client Allowed Subnet:</label> </b>
+            <input type="text" name="ovpn_client_allowed_subnet" placeholder="Sub&Mask: 1.1.1.1/24" value="{{.Config.OpenVPNClientAllowedSub}}">
           </td>
         </tr>
         <tr>
@@ -184,6 +185,54 @@
           </td>
           <td>
             <span> This should be your local WiFi network. <br>This is to allow access to qBitTorrent Web UI from your local network when VPN-client tunnel is connected.</span>
+          </td>
+        </tr>
+      </table>
+
+      <h1>GlueTun</h1>
+      <p>GlueTun universal OpenVPN Client setup.</p>
+      <span>Advanced Server and Client configuration available in advanced.config.yml</span><br><br>
+
+      <table style="background-color: transparent">
+        <tr>
+          <td>
+            <input type="checkbox" name="gluetun_vpnclient_enable" id="gluetun_vpnclient_enable" {{if .Config.GluetunEnable}}checked{{end}}>
+          </td>
+          <td>
+            <b><label for="gluetun_vpnclient_enable">GlueTun client</label></b>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="checkbox" style="visibility: hidden;" disabled>
+          </td>
+          <td>
+            <b><label for="gluetun_vpn_service_provider">GlueTun VPN Service Provider:</label> </b><input type="text" name="gluetun_vpn_service_provider" placeholder="GlueTun Service Provider" value="{{.Config.GluetunServiceProvider}}">
+            <span>Supported Service Providers <a href="https://github.com/qdm12/gluetun-wiki/tree/main/setup/providers" target="_blank">List</a></span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="checkbox" style="visibility: hidden;" disabled>
+          </td>
+          <td>
+            <b><label for="gluetun_openvpn_user">GlueTun OpenVPN User:</label> </b><input type="text" name="gluetun_openvpn_user" placeholder="OpenVPN User" value="{{.Config.GluetunOpenvpnUser}}">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="checkbox" style="visibility: hidden;" disabled>
+          </td>
+          <td>
+            <label for="gluetun_openvpn_password">GlueTun OpenVPN Password:</label> <input type="password" autocomplete="off" name="gluetun_openvpn_password" placeholder="OpenVPN password" value="{{.Config.GluetunOpenvpnPassword}}">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="checkbox" style="visibility: hidden;" disabled>
+          </td>
+          <td>
+            <b><label for="gluetun_server_countries">GlueTun Server Countries:</label> </b><input type="text" name="gluetun_server_countries" placeholder="Comma separated list" value="{{.Config.GluetunServerCountries}}">
           </td>
         </tr>
       </table>
@@ -243,7 +292,8 @@
             <input type="checkbox" name="qbittorrent_inside_vpn" id="qbittorrent_inside_vpn" {{if .Config.QbitTorrentInVPN}}checked{{end}}>
           </td>
           <td>
-            <b><label for="qbittorrent_inside_vpn">Route torrent traffic via VPN</label></b>
+            <b><label for="qbittorrent_inside_vpn">Route torrent traffic via OpenVPN Client</label></b>
+            <p id="qbittorrent_inside_ena" style="display: none; margin-left: 10px;">Don't forget to upload your <b>"OpenVPN Client Certificate"</b> and set <b>"OpenVPN Client Allowed Subnet"</b> above.</p>
           </td>
         </tr>
         <tr>
@@ -251,7 +301,24 @@
            &nbsp
           </td>
           <td>
-          <span>Route all qBitTorrent traffic via VPN Client connection.<br> Don't forget to upload your "OpenVPN Client Certificate" and set "OpenVPN Client Allowed Subnet" above.</span>
+          <span>Route all qBitTorrent traffic via OpenVPN Client connection.</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="checkbox" name="qbittorrent_inside_gluetun" id="qbittorrent_inside_gluetun" {{if .Config.QbitTorrentInGluetun}}checked{{end}}>
+          </td>
+          <td>
+            <b><label for="qbittorrent_inside_gluetun">Route torrent traffic via GlueTun VPN</label></b>
+            <p id="qbittorrent_insideg_ena" style="display: none; margin-left: 10px;">Don't forget to complete <b>"GlueTun"</b> configuration above.</p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+           &nbsp
+          </td>
+          <td>
+          <span>Route all qBitTorrent traffic via GlueTun Client connection.</span>
           </td>
         </tr>
       </table>
@@ -378,6 +445,30 @@
           successMessage.style.display = 'block';
         });
 
+    // QbitTorrent Inside VPN popup qbittorrent_inside_ena
+        const checkbox = document.getElementById("qbittorrent_inside_vpn");
+        const messageBlock = document.getElementById("qbittorrent_inside_ena");
+
+        checkbox.addEventListener("change", () => {
+          if (checkbox.checked) {
+            messageBlock.style.display = "block";
+          } else {
+            messageBlock.style.display = "none";
+          }
+        });
+
+    // QbitTorrent Inside GlueTun popup qbittorrent_inside_ena
+        const checkbox2 = document.getElementById("qbittorrent_inside_gluetun");
+        const messageBlock2 = document.getElementById("qbittorrent_insideg_ena");
+
+        checkbox2.addEventListener("change", () => {
+          if (checkbox2.checked) {
+            messageBlock2.style.display = "block";
+          } else {
+            messageBlock2.style.display = "none";
+          }
+        });
+
     // Combine config-form1 and config-form2 into one fom and submit it
         document.getElementById('submit-btn').addEventListener('click', function(event) {
           event.preventDefault();
@@ -422,6 +513,9 @@
         const ovpnClientEnable = document.getElementById('ovpn_client_enable');
         const qbittorrentEnable = document.getElementById('qbittorrent_enable');
         const qbittorrentInsideVpn = document.getElementById('qbittorrent_inside_vpn');
+        const qbitTorrentInGluetun = document.getElementById('qbittorrent_inside_gluetun');
+
+        const gluetunEnable = document.getElementById('gluetun_vpnclient_enable');
         
         const monitoringEnable = document.getElementById('monitoring_enable');
         const openvpnMonitoringEnable = document.getElementById('openvpn_monitoring_enable');
@@ -462,10 +556,24 @@
           if (qbittorrentInsideVpn.checked) {
             ovpnClientEnable.checked = true;
             qbittorrentEnable.checked = true;
+            gluetunEnable.checked = false;
+            qbitTorrentInGluetun.checked = false;
           } else {
             ovpnClientEnable.checked = false;
           }
         });        
+
+        qbitTorrentInGluetun.addEventListener('change', () => {
+          if (qbitTorrentInGluetun.checked) {
+            ovpnClientEnable.checked = false;
+            qbittorrentEnable.checked = true;
+            gluetunEnable.checked = true;
+            qbitTorrentInGluetun.checked = true;
+            qbittorrentInsideVpn.checked = false;
+          } else {
+            gluetunEnable.checked = false;
+          }
+        }); 
 
         openvpnMonitoringEnable.addEventListener('change', () => {
           if (openvpnMonitoringEnable.checked) {
