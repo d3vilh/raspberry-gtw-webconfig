@@ -395,7 +395,8 @@
       </table>
     </form>
     <button id="submit-btn" style="font-family: monospace; font-size: 2em; width: 100px; height: 40px;">Save</button>
-  
+    <span id="save-message" style="display: none;">Configuration has been saved.</span>
+
     <h1>Installation</h1>
     <p>The installation process will take some time.<br> Once that's done, it'll be like you have a new <a href="https://github.com/d3vilh/raspberry-gateway" target="_blank">Raspberry Gateway</a> up and running.</p>
     <span>Latest installation log will be saved in ~/raspberry-gateway/webinstall.log</span><br><br>
@@ -404,7 +405,6 @@
     </form>
     <br>
 
-    &nbsp<span style="color: black;"><b>Note: </b></span><span>There is one bug which leads to Pi-Hole installation failure (60 sec. timeout). To fix - run Install again.</span>
     <iframe id="output-iframe" src="webinstall.log" width="100%" height="300" scrolling="yes"></iframe><br>
     <table style="margin: auto;"">
       <tr>
@@ -443,7 +443,7 @@
         uploadForm.addEventListener('submit', (event) => {
           event.preventDefault();
           successMessage.style.display = 'block';
-        });
+        });  
 
     // QbitTorrent Inside VPN popup qbittorrent_inside_ena
         const checkbox = document.getElementById("qbittorrent_inside_vpn");
@@ -457,7 +457,7 @@
           }
         });
 
-    // QbitTorrent Inside GlueTun popup qbittorrent_inside_ena
+    // QbitTorrent Inside GlueTun popup qbittorrent_insideg_ena
         const checkbox2 = document.getElementById("qbittorrent_inside_gluetun");
         const messageBlock2 = document.getElementById("qbittorrent_insideg_ena");
 
@@ -470,6 +470,7 @@
         });
 
     // Combine config-form1 and config-form2 into one fom and submit it
+        const saveMessage = document.getElementById('save-message');
         document.getElementById('submit-btn').addEventListener('click', function(event) {
           event.preventDefault();
           var formData1 = new FormData(document.getElementById('config-form1'));
@@ -486,7 +487,8 @@
           xhr.onload = function() {
               // handle success response
               console.log(xhr.responseText);
-              alert("New configuration have been saved.");
+              saveMessage.style.display = 'inline-block';
+              //alert("New configuration have been saved.");
             };
             xhr.onerror = function() {
               alert("Something went wrong.");
@@ -494,7 +496,7 @@
             };
             xhr.send(formData);
         });
-
+ 
     // Auto refresh iframe for webinstall.log
         const outputIframe = document.getElementById('output-iframe');
         setInterval(() => {
