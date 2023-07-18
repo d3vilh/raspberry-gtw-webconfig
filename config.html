@@ -32,6 +32,31 @@
                 padding: 0;
             }
         }
+      
+        details {
+          user-select: none;
+        }
+
+      details>summary span.icon {
+        width: 24px;
+        height: 24px;
+        transition: all 0.3s;
+        margin-left: 10px;
+        margin-top: -3px;
+      }
+
+      details[open] summary span.icon {
+        transform: rotate(90deg);
+      }
+
+      summary {
+        display: flex;
+        cursor: pointer;
+      }
+
+      summary::-webkit-details-marker {
+        display: none;
+      }  
     </style>
 </head>
 <body>
@@ -190,8 +215,14 @@
       </table>
 
       <h1>GlueTun</h1>
-      <p>GlueTun universal OpenVPN Client setup.</p>
-      <span>Advanced Server and Client configuration available in advanced.config.yml</span><br><br>
+      <details>
+        <summary style="font-family: monospace;">
+          <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+              <path d="m15.146 12.354-5.792 5.792a.5.5 0 0 1-.854-.353V6.207a.5.5 0 0 1 .854-.353l5.792 5.792a.5.5 0 0 1 0 .708Z"></path>
+            </svg>
+          </span> GlueTun universal OpenVPN Client setup
+        </summary> 
 
       <table style="background-color: transparent">
         <tr>
@@ -236,9 +267,18 @@
           </td>
         </tr>
       </table>
+    </details>
+    <span style="margin-left: 20px;">Advanced Monitoring configuration available in advanced.config.yml</span>
 
       <h1>WireGuard</h1>
-      <p>WireGuard VPN and UI setup.</p><br>
+      <details>
+        <summary style="font-family: monospace;">
+          <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+              <path d="m15.146 12.354-5.792 5.792a.5.5 0 0 1-.854-.353V6.207a.5.5 0 0 1 .854-.353l5.792 5.792a.5.5 0 0 1 0 .708Z"></path>
+            </svg>
+          </span> WireGuard VPN and UI setup
+        </summary> 
  
       <table>
         <tr>
@@ -258,10 +298,19 @@
           </td>
         </tr>
       </table>
+    </details>
+    <span style="margin-left: 20px;">Advanced Monitoring configuration available in advanced.config.yml</span>
 
       <h1>qBitTorrent</h1>
-      <p>An open-source software torrent tracker.</p><br>
-      
+      <details>
+        <summary style="font-family: monospace;">
+          <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+              <path d="m15.146 12.354-5.792 5.792a.5.5 0 0 1-.854-.353V6.207a.5.5 0 0 1 .854-.353l5.792 5.792a.5.5 0 0 1 0 .708Z"></path>
+            </svg>
+          </span> An open-source software torrent tracker
+        </summary>      
+
       <table>
         <tr>
           <td>
@@ -322,12 +371,20 @@
           </td>
         </tr>
       </table>
+    </details>
 
       <h1>Monitoring</h1>
-      <p>OpenVPN Server & Client setup.</p>
-      <span>Advanced Monitoring configuration available in advanced.config.yml</span><br><br>
 
-      <table>
+      <details>
+        <summary style="font-family: monospace;">
+          <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+              <path d="m15.146 12.354-5.792 5.792a.5.5 0 0 1-.854-.353V6.207a.5.5 0 0 1 .854-.353l5.792 5.792a.5.5 0 0 1 0 .708Z"></path>
+            </svg>
+          </span> Raspberry-Monitoring setup
+        </summary>
+
+      <table style="margin-left: 30px;">
         <tr>
           <td>
             <input type="checkbox" name="monitoring_enable" id="monitoring_enable" {{if .Config.MonitoringEnable}}checked{{end}}>
@@ -393,6 +450,8 @@
           </td>
         </tr>
       </table>
+    </details>
+    <span style="margin-left: 20px;">Advanced Monitoring configuration available in advanced.config.yml</span><br><br>
     </form>
     <button id="submit-btn" style="font-family: monospace; font-size: 2em; width: 100px; height: 40px;">Save</button>
     <span id="save-message" style="display: none;">Configuration has been saved.</span>
