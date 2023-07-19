@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Raspberry Gateway Configuration</title>
-    <style>
+      <style>
         body {
             display: flex;
             justify-content: center;
@@ -10,20 +10,24 @@
             margin: 0 auto; /* Center the body content horizontally */
             padding: 0 5%; /* Add padding to both left and right sides */
         }
+
         input, label, span, table, h1 {
             font-family: monospace;
         }
+
         span {
             color: #636262;
         }
+
         p {
           font-family: monospace;
           color: #000000;
           margin-top: 0px;
           margin-bottom: 0px;
         }
+
         h1 {
-          margin-bottom: 0px;
+          margin-bottom: 5px;
         }
 
         /* Add padding to both left and right sides for high-resolution screens */
@@ -32,7 +36,33 @@
                 padding: 0;
             }
         }
-    </style>
+
+        details {
+          user-select: none;
+        }
+
+        details>summary span.icon {
+          width: 24px;
+          height: 24px;
+          transition: all 0.3s;
+          margin-left: 10px;
+          margin-top: -3px;
+        }
+
+        details[open] summary span.icon {
+          transform: rotate(90deg);
+        }
+
+        summary {
+          display: flex;
+          cursor: pointer;
+        }
+
+        summary::-webkit-details-marker {
+          display: none;
+        }  
+
+      </style>
 </head>
 <body>
 <div class="container">
@@ -43,32 +73,100 @@
 |__|__|_|_|___|  _|___|___|_| |_| |_  |  |_____|_|_|_| |___|_____|_|_|_  |
               |_|       Web-based |___|      Configuration & Install |___| </pre>
     <h1>Main Configuration</h1>
-    <p>Standard configuration definitions.</p><br>
+    <p>Standard configuration definitions.</p>
 
     <form id="config-form1" method="POST" action="/save">
-      <label for="ur_timezone"><b>Timezone:</b></label>
-      <input type="text" name="ur_timezone" placeholder="Local Timezone" value="{{.Config.URTimezone}}"><br>
-      <span>Local Raspberry gateway Timezone. Used for various containers.<br>
-      <a href="https://ipapi.co/timezone" target="_blank">Define current TZ</a></span><br><br>
+      <table>
+        <tr>
+          <td>
+            <input type="checkbox" name="portainer_enable" id="portainer_enable" {{if .Config.PortainerEnable}}checked{{end}}>
+          </td>
+          <td>
+            <label for="portainer_enable" title="UI for Containers management"><b>Install Portainer</b></label>
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <span>Portainer is a containers management interface.</span>
+          </td>
+        </tr>
+        <tr>
+        <td>
+        </td>
+          <td>
+            <label for="ur_timezone"><b>Timezone:</b></label>
+            <input type="text" name="ur_timezone" placeholder="Local Timezone" value="{{.Config.URTimezone}}">
+            <span>&nbsp Define your <a href="https://ipapi.co/timezone" target="_blank">Time Zone</a></span>
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <span>Local Raspberry gateway Timezone. Used for various containers.</span>
+          </td>
+        </tr>
+        <tr>
+        <td>
+        </td>
+          <td>
+            <label for="raspberry_gateway_ansible_user"><b>Ansible User:</b></label>
+            <input type="text" name="raspberry_gateway_ansible_user" placeholder="Current Linux username" value="{{.InventoryConfig.All.Hosts.RaspberryGateway.AnsibleUser}}">
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <span>Keep default, which is "pi". In most cases should be your local Linux user.</span>
+          </td>
+        </tr>
+      </table>
 
-      <label for="raspberry_gateway_ansible_user"><b>Ansible User:</b></label>
-      <input type="text" name="raspberry_gateway_ansible_user" placeholder="Current Linux username" value="{{.InventoryConfig.All.Hosts.RaspberryGateway.AnsibleUser}}"><br>
-      <span>Keep default, which is "pi". In most cases should be your local user.</span><br>
-      <label for="raspberry_gateway_ansible_connection"><b>Ansible Connection:</b></label>
-      <input type="text" name="raspberry_gateway_ansible_connection" placeholder="Local or ssh" value="{{.InventoryConfig.All.Hosts.RaspberryGateway.AnsibleConnection}}"><br>
-      <span>Keep default - "Local", for local installations, or "ssh" for remote.</span><br>
-      <label for="raspberry_gateway_ip"><b>Ansible host IP:</b></label>
-      <input type="text" name="raspberry_gateway_ip" placeholder="IP of remote server" value="{{.InventoryConfig.All.Hosts.RaspberryGateway.IP}}"><br>
-      <span>For "Local" istallations - does not make sence, for remote - set remote Raspberry Gateway IP.</span><br><br>
+      <details>
+        <summary style="font-family: monospace; color: #000000;">
+          <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+              <path d="m15.146 12.354-5.792 5.792a.5.5 0 0 1-.854-.353V6.207a.5.5 0 0 1 .854-.353l5.792 5.792a.5.5 0 0 1 0 .708Z"></path>
+            </svg>
+          </span> Additional Ansible parameters 
+        </summary> 
 
-      <input type="checkbox" name="portainer_enable" id="portainer_enable" {{if .Config.PortainerEnable}}checked{{end}}>      
-      <label for="portainer_enable" title="UI for Containers management"><b>Install Portainer</b></label><br>
-      <span>Portainer is a containers management interface.</span><br>
-      
+        <table style="margin-left: 20px;">
+          <tr>
+            <td>
+              <input type="checkbox" style="visibility: hidden;" disabled>
+            </td>
+            <td>
+              <label for="raspberry_gateway_ansible_connection"><b>Ansible Connection:</b></label>
+              <input type="text" name="raspberry_gateway_ansible_connection" placeholder="Local or ssh" value="{{.InventoryConfig.All.Hosts.RaspberryGateway.AnsibleConnection}}">
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <span>Keep default - "Local", for local installations, or "ssh" for remote.</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input type="checkbox" style="visibility: hidden;" disabled>
+            </td>
+            <td>
+              <label for="raspberry_gateway_ip"><b>Ansible host IP:</b></label>
+              <input type="text" name="raspberry_gateway_ip" placeholder="IP of remote server" value="{{.InventoryConfig.All.Hosts.RaspberryGateway.IP}}">
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <span>For "Local" installations - does not make sense, for remote - set remote Raspberry Gateway IP.</span>
+            </td>
+          </tr>
+        </table>
+      </details>
+
       <h1>Local DNS and AD-Blocking</h1>
       <p>Setting up Local DNS and add-blockers.</p>
-      <span>You can't use TechnitiumDNS and Unbound + Pi-Hole at the same time, as both utilize same 53 port for DNS.</span><br>
-      <span>Advanced configuration available in advanced.config.yml</span><br><br>
 
       <table style="background-color: transparent">
         <tr>
@@ -120,213 +218,253 @@
           </td>
         </tr>
       </table>
+      <span>You can't use TechnitiumDNS and Unbound + Pi-Hole at the same time, as both utilize same 53 port for DNS.</span><br>
+      <span>Advanced configuration available in advanced.config.yml</span><br>
 
       <h1>OpenVPN</h1>
-      <p>OpenVPN Server & Client setup.</p>
-      <span>Advanced Server and Client configuration available in advanced.config.yml</span><br><br>
-      <table>
-        <tr>
-          <td>
-            <input type="checkbox" name="ovpn_server_enable" id="ovpn_server_enable" {{if .Config.OpenVPNServer}}checked{{end}}>
-          </td>
-          <td>
-            <b><label for="ovpn_server_enable">OpenVPN Server</label></b>
-          </td>
-        </tr>
-        <tr>
+      <details>
+        <summary style="font-family: monospace; color: #000000;">
+          <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+              <path d="m15.146 12.354-5.792 5.792a.5.5 0 0 1-.854-.353V6.207a.5.5 0 0 1 .854-.353l5.792 5.792a.5.5 0 0 1 0 .708Z"></path>
+            </svg>
+          </span> OpenVPN Server & Client setup
+        </summary> 
+
+        <table style="margin-left: 30px;">
+          <tr>
+            <td>
+              <input type="checkbox" name="ovpn_server_enable" id="ovpn_server_enable" {{if .Config.OpenVPNServer}}checked{{end}}>
+            </td>
+            <td>
+              <b><label for="ovpn_server_enable">OpenVPN Server</label></b>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              &nbsp
+            </td>
+            <td>
+              <label for="ovpnui_password">OpenVPN Server Web UI Password:</label> <input type="password" autocomplete="off" name="ovpnui_password" placeholder="Change this password!" value="{{.Config.OpenVPNUIPassword}}">
+            </td>
+          </tr>
           <td>
             &nbsp
           </td>
           <td>
-            <label for="ovpnui_password">OpenVPN Server Web UI Password:</label> <input type="password" autocomplete="off" name="ovpnui_password" placeholder="Change this password!" value="{{.Config.OpenVPNUIPassword}}">
+            &nbsp
           </td>
-        </tr>
-        <tr>
-          <td>
-            <input type="checkbox" name="ovpn_client_enable" id="ovpn_client_enable" {{if .Config.OpenVPNClient}}checked{{end}}>
-          </td>
-          <td>
-            <b><label for="ovpn_client_enable">OpenVPN Client</label></b>
-          </td>
-        </tr>
-      </table>
+          <tr>
+            <td>
+              <input type="checkbox" name="ovpn_client_enable" id="ovpn_client_enable" {{if .Config.OpenVPNClient}}checked{{end}}>
+            </td>
+            <td>
+              <b><label for="ovpn_client_enable">OpenVPN Client</label></b>
+            </td>
+          </tr>
+        </table>
     </form>
 
     <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
-      <table>
-        <tr>
-          <td>
-          <input type="checkbox" style="visibility: hidden;" disabled>
-          </td>
-          <td>
-            <b><label for="ovpn_client_cert">OpenVPN Client Certificate:</label> </b>
-            <input type="file" name="file"> 
-            <input type="submit" value="Upload">
-            <p id="success-message" style="display: none; margin-left: 10px;">File uploaded as: <span>~/raspberry-gateway/openvpn-client/{{.Config.OpenVPNClientCert}}</span></p>
-          </td>
-        </tr>
-      </table>
+        <table style="margin-left: 30px;">
+          <tr>
+            <td>
+            <input type="checkbox" style="visibility: hidden;" disabled>
+            </td>
+            <td>
+              <b><label for="ovpn_client_cert">OpenVPN Client Certificate:</label> </b>
+              <input type="file" name="file"> 
+              <input type="submit" value="Upload">
+              <p id="success-message" style="display: none; margin-left: 10px;">File uploaded as: <span>~/raspberry-gateway/openvpn-client/{{.Config.OpenVPNClientCert}}</span></p>
+            </td>
+          </tr>
+        </table>
     </form>
 
     <form id="config-form2" method="POST" action="/save">
-      <table style="background-color: transparent">
-        <tr>
-          <td>
-            <input type="checkbox" style="visibility: hidden;" disabled>
-          </td>
-          <td>
-            <b><label for="ovpn_client_allowed_subnet">OpenVPN Client Allowed Subnet:</label> </b>
-            <input type="text" name="ovpn_client_allowed_subnet" placeholder="Sub&Mask: 1.1.1.1/24" value="{{.Config.OpenVPNClientAllowedSub}}">
-          </td>
-        </tr>
-        <tr>
-          <td>
-            &nbsp
-          </td>
-          <td>
-            <span> This should be your local WiFi network. <br>This is to allow access to qBitTorrent Web UI from your local network when VPN-client tunnel is connected.</span>
-          </td>
-        </tr>
-      </table>
+        <table style="margin-left: 30px;">
+          <tr>
+            <td>
+              <input type="checkbox" style="visibility: hidden;" disabled>
+            </td>
+            <td>
+              <b><label for="ovpn_client_allowed_subnet">OpenVPN Client Allowed Subnet:</label> </b>
+              <input type="text" name="ovpn_client_allowed_subnet" placeholder="Sub&Mask: 1.1.1.1/24" value="{{.Config.OpenVPNClientAllowedSub}}">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              &nbsp
+            </td>
+            <td>
+              <span> This should be your local WiFi network. <br>This is to allow access to qBitTorrent Web UI from your local network when VPN-client tunnel is connected.</span>
+            </td>
+          </tr>
+        </table>
+      </details>
+      <span style="margin-left: 20px;">Advanced Monitoring configuration available in advanced.config.yml</span>
 
       <h1>GlueTun</h1>
-      <p>GlueTun universal OpenVPN Client setup.</p>
-      <span>Advanced Server and Client configuration available in advanced.config.yml</span><br><br>
+      <details>
+        <summary style="font-family: monospace; color: #000000;">
+          <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+              <path d="m15.146 12.354-5.792 5.792a.5.5 0 0 1-.854-.353V6.207a.5.5 0 0 1 .854-.353l5.792 5.792a.5.5 0 0 1 0 .708Z"></path>
+            </svg>
+          </span> GlueTun universal OpenVPN Client setup
+        </summary> 
 
-      <table style="background-color: transparent">
-        <tr>
-          <td>
-            <input type="checkbox" name="gluetun_vpnclient_enable" id="gluetun_vpnclient_enable" {{if .Config.GluetunEnable}}checked{{end}}>
-          </td>
-          <td>
-            <b><label for="gluetun_vpnclient_enable">GlueTun client</label></b>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <input type="checkbox" style="visibility: hidden;" disabled>
-          </td>
-          <td>
-            <b><label for="gluetun_vpn_service_provider">GlueTun VPN Service Provider:</label> </b><input type="text" name="gluetun_vpn_service_provider" placeholder="GlueTun Service Provider" value="{{.Config.GluetunServiceProvider}}">
-            <span>Supported Service Providers <a href="https://github.com/qdm12/gluetun-wiki/tree/main/setup/providers" target="_blank">List</a></span>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <input type="checkbox" style="visibility: hidden;" disabled>
-          </td>
-          <td>
-            <b><label for="gluetun_openvpn_user">GlueTun OpenVPN User:</label> </b><input type="text" name="gluetun_openvpn_user" placeholder="OpenVPN User" value="{{.Config.GluetunOpenvpnUser}}">
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <input type="checkbox" style="visibility: hidden;" disabled>
-          </td>
-          <td>
-            <label for="gluetun_openvpn_password">GlueTun OpenVPN Password:</label> <input type="password" autocomplete="off" name="gluetun_openvpn_password" placeholder="OpenVPN password" value="{{.Config.GluetunOpenvpnPassword}}">
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <input type="checkbox" style="visibility: hidden;" disabled>
-          </td>
-          <td>
-            <b><label for="gluetun_server_countries">GlueTun Server Countries:</label> </b><input type="text" name="gluetun_server_countries" placeholder="Comma separated list" value="{{.Config.GluetunServerCountries}}">
-          </td>
-        </tr>
-      </table>
+        <table style="margin-left: 30px;">
+          <tr>
+            <td>
+              <input type="checkbox" name="gluetun_vpnclient_enable" id="gluetun_vpnclient_enable" {{if .Config.GluetunEnable}}checked{{end}}>
+            </td>
+            <td>
+              <b><label for="gluetun_vpnclient_enable">GlueTun client</label></b>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input type="checkbox" style="visibility: hidden;" disabled>
+            </td>
+            <td>
+              <b><label for="gluetun_vpn_service_provider">GlueTun VPN Service Provider:</label> </b><input type="text" name="gluetun_vpn_service_provider" placeholder="GlueTun Service Provider" value="{{.Config.GluetunServiceProvider}}">
+              <span>&nbsp<a href="https://github.com/qdm12/gluetun-wiki/tree/main/setup/providers" target="_blank">List</a> of Supported Service Providers</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input type="checkbox" style="visibility: hidden;" disabled>
+            </td>
+            <td>
+              <b><label for="gluetun_openvpn_user">GlueTun OpenVPN User:</label> </b><input type="text" name="gluetun_openvpn_user" placeholder="OpenVPN User" value="{{.Config.GluetunOpenvpnUser}}">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input type="checkbox" style="visibility: hidden;" disabled>
+            </td>
+            <td>
+              <label for="gluetun_openvpn_password">GlueTun OpenVPN Password:</label> <input type="password" autocomplete="off" name="gluetun_openvpn_password" placeholder="OpenVPN password" value="{{.Config.GluetunOpenvpnPassword}}">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input type="checkbox" style="visibility: hidden;" disabled>
+            </td>
+            <td>
+              <b><label for="gluetun_server_countries">GlueTun Server Countries:</label> </b><input type="text" name="gluetun_server_countries" placeholder="Comma separated list" value="{{.Config.GluetunServerCountries}}">
+            </td>
+          </tr>
+        </table>
+      </details>
+      <span style="margin-left: 20px;">Advanced Monitoring configuration available in advanced.config.yml</span>
 
       <h1>WireGuard</h1>
-      <p>WireGuard VPN and UI setup.</p><br>
+      <details>
+        <summary style="font-family: monospace; color: #000000;">
+          <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+              <path d="m15.146 12.354-5.792 5.792a.5.5 0 0 1-.854-.353V6.207a.5.5 0 0 1 .854-.353l5.792 5.792a.5.5 0 0 1 0 .708Z"></path>
+            </svg>
+          </span> WireGuard VPN and UI setup
+        </summary> 
  
-      <table>
-        <tr>
-          <td>
-            <b><input type="checkbox" name="wireguard_server_enable" id="wireguard_server_enable" {{if .Config.WireGuardServer}}checked{{end}}></b>
-          </td>
-          <td>
-            <b><label for="wireguard_server_enable">WireGuard Server</label></b>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            &nbsp
-          </td>
-          <td>
-          <label for="wireguard_password">WireGuard Server Web UI Password:</label>  <input type="password" autocomplete="off" name="wireguard_password" placeholder="Change this password!" value="{{.Config.WireGuardServerPassword}}">
-          </td>
-        </tr>
-      </table>
+        <table style="margin-left: 30px;">
+          <tr>
+            <td>
+              <b><input type="checkbox" name="wireguard_server_enable" id="wireguard_server_enable" {{if .Config.WireGuardServer}}checked{{end}}></b>
+            </td>
+            <td>
+              <b><label for="wireguard_server_enable">WireGuard Server</label></b>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              &nbsp
+            </td>
+            <td>
+            <label for="wireguard_password">WireGuard Server Web UI Password:</label>  <input type="password" autocomplete="off" name="wireguard_password" placeholder="Change this password!" value="{{.Config.WireGuardServerPassword}}">
+            </td>
+          </tr>
+        </table>
+      </details>
+      <span style="margin-left: 20px;">Advanced Monitoring configuration available in advanced.config.yml</span>
 
       <h1>qBitTorrent</h1>
-      <p>An open-source software torrent tracker.</p><br>
-      
-      <table>
-        <tr>
-          <td>
-            <input type="checkbox" name="qbittorrent_enable" id="qbittorrent_enable" {{if .Config.QbitTorrentEnable}}checked{{end}}>
-          </td>
-          <td>
-            <b><label for="qbittorrent_enable">Install qBitTorrent</label></b>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            &nbsp
-          </td>
-          <td>
-            <label for="qbittorrent_default_password">Default Web UI Password:</label> <input type="text" autocomplete="off" name="qbittorrent_default_password" placeholder="Change this password!" value="{{.Config.QbitTorrentPassword}}" disabled>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            &nbsp
-          </td>
-          <td>
-          <span>Change this default password via WebUI at first login.</span>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <input type="checkbox" name="qbittorrent_inside_vpn" id="qbittorrent_inside_vpn" {{if .Config.QbitTorrentInVPN}}checked{{end}}>
-          </td>
-          <td>
-            <b><label for="qbittorrent_inside_vpn">Route torrent traffic via OpenVPN Client</label></b>
-            <p id="qbittorrent_inside_ena" style="display: none; margin-left: 10px;">Don't forget to upload your <b>"OpenVPN Client Certificate"</b> and set <b>"OpenVPN Client Allowed Subnet"</b> above.</p>
-          </td>
-        </tr>
-        <tr>
-          <td>
-           &nbsp
-          </td>
-          <td>
-          <span>Route all qBitTorrent traffic via OpenVPN Client connection.</span>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <input type="checkbox" name="qbittorrent_inside_gluetun" id="qbittorrent_inside_gluetun" {{if .Config.QbitTorrentInGluetun}}checked{{end}}>
-          </td>
-          <td>
-            <b><label for="qbittorrent_inside_gluetun">Route torrent traffic via GlueTun VPN</label></b>
-            <p id="qbittorrent_insideg_ena" style="display: none; margin-left: 10px;">Don't forget to complete <b>"GlueTun"</b> configuration above.</p>
-          </td>
-        </tr>
-        <tr>
-          <td>
-           &nbsp
-          </td>
-          <td>
-          <span>Route all qBitTorrent traffic via GlueTun Client connection.</span>
-          </td>
-        </tr>
-      </table>
+      <details>
+        <summary style="font-family: monospace; color: #000000;">
+          <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+              <path d="m15.146 12.354-5.792 5.792a.5.5 0 0 1-.854-.353V6.207a.5.5 0 0 1 .854-.353l5.792 5.792a.5.5 0 0 1 0 .708Z"></path>
+            </svg>
+          </span> An open-source software torrent tracker
+        </summary>      
+
+        <table style="margin-left: 30px;">
+          <tr>
+            <td>
+              <input type="checkbox" name="qbittorrent_enable" id="qbittorrent_enable" {{if .Config.QbitTorrentEnable}}checked{{end}}>
+            </td>
+            <td>
+              <b><label for="qbittorrent_enable">Install qBitTorrent</label></b>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              &nbsp
+            </td>
+            <td>
+              <label for="qbittorrent_default_password">Default Web UI Password:</label> <input type="text" autocomplete="off" name="qbittorrent_default_password" placeholder="Change this password!" value="{{.Config.QbitTorrentPassword}}" disabled>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              &nbsp
+            </td>
+            <td>
+            <span>Change this default password via WebUI at first login.</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input type="checkbox" name="qbittorrent_inside_vpn" id="qbittorrent_inside_vpn" {{if .Config.QbitTorrentInVPN}}checked{{end}}>
+            </td>
+            <td>
+              <b><label for="qbittorrent_inside_vpn">Route torrent traffic via OpenVPN Client</label></b>
+              <p id="qbittorrent_inside_ena" style="display: none; margin-left: 10px;">Don't forget to upload your <b>"OpenVPN Client Certificate"</b> and set <b>"OpenVPN Client Allowed Subnet"</b> above.</p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+             &nbsp
+            </td>
+            <td>
+            <span>Route all qBitTorrent traffic via OpenVPN Client connection.</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input type="checkbox" name="qbittorrent_inside_gluetun" id="qbittorrent_inside_gluetun" {{if .Config.QbitTorrentInGluetun}}checked{{end}}>
+            </td>
+            <td>
+              <b><label for="qbittorrent_inside_gluetun">Route torrent traffic via GlueTun VPN</label></b>
+              <p id="qbittorrent_insideg_ena" style="display: none; margin-left: 10px;">Don't forget to complete <b>"GlueTun"</b> configuration above.</p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+             &nbsp
+            </td>
+            <td>
+            <span>Route all qBitTorrent traffic via GlueTun Client connection.</span>
+            </td>
+          </tr>
+        </table>
+      </details>
 
       <h1>Monitoring</h1>
-      <p>OpenVPN Server & Client setup.</p>
-      <span>Advanced Monitoring configuration available in advanced.config.yml</span><br><br>
-
+      <p>Raspberry-monitoring setup.</p>
       <table>
         <tr>
           <td>
@@ -344,58 +482,73 @@
             <label for="monitoring_grafana_admin_password">Grafana first login Password:</label> <input type="text" name="monitoring_grafana_admin_password" placeholder="admin" value="{{.Config.MonitoringGrafPassword}}">
           </td>
         </tr>
-        <tr>
-          <td>
-            <input type="checkbox" name="openvpn_monitoring_enable" id="openvpn_monitoring_enable" {{if .Config.OpenVPNMonitoringEnable}}checked{{end}}>
-          </td>
-          <td>
-            <b><label for="openvpn_monitoring_enable">OpenVPN Server Monitoring</label></b>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <input type="checkbox" name="pikvm_monitoring_enable" id="pikvm_monitoring_enable" {{if .Config.PiKVMMonitoringEnable}}checked{{end}}>
-          </td>
-          <td>
-            <b><label for="pikvm_monitoring_enable">PiKVM Monitoring</label></b>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <input type="checkbox" name="airgradient_monitoring_enable" id="airgradient_monitoring_enable" {{if .Config.AirGradientMonitoring}}checked{{end}}>
-          </td>
-          <td>
-            <b><label for="airgradient_monitoring_enable">AirGradient Monitoring</label></b>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <input type="checkbox" name="starlink_monitoring_enable" id="starlink_monitoring_enable" {{if .Config.StarLinkMonitoring}}checked{{end}}>
-          </td>
-          <td>
-            <b><label for="starlink_monitoring_enable">StarLink Monitoring</label></b>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <input type="checkbox" name="shelly_plug_monitoring_enable" id="shelly_plug_monitoring_enable" {{if .Config.ShellyPlugMonitoring}}checked{{end}}>
-          </td>
-          <td>
-            <b><label for="shelly_plug_monitoring_enable">ShellyPlug Monitoring</label></b>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            &nbsp
-          </td>
-          <td>
-            <label for="raspberry_gateway_ansible_use" style="visibility: hidden;">Ansible Use:</label> <input type="text" name="raspberry_gateway_ansible_use" value="{{.InventoryConfig.All.Hosts.RaspberryGateway.AnsibleUse}}" style="visibility: hidden;" disabled>
-          </td>
-        </tr>
       </table>
+
+      <details>
+        <summary style="font-family: monospace; color: #000000;">
+          <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+              <path d="m15.146 12.354-5.792 5.792a.5.5 0 0 1-.854-.353V6.207a.5.5 0 0 1 .854-.353l5.792 5.792a.5.5 0 0 1 0 .708Z"></path>
+            </svg>
+          </span> Additional dashboards
+        </summary>
+
+        <table style="margin-left: 30px;"> 
+          <tr>
+            <td>
+              <input type="checkbox" name="openvpn_monitoring_enable" id="openvpn_monitoring_enable" {{if .Config.OpenVPNMonitoringEnable}}checked{{end}}>
+            </td>
+            <td>
+              <b><label for="openvpn_monitoring_enable">OpenVPN Server Monitoring</label></b>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input type="checkbox" name="pikvm_monitoring_enable" id="pikvm_monitoring_enable" {{if .Config.PiKVMMonitoringEnable}}checked{{end}}>
+            </td>
+            <td>
+              <b><label for="pikvm_monitoring_enable">PiKVM Monitoring</label></b>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input type="checkbox" name="airgradient_monitoring_enable" id="airgradient_monitoring_enable" {{if .Config.AirGradientMonitoring}}checked{{end}}>
+            </td>
+            <td>
+              <b><label for="airgradient_monitoring_enable">AirGradient Monitoring</label></b>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input type="checkbox" name="starlink_monitoring_enable" id="starlink_monitoring_enable" {{if .Config.StarLinkMonitoring}}checked{{end}}>
+            </td>
+            <td>
+              <b><label for="starlink_monitoring_enable">StarLink Monitoring</label></b>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input type="checkbox" name="shelly_plug_monitoring_enable" id="shelly_plug_monitoring_enable" {{if .Config.ShellyPlugMonitoring}}checked{{end}}>
+            </td>
+            <td>
+              <b><label for="shelly_plug_monitoring_enable">ShellyPlug Monitoring</label></b>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              &nbsp
+            </td>
+            <td>
+              <label for="raspberry_gateway_ansible_use" style="visibility: hidden;">Ansible Use:</label> <input type="text" name="raspberry_gateway_ansible_use" value="{{.InventoryConfig.All.Hosts.RaspberryGateway.AnsibleUse}}" style="visibility: hidden;" disabled>
+            </td>
+          </tr>
+        </table>
+      </details>
+      <span style="margin-left: 20px;">Advanced Monitoring configuration available in advanced.config.yml</span><br><br>
     </form>
     <button id="submit-btn" style="font-family: monospace; font-size: 2em; width: 100px; height: 40px;">Save</button>
-  
+    <span id="save-message" style="display: none;">Configuration has been saved.</span>
+
     <h1>Installation</h1>
     <p>The installation process will take some time.<br> Once that's done, it'll be like you have a new <a href="https://github.com/d3vilh/raspberry-gateway" target="_blank">Raspberry Gateway</a> up and running.</p>
     <span>Latest installation log will be saved in ~/raspberry-gateway/webinstall.log</span><br><br>
@@ -404,7 +557,6 @@
     </form>
     <br>
 
-    &nbsp<span style="color: black;"><b>Note: </b></span><span>There is one bug which leads to Pi-Hole installation failure (60 sec. timeout). To fix - run Install again.</span>
     <iframe id="output-iframe" src="webinstall.log" width="100%" height="300" scrolling="yes"></iframe><br>
     <table style="margin: auto;"">
       <tr>
@@ -443,7 +595,7 @@
         uploadForm.addEventListener('submit', (event) => {
           event.preventDefault();
           successMessage.style.display = 'block';
-        });
+        });  
 
     // QbitTorrent Inside VPN popup qbittorrent_inside_ena
         const checkbox = document.getElementById("qbittorrent_inside_vpn");
@@ -457,7 +609,7 @@
           }
         });
 
-    // QbitTorrent Inside GlueTun popup qbittorrent_inside_ena
+    // QbitTorrent Inside GlueTun popup qbittorrent_insideg_ena
         const checkbox2 = document.getElementById("qbittorrent_inside_gluetun");
         const messageBlock2 = document.getElementById("qbittorrent_insideg_ena");
 
@@ -470,6 +622,7 @@
         });
 
     // Combine config-form1 and config-form2 into one fom and submit it
+        const saveMessage = document.getElementById('save-message');
         document.getElementById('submit-btn').addEventListener('click', function(event) {
           event.preventDefault();
           var formData1 = new FormData(document.getElementById('config-form1'));
@@ -486,7 +639,8 @@
           xhr.onload = function() {
               // handle success response
               console.log(xhr.responseText);
-              alert("New configuration have been saved.");
+              saveMessage.style.display = 'inline-block';
+              //alert("New configuration have been saved.");
             };
             xhr.onerror = function() {
               alert("Something went wrong.");
@@ -494,7 +648,7 @@
             };
             xhr.send(formData);
         });
-
+ 
     // Auto refresh iframe for webinstall.log
         const outputIframe = document.getElementById('output-iframe');
         setInterval(() => {
