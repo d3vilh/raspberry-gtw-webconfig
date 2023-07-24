@@ -305,60 +305,152 @@
       <span style="margin-left: 20px;">Advanced Monitoring configuration available in advanced.config.yml</span>
 
       <h1>GlueTun</h1>
-      <details>
-        <summary style="font-family: monospace; color: #000000;">
-          <span class="icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-              <path d="m15.146 12.354-5.792 5.792a.5.5 0 0 1-.854-.353V6.207a.5.5 0 0 1 .854-.353l5.792 5.792a.5.5 0 0 1 0 .708Z"></path>
-            </svg>
-          </span> GlueTun universal OpenVPN Client setup
-        </summary> 
+<details>
+  <summary style="font-family: monospace; color: #000000;">
+    <span class="icon">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+        <path d="m15.146 12.354-5.792 5.792a.5.5 0 0 1-.854-.353V6.207a.5.5 0 0 1 .854-.353l5.792 5.792a.5.5 0 0 1 0 .708Z"></path>
+      </svg>
+    </span> GlueTun universal OpenVPN Client setup
+  </summary> 
 
-        <table style="margin-left: 30px;">
-          <tr>
-            <td>
-              <input type="checkbox" name="gluetun_vpnclient_enable" id="gluetun_vpnclient_enable" {{if .Config.GluetunEnable}}checked{{end}}>
-            </td>
-            <td>
-              <b><label for="gluetun_vpnclient_enable">GlueTun client</label></b>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <input type="checkbox" style="visibility: hidden;" disabled>
-            </td>
-            <td>
-              <b><label for="gluetun_vpn_service_provider">GlueTun VPN Service Provider:</label> </b><input type="text" name="gluetun_vpn_service_provider" placeholder="GlueTun Service Provider" value="{{.Config.GluetunServiceProvider}}">
-              <span>&nbsp<a href="https://github.com/qdm12/gluetun-wiki/tree/main/setup/providers" target="_blank">List</a> of Supported Service Providers</span>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <input type="checkbox" style="visibility: hidden;" disabled>
-            </td>
-            <td>
-              <b><label for="gluetun_openvpn_user">GlueTun OpenVPN User:</label> </b><input type="text" name="gluetun_openvpn_user" placeholder="OpenVPN User" value="{{.Config.GluetunOpenvpnUser}}">
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <input type="checkbox" style="visibility: hidden;" disabled>
-            </td>
-            <td>
-              <label for="gluetun_openvpn_password">GlueTun OpenVPN Password:</label> <input type="password" autocomplete="off" name="gluetun_openvpn_password" placeholder="OpenVPN password" value="{{.Config.GluetunOpenvpnPassword}}">
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <input type="checkbox" style="visibility: hidden;" disabled>
-            </td>
-            <td>
-              <b><label for="gluetun_server_countries">GlueTun Server Countries:</label> </b><input type="text" name="gluetun_server_countries" placeholder="Comma separated list" value="{{.Config.GluetunServerCountries}}">
-            </td>
-          </tr>
-        </table>
-      </details>
-      <span style="margin-left: 20px;">Advanced Monitoring configuration available in advanced.config.yml</span>
+  <table style="margin-left: 30px;">
+    <tr>
+      <td>
+        <input type="checkbox" name="gluetun_vpnclient_enable" id="gluetun_vpnclient_enable" {{if .Config.GluetunEnable}}checked{{end}}>
+      </td>
+      <td>
+        <b><label for="gluetun_vpnclient_enable">GlueTun VPN client</label></b>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type="checkbox" style="visibility: hidden;" disabled>
+      </td>
+      <td>
+        <b><label for="gluetun_vpn_service_provider">GlueTun VPN Service Provider:</label> </b><input type="text" name="gluetun_vpn_service_provider" placeholder="GlueTun Service Provider" value="{{.Config.GluetunServiceProvider}}">
+        <span>&nbsp<a href="https://github.com/qdm12/gluetun-wiki/tree/main/setup/providers" target="_blank">List</a> of Supported Service Providers</span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type="checkbox" style="visibility: hidden;" disabled>
+      </td>
+      <td>
+        <b><label for="gluetun_server_countries">GlueTun Server Countries:</label> </b><input type="text" name="gluetun_server_countries" placeholder="Comma separated list" value="{{.Config.GluetunServerCountries}}">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type="checkbox" style="visibility: hidden;" disabled>
+      </td>
+      <td>
+        <b><label for="gluetun_server_cities">GlueTun Server Cities:</label> </b><input type="text" name="gluetun_server_cities" placeholder="Comma separated list" value="{{.Config.GluetunServerCities}}">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type="checkbox" style="visibility: hidden;" disabled>
+      </td>
+      <td>
+        <b><label for="gluetun_server_update_per">GlueTun Server Update Period:</label> </b><input type="text" name="gluetun_server_update_per" placeholder="Update period in minutes" value="{{.Config.GluetunServerUpdatePer}}">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type="checkbox" style="visibility: hidden;" disabled>
+      </td>
+      <td>
+        <b><label for="gluetun_vpn_type">GlueTun VPN Type:</label> </b>
+        <select name="gluetun_vpn_type">
+          <option value="openvpn" {{if eq .Config.GluetunVPNType "openvpn"}}selected{{end}}>OpenVPN</option>
+          <option value="wireguard" {{if eq .Config.GluetunVPNType "wireguard"}}selected{{end}}>WireGuard</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type="checkbox" style="visibility: hidden;" disabled>
+      </td>
+      <td>
+        <b><label for="gluetun_openvpn_user">GlueTun OpenVPN User:</label> </b><input type="text" name="gluetun_openvpn_user" placeholder="OpenVPN User" value="{{.Config.GluetunOpenvpnUser}}">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type="checkbox" style="visibility: hidden;" disabled>
+      </td>
+      <td>
+        <label for="gluetun_openvpn_password">GlueTun OpenVPN Password:</label> <input type="password" autocomplete="off" name="gluetun_openvpn_password" placeholder="OpenVPN password" value="{{.Config.GluetunOpenvpnPassword}}">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type="checkbox" name="gluetun_vpnclient_custom" id="gluetun_vpnclient_custom" {{if .Config.GluetunVPNCluentCustom}}checked{{end}}>
+      </td>
+      <td>
+        <b><label for="gluetun_vpnclient_custom">OpenVPN Client Custom Configuration</label> </b>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type="checkbox" style="visibility: hidden;" disabled>
+      </td>
+      <td>
+        <b><label for="gluetun_openvpn_custom_conf">OpenVPN Custom Configuration file:</label> </b><input type="text" name="gluetun_openvpn_custom_conf" placeholder="OpenVPN custom configuration" value="{{.Config.GluetunOVPNCusomConfig}}">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type="checkbox" style="visibility: hidden;" disabled>
+      </td>
+      <td>
+        <b><label for="gluetun_wireguard_private_key">GlueTun WireGuard Private Key:</label> </b><input type="text" name="gluetun_wireguard_private_key" placeholder="WireGuard private key" value="{{.Config.GluetunWGPrivateKey}}">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type="checkbox" style="visibility: hidden;" disabled>
+      </td>
+      <td>
+        <b><label for="gluetun_wireguard_public_key">GlueTun WireGuard Public Key:</label> </b><input type="text" name="gluetun_wireguard_public_key" placeholder="WireGuard public key" value="{{.Config.GluetunWGPublicKey}}">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type="checkbox" style="visibility: hidden;" disabled>
+      </td>
+      <td>
+        <b><label for="gluetun_wireguard_preshared_key">GlueTun WireGuard Preshared Key:</label> </b><input type="text" name="gluetun_wireguard_preshared_key" placeholder="WireGuard preshared key" value="{{.Config.GluetunWGPresharedKey}}">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type="checkbox" style="visibility: hidden;" disabled>
+      </td>
+      <td>
+        <b><label for="gluetun_wireguard_address">GlueTun WireGuard Address:</label> </b><input type="text" name="gluetun_wireguard_address" placeholder="WireGuard address" value="{{.Config.GluetunWGAddress}}">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type="checkbox" style="visibility: hidden;" disabled>
+      </td>
+      <td>
+        <b><label for="gluetun_wireguard_endpoint_ip">GlueTun WireGuard Endpoint IP:</label> </b><input type="text" name="gluetun_wireguard_endpoint_ip" placeholder="WireGuard endpoint IP" value="{{.Config.GluetunWGEndpointIP}}">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type="checkbox" style="visibility: hidden;" disabled>
+      </td>
+      <td>
+        <b><label for="gluetun_wireguard_endpoint_port">GlueTun WireGuard Endpoint Port:</label> </b><input type="text" name="gluetun_wireguard_endpoint_port" placeholder="WireGuard endpoint port" value="{{.Config.GluetunWGEndpointPort}}">
+      </td>
+    </tr>
+  </table>
+</details>
+      <span style="margin-left: 20px;">Advanced Gluetun configuration available in advanced.config.yml</span>
 
       <h1>WireGuard</h1>
       <details>

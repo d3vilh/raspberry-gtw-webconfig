@@ -73,7 +73,7 @@ gluetun_vpn_type: openvpn                       # Set your VPN type: openvpn, wi
 # OPENVPN CLIENT PART:
 gluetun_openvpn_user: "none"                    # Set your OpenVPN username
 gluetun_openvpn_password: "none"                # Set your OpenVPN password
-gluetun_vpnclient_custom: true                  # Set true to enable custom OpenVPN configuration below
+gluetun_vpnclient_custom: false                 # Set true to enable custom OpenVPN configuration below
 gluetun_openvpn_custom_conf: "glue-client.ovpn" # Set your OpenVPN custom configuration. See
 
 # WIREGUARD CLIENT PART:
