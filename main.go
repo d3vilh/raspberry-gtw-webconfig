@@ -43,10 +43,21 @@ type Config struct {
 	StarLinkMonitoring      bool   `yaml:"starlink_monitoring_enable"`
 	ShellyPlugMonitoring    bool   `yaml:"shelly_plug_monitoring_enable"`
 	GluetunEnable           bool   `yaml:"gluetun_vpnclient_enable"`
+	GluetunServerCountries  string `yaml:"gluetun_server_countries"`
+	GluetunServerCities     string `yaml:"gluetun_server_cities"`
+	GluetunServerUpdatePer  string `yaml:"gluetun_server_update_per"`
 	GluetunServiceProvider  string `yaml:"gluetun_vpn_service_provider"`
+	GluetunVPNType          string `yaml:"gluetun_vpn_type"`
 	GluetunOpenvpnUser      string `yaml:"gluetun_openvpn_user"`
 	GluetunOpenvpnPassword  string `yaml:"gluetun_openvpn_password"`
-	GluetunServerCountries  string `yaml:"gluetun_server_countries"`
+	GluetunVPNCluentCustom  bool   `yaml:"gluetun_vpnclient_custom"`
+	GluetunOVPNCusomConfig  string `yaml:"gluetun_openvpn_custom_conf"`
+	GluetunWGPrivateKey     string `yaml:"gluetun_wireguard_private_key"`
+	GluetunWGPublicKey      string `yaml:"gluetun_wireguard_public_key"`
+	GluetunWGPresharedKey   string `yaml:"gluetun_wireguard_preshared_key"`
+	GluetunWGAddress        string `yaml:"gluetun_wireguard_address"`
+	GluetunWGEndpointIP     string `yaml:"gluetun_wireguard_endpoint_ip"`
+	GluetunWGEndpointPort   string `yaml:"gluetun_wireguard_endpoint_port"`
 	IPAddress               string // to pass your IP address to the template
 }
 
@@ -326,10 +337,21 @@ func saveConfig(w http.ResponseWriter, r *http.Request) {
 		StarLinkMonitoring:      r.FormValue("starlink_monitoring_enable") == "on",
 		ShellyPlugMonitoring:    r.FormValue("shelly_plug_monitoring_enable") == "on",
 		GluetunEnable:           r.FormValue("gluetun_vpnclient_enable") == "on",
+		GluetunServerCountries:  r.FormValue("gluetun_server_countries"),
+		GluetunServerCities:     r.FormValue("gluetun_server_cities"),
+		GluetunServerUpdatePer:  r.FormValue("gluetun_server_update_per"),
 		GluetunServiceProvider:  r.FormValue("gluetun_vpn_service_provider"),
+		GluetunVPNType:          r.FormValue("gluetun_vpn_type"),
 		GluetunOpenvpnUser:      r.FormValue("gluetun_openvpn_user"),
 		GluetunOpenvpnPassword:  r.FormValue("gluetun_openvpn_password"),
-		GluetunServerCountries:  r.FormValue("gluetun_server_countries"),
+		GluetunVPNCluentCustom:  r.FormValue("gluetun_vpnclient_custom") == "on",
+		GluetunOVPNCusomConfig:  r.FormValue("gluetun_openvpn_custom_conf"),
+		GluetunWGPrivateKey:     r.FormValue("gluetun_wireguard_private_key"),
+		GluetunWGPublicKey:      r.FormValue("gluetun_wireguard_public_key"),
+		GluetunWGPresharedKey:   r.FormValue("gluetun_wireguard_preshared_key"),
+		GluetunWGAddress:        r.FormValue("gluetun_wireguard_address"),
+		GluetunWGEndpointIP:     r.FormValue("gluetun_wireguard_endpoint_ip"),
+		GluetunWGEndpointPort:   r.FormValue("gluetun_wireguard_endpoint_port"),
 	}
 	err := writeConfig(config)
 	if err != nil {

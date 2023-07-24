@@ -49,16 +49,48 @@ ovpnui_password: "gagaZush"                     # !Change this password!
 
 # OpenVPN Client configuration for qBittorrent only. OpenVPN server is not required.
 ovpn_client_enable: false                       # Set true to enable internal OpenVPN client used for qBittorrent. OpenVPN server is not required.
-ovpn_client_cert: "webinstall-client.ovpn"      # Set your ovpn-client certificate name
+ovpn_client_cert: "webinstall-client.ovpn"         # Set your ovpn-client certificate name
 ovpn_client_allowed_subnet: "192.168.88.0/24"   # Allowed subnet for ovpn-client. You must have your local network defined here.
+
+#    _____ _         _____         
+#   |   __| |_ _ ___|_   _|_ _ ___ 
+#   |  |  | | | | -_| | | | | |   |
+#   |_____|_|___|___| |_| |___|_|_|
+#   Universal VPN Client for multiple VPN Providers
+#
+# IT WORKS! 
+# STILL TESTING THOUGH! USE IN PRODUCTION ON OWN RISK!               
+
+gluetun_vpnclient_enable: false                 # Set true to enable Gluetun (OpenVPN or Wireguard)
+gluetun_server_countries: "Netherlands"         # Comma separated list of countries
+gluetun_server_cities: "Amsterdam"              # Comma separated list of cities
+gluetun_server_update_per: 24h                  # Period to update your servers list using the built-in Gluetun update mechanisms. 
+                                                # See https://github.com/qdm12/gluetun-wiki/blob/main/setup/servers.md#update-the-vpn-servers-list
+gluetun_vpn_service_provider: custom            # Set your VPN provider: cyberghost, expressvpn, fastestvpn, hidemyass, ipvanish, ivpn, nordvpn, perfect privacy, privado, private internet access, privatevpn, protonvpn, purevpn, slickvpn, surfshark, torguard, vpnsecure, vpn unlimited, vyprvpn, wevpn, windscribe
+                                                # See the list of all providers https://github.com/qdm12/gluetun-wiki/tree/main/setup/providers
+gluetun_vpn_type: openvpn                       # Set your VPN type: openvpn, wireguard
+
+# OPENVPN CLIENT PART:
+gluetun_openvpn_user: "none"                    # Set your OpenVPN username
+gluetun_openvpn_password: "none"                # Set your OpenVPN password
+gluetun_vpnclient_custom: true                  # Set true to enable custom OpenVPN configuration below
+gluetun_openvpn_custom_conf: "glue-client.ovpn" # Set your OpenVPN custom configuration. See
+
+# WIREGUARD CLIENT PART:
+gluetun_wireguard_private_key: "yCbHtK...X2c="  # Valid base 58 Wireguard Client key. Wireguard client private key to use.
+gluetun_wireguard_public_key: "none"            # Valid base 58 Wireguard Server key. Wireguard Server public key to use.
+gluetun_wireguard_preshared_key: "none"         #
+gluetun_wireguard_address: "10.99.99.99/32"     # Valid IP network interface address in the format xx.xx.xx.xx/xx or ff:ff:ff...:ff/128
+gluetun_wireguard_endpoint_ip: "none"           # Valid IP address in the format xx.xx.xx.xx:xxxxx or [ff:ff:ff...:ff]:xxxxx
+gluetun_wireguard_endpoint_port: "none"         # Valid port number in the format xxxx
 
 #    _ _ _ _         _____               _ 
 #   | | | |_|___ ___|   __|_ _ ___ ___ _| |
 #   | | | | |  _| -_|  |  | | | .'|  _| . |
 #   |_____|_|_| |___|_____|___|__,|_| |___|
 # WireGuard Server configuration.
-wireguard_server_enable: false                  # Set true to enable WireGuard
-wireguard_password: "gagaZush"                  # !Change this password!
+wireguard_server_enable: false                  # Set true to enable WireGuard Server and its Web-UI
+wireguard_password: "gagaZush"                  # !Change this password! Web-UI password
 
 #    _____         _       _ 
 #   |  _  |___ ___| |_ ___|_|___ ___ ___ 
@@ -101,12 +133,3 @@ starlink_monitoring_enable: false               # Set true to enable StarLink di
 
 # Shelly Plug monitoring configuration.         # Set true to enable Shelly Plug Grafana dashboard
 shelly_plug_monitoring_enable: false            # Set true or false
-
-# TESTING! DO NOT USE ON PRODUCTION!               
-# Gluetun part
-gluetun_vpnclient_enable: false                 # Set true to enable Gluetun
-                                                # See the list of all providers https://github.com/qdm12/gluetun-wiki/tree/main/setup/providers
-gluetun_vpn_service_provider: nordvpn           # Set your VPN provider: cyberghost, expressvpn, fastestvpn, hidemyass, ipvanish, ivpn, nordvpn, perfect privacy, privado, private internet access, privatevpn, protonvpn, purevpn, slickvpn, surfshark, torguard, vpnsecure, vpn unlimited, vyprvpn, wevpn, windscribe
-gluetun_openvpn_user: "SecretUser"              # Set your VPN username
-gluetun_openvpn_password: "gagaZush"            # Set your VPN password
-gluetun_server_countries: "Netherlands"         # Comma separated list of countries
