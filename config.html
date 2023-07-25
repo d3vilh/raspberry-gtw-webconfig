@@ -311,7 +311,7 @@
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
         <path d="m15.146 12.354-5.792 5.792a.5.5 0 0 1-.854-.353V6.207a.5.5 0 0 1 .854-.353l5.792 5.792a.5.5 0 0 1 0 .708Z"></path>
       </svg>
-    </span> GlueTun universal OpenVPN Client setup
+    </span> GlueTun universal VPN Client setup
   </summary> 
 
   <table style="margin-left: 30px;">
@@ -363,8 +363,9 @@
       <td>
         <b><label for="gluetun_vpn_type">GlueTun VPN Type:</label> </b>
         <select name="gluetun_vpn_type">
-          <option value="openvpn" {{if eq .Config.GluetunVPNType "openvpn"}}selected{{end}}>OpenVPN</option>
-          <option value="wireguard" {{if eq .Config.GluetunVPNType "wireguard"}}selected{{end}}>WireGuard</option>
+          <option value="choose" selected>Choose Type</option>
+          <option value="openvpn">OpenVPN</option>
+          <option value="wireguard">WireGuard</option>
         </select>
       </td>
     </tr>
@@ -373,18 +374,26 @@
         <input type="checkbox" style="visibility: hidden;" disabled>
       </td>
       <td>
-        <b><label for="gluetun_openvpn_user">GlueTun OpenVPN User:</label> </b><input type="text" name="gluetun_openvpn_user" placeholder="OpenVPN User" value="{{.Config.GluetunOpenvpnUser}}">
+        <input type="checkbox" style="visibility: hidden;" disabled>
       </td>
     </tr>
-    <tr>
+    <tr data-vpn-type="openvpn">
       <td>
         <input type="checkbox" style="visibility: hidden;" disabled>
       </td>
       <td>
-        <label for="gluetun_openvpn_password">GlueTun OpenVPN Password:</label> <input type="password" autocomplete="off" name="gluetun_openvpn_password" placeholder="OpenVPN password" value="{{.Config.GluetunOpenvpnPassword}}">
+        <b><label for="gluetun_openvpn_user">OpenVPN Client User:</label> </b><input type="text" name="gluetun_openvpn_user" placeholder="OpenVPN User" value="{{.Config.GluetunOpenvpnUser}}">
       </td>
     </tr>
-    <tr>
+    <tr data-vpn-type="openvpn">
+      <td>
+        <input type="checkbox" style="visibility: hidden;" disabled>
+      </td>
+      <td>
+        <label for="gluetun_openvpn_password">OpenVPN Client Password:</label> <input type="password" autocomplete="off" name="gluetun_openvpn_password" placeholder="OpenVPN password" value="{{.Config.GluetunOpenvpnPassword}}">
+      </td>
+    </tr>
+    <tr data-vpn-type="openvpn">
       <td>
         <input type="checkbox" name="gluetun_vpnclient_custom" id="gluetun_vpnclient_custom" {{if .Config.GluetunVPNCluentCustom}}checked{{end}}>
       </td>
@@ -392,7 +401,7 @@
         <b><label for="gluetun_vpnclient_custom">OpenVPN Client Custom Configuration</label> </b>
       </td>
     </tr>
-    <tr>
+    <tr data-vpn-type="openvpn">
       <td>
         <input type="checkbox" style="visibility: hidden;" disabled>
       </td>
@@ -400,52 +409,52 @@
         <b><label for="gluetun_openvpn_custom_conf">OpenVPN Custom Configuration file:</label> </b><input type="text" name="gluetun_openvpn_custom_conf" placeholder="OpenVPN custom configuration" value="{{.Config.GluetunOVPNCusomConfig}}">
       </td>
     </tr>
-    <tr>
+    <tr data-vpn-type="wireguard">
       <td>
         <input type="checkbox" style="visibility: hidden;" disabled>
       </td>
       <td>
-        <b><label for="gluetun_wireguard_private_key">GlueTun WireGuard Private Key:</label> </b><input type="text" name="gluetun_wireguard_private_key" placeholder="WireGuard private key" value="{{.Config.GluetunWGPrivateKey}}">
+        <b><label for="gluetun_wireguard_private_key">WireGuard Private Key:</label> </b><input type="text" name="gluetun_wireguard_private_key" placeholder="WireGuard private key" value="{{.Config.GluetunWGPrivateKey}}">
       </td>
     </tr>
-    <tr>
+    <tr data-vpn-type="wireguard">
       <td>
         <input type="checkbox" style="visibility: hidden;" disabled>
       </td>
       <td>
-        <b><label for="gluetun_wireguard_public_key">GlueTun WireGuard Public Key:</label> </b><input type="text" name="gluetun_wireguard_public_key" placeholder="WireGuard public key" value="{{.Config.GluetunWGPublicKey}}">
+        <b><label for="gluetun_wireguard_public_key">WireGuard Public Key:</label> </b><input type="text" name="gluetun_wireguard_public_key" placeholder="WireGuard public key" value="{{.Config.GluetunWGPublicKey}}">
       </td>
     </tr>
-    <tr>
+    <tr data-vpn-type="wireguard">
       <td>
         <input type="checkbox" style="visibility: hidden;" disabled>
       </td>
       <td>
-        <b><label for="gluetun_wireguard_preshared_key">GlueTun WireGuard Preshared Key:</label> </b><input type="text" name="gluetun_wireguard_preshared_key" placeholder="WireGuard preshared key" value="{{.Config.GluetunWGPresharedKey}}">
+        <b><label for="gluetun_wireguard_preshared_key">WireGuard Preshared Key:</label> </b><input type="text" name="gluetun_wireguard_preshared_key" placeholder="WireGuard preshared key" value="{{.Config.GluetunWGPresharedKey}}">
       </td>
     </tr>
-    <tr>
+    <tr data-vpn-type="wireguard">
       <td>
         <input type="checkbox" style="visibility: hidden;" disabled>
       </td>
       <td>
-        <b><label for="gluetun_wireguard_address">GlueTun WireGuard Address:</label> </b><input type="text" name="gluetun_wireguard_address" placeholder="WireGuard address" value="{{.Config.GluetunWGAddress}}">
+        <b><label for="gluetun_wireguard_address">WireGuard Address:</label> </b><input type="text" name="gluetun_wireguard_address" placeholder="WireGuard address" value="{{.Config.GluetunWGAddress}}">
       </td>
     </tr>
-    <tr>
+    <tr data-vpn-type="wireguard">
       <td>
         <input type="checkbox" style="visibility: hidden;" disabled>
       </td>
       <td>
-        <b><label for="gluetun_wireguard_endpoint_ip">GlueTun WireGuard Endpoint IP:</label> </b><input type="text" name="gluetun_wireguard_endpoint_ip" placeholder="WireGuard endpoint IP" value="{{.Config.GluetunWGEndpointIP}}">
+        <b><label for="gluetun_wireguard_endpoint_ip">WireGuard Endpoint IP:</label> </b><input type="text" name="gluetun_wireguard_endpoint_ip" placeholder="WireGuard endpoint IP" value="{{.Config.GluetunWGEndpointIP}}">
       </td>
     </tr>
-    <tr>
+    <tr data-vpn-type="wireguard">
       <td>
         <input type="checkbox" style="visibility: hidden;" disabled>
       </td>
       <td>
-        <b><label for="gluetun_wireguard_endpoint_port">GlueTun WireGuard Endpoint Port:</label> </b><input type="text" name="gluetun_wireguard_endpoint_port" placeholder="WireGuard endpoint port" value="{{.Config.GluetunWGEndpointPort}}">
+        <b><label for="gluetun_wireguard_endpoint_port">WireGuard Endpoint Port:</label> </b><input type="text" name="gluetun_wireguard_endpoint_port" placeholder="WireGuard endpoint port" value="{{.Config.GluetunWGEndpointPort}}">
       </td>
     </tr>
   </table>
@@ -680,7 +689,7 @@
     <span style="font-size: 0.8em; display: block; margin: auto; text-align: center;">2023 by <a href="https://github.com/d3vilh" target="_blank">d3vilh</a> for <a href="https://github.com/d3vilh/raspberry-gateway" target="_blank">raspberry-gateway</a>.</span><br>
 
     <script>
-    // File upload logic
+      // File upload logic
         const uploadForm = document.getElementById('upload-form');
         const successMessage = document.getElementById('success-message');
 
@@ -689,7 +698,7 @@
           successMessage.style.display = 'block';
         });  
 
-    // QbitTorrent Inside VPN popup qbittorrent_inside_ena
+      // QbitTorrent Inside VPN popup qbittorrent_inside_ena
         const checkbox = document.getElementById("qbittorrent_inside_vpn");
         const messageBlock = document.getElementById("qbittorrent_inside_ena");
 
@@ -701,7 +710,7 @@
           }
         });
 
-    // QbitTorrent Inside GlueTun popup qbittorrent_insideg_ena
+      // QbitTorrent Inside GlueTun popup qbittorrent_insideg_ena
         const checkbox2 = document.getElementById("qbittorrent_inside_gluetun");
         const messageBlock2 = document.getElementById("qbittorrent_insideg_ena");
 
@@ -713,7 +722,7 @@
           }
         });
 
-    // Combine config-form1 and config-form2 into one fom and submit it
+      // Combine config-form1 and config-form2 into one fom and submit it
         const saveMessage = document.getElementById('save-message');
         document.getElementById('submit-btn').addEventListener('click', function(event) {
           event.preventDefault();
@@ -741,7 +750,7 @@
             xhr.send(formData);
         });
  
-    // Auto refresh iframe for webinstall.log
+      // Auto refresh iframe for webinstall.log
         const outputIframe = document.getElementById('output-iframe');
         setInterval(() => {
           outputIframe.src = 'webinstall.log?' + new Date().getTime();
@@ -750,7 +759,26 @@
           };
         }, 3000);
 
-    // Checkbox logic  
+      // Gluetun Hide/Show VPN and Wireguard options
+        const selectElement = document.querySelector('select[name="gluetun_vpn_type"]');
+        const openvpnRows = document.querySelectorAll('tr[data-vpn-type="openvpn"]');
+        const wireguardRows = document.querySelectorAll('tr[data-vpn-type="wireguard"]');
+
+        // Hide both rows by default
+        openvpnRows.forEach(row => row.style.display = 'none');
+        wireguardRows.forEach(row => row.style.display = 'none');
+
+        selectElement.addEventListener('change', () => {
+          if (selectElement.value === 'openvpn') {
+            openvpnRows.forEach(row => row.style.display = '');
+            wireguardRows.forEach(row => row.style.display = 'none');
+          } else {
+            openvpnRows.forEach(row => row.style.display = 'none');
+            wireguardRows.forEach(row => row.style.display = '');
+          }
+        });
+
+      // Checkbox logic  
         const unboundDnsEnable = document.getElementById('unbound_dns_enable');
         const piholeEnable = document.querySelector('input[name="pihole_enable"]');
         const piholeWithUnbound = document.querySelector('input[name="pihole_with_unbound"]');
@@ -851,7 +879,7 @@
           }
         });
 
-    // OVPN Certificate upload section
+      // OVPN Certificate upload section
         document.addEventListener('DOMContentLoaded', () => {
           const form = document.getElementById('upload-form');
           // Rest of the code goes here
