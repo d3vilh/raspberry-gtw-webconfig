@@ -187,6 +187,73 @@
             <b><label for="unbound_dns_enable">Unbound DNS</label></b>
           </td>
         </tr>
+      </table>
+
+      <details>
+        <summary style="font-family: monospace; color: #000000;">
+          <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+              <path d="m15.146 12.354-5.792 5.792a.5.5 0 0 1-.854-.353V6.207a.5.5 0 0 1 .854-.353l5.792 5.792a.5.5 0 0 1 0 .708Z"></path>
+            </svg>
+          </span> Optional parameters 
+        </summary> 
+
+        <table style="margin-left: 20px;">
+          <tr>
+            <td>
+              <input type="checkbox" style="visibility: hidden;" disabled>
+            </td>
+            <td>
+              <label for="unbound_dns_identitiy">Unbound Identitiy:</label>
+              <input type="text" name="unbound_dns_identitiy" placeholder="unbound-dns" value="{{.Config.UnboundDBSIdentity}}">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input type="checkbox" name="unbound_dns_hide" id="unbound_dns_hide" {{if .Config.UndoundDNSHide}}checked{{end}}>
+            </td>
+            <td>
+              <label for="unbound_dns_hide">Unbound Hide mode</label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input type="checkbox" name="unbound_dns_ipv4" id="unbound_dns_ipv4" {{if .Config.UnboundDNSIpV4}}checked{{end}}>
+            </td>
+            <td>
+              <label for="unbound_dns_ipv4">Unbound IP4 Suppport</label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input type="checkbox" name="unbound_dns_ipv6" id="unbound_dns_ipv6" {{if .Config.UnboundDNSIpV6}}checked{{end}}>
+            </td>
+            <td>
+              <label for="unbound_dns_ipv6">Unbound IP6 Support</label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input type="checkbox" style="visibility: hidden;" disabled>
+            </td>
+            <td>
+              <label for="unbound_dns_num_threads">Number of threads:</label>
+              <input type="text" name="unbound_dns_num_threads" placeholder="1" value="{{.Config.UnboundDNSNumThreads}}">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input type="checkbox" style="visibility: hidden;" disabled>
+            </td>
+            <td>
+              <label for="unbound_dns_upstream_4_pihole">Unbound Pi-Hole Upstream DNS Server:</label>
+              <input type="text" name="unbound_dns_upstream_4_pihole" placeholder="127.0.0.1#5335" value="{{.Config.UnboundDNSUpstream}}">
+            </td>
+          </tr>
+        </table>        
+      </details>
+      
+      <table style="background-color: transparent">
         <tr>
           <td>
             <input type="checkbox" name="pihole_enable" id="pihole_enable" {{if .Config.PiholeEnable}}checked{{end}}>
@@ -197,12 +264,38 @@
         </tr>
         <tr>
           <td>
-            &nbsp
+            <input type="checkbox" style="visibility: hidden;" disabled>
           </td>
           <td>
-            <label for="pihole_password">Pi-hole Web UI Password:</label> <input type="password" autocomplete="off" name="pihole_password" placeholder="Change this password!" value="{{.Config.PiholePassword}}">
+            <label for="pihole_password">Pi-hole Web UI Password:</label> 
+            <input type="password" autocomplete="off" name="pihole_password" placeholder="Change this password!" value="{{.Config.PiholePassword}}">
           </td>
         </tr>
+      </table>
+
+      <details>
+        <summary style="font-family: monospace; color: #000000;">
+          <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+              <path d="m15.146 12.354-5.792 5.792a.5.5 0 0 1-.854-.353V6.207a.5.5 0 0 1 .854-.353l5.792 5.792a.5.5 0 0 1 0 .708Z"></path>
+            </svg>
+          </span> Optional parameters 
+        </summary> 
+
+        <table style="margin-left: 20px;">
+          <tr>
+            <td>
+              <input type="checkbox" style="visibility: hidden;" disabled>
+            </td>
+            <td>
+              <label for="pihole_hostname">Pi-Hole Hostname:</label>
+              <input type="text" name="pihole_hostname" placeholder="pihole" value="{{.Config.PiholeHostname}}">
+            </td>
+          </tr>
+        </table>
+    </details>
+
+      <table style="background-color: transparent">
         <tr>
           <td>
             <input type="checkbox" name="pihole_with_unbound" id="pihole_with_unbound" {{if .Config.PiholeWithUnbound}}checked{{end}}>
@@ -221,27 +314,85 @@
         </tr>
         <tr>
           <td>
-            &nbsp
+            <input type="checkbox" style="visibility: hidden;" disabled>
           </td>
           <td>
-            <label for="tech_dns_password">TechnitiumDNS Web UI Password:</label> <input type="password" autocomplete="off" name="tech_dns_password" placeholder="Change this password!" value="{{.Config.TechDNSPassword}}">
+            <label for="tech_dns_password">TechnitiumDNS Web UI Password:</label> 
+            <input type="password" autocomplete="off" name="tech_dns_password" placeholder="Change this password!" value="{{.Config.TechDNSPassword}}">
           </td>
         </tr>
       </table>
-      <span>You can't use TechnitiumDNS and Unbound + Pi-Hole at the same time, as both utilize same 53 port for DNS.</span><br>
-      <span>Advanced configuration available in advanced.config.yml</span><br>
 
-      <h1>OpenVPN</h1>
-      <details>
+      <details techdns="config">
         <summary style="font-family: monospace; color: #000000;">
           <span class="icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
               <path d="m15.146 12.354-5.792 5.792a.5.5 0 0 1-.854-.353V6.207a.5.5 0 0 1 .854-.353l5.792 5.792a.5.5 0 0 1 0 .708Z"></path>
             </svg>
-          </span> OpenVPN Server Setup
+          </span> Optional parameters 
         </summary> 
 
-        <table style="margin-left: 30px;">
+      <table style="margin-left: 20px;">
+        <tr techdns="config">
+          <td>
+            <input type="checkbox" style="visibility: hidden;" disabled>
+          </td>
+          <td>
+            <label for="tech_dns_hostname">TechnitiumDNS Hostname:</label>
+            <input type="text" name="tech_dns_hostname" placeholder="tech-dns" value="{{.Config.TechDNSHostname}}">
+          </td>
+        </tr>
+        <tr techdns="config">
+          <td>
+            <input type="checkbox" style="visibility: hidden;" disabled>
+          </td>
+          <td>
+            <label for="tech_dns_server">TechnitiumDNS Server:</label>
+            <input type="text" name="tech_dns_server" placeholder="tech-dns" value="{{.Config.TechDNSServer}}">
+          </td>
+        </tr>
+        <tr techdns="config">
+          <td>
+            <input type="checkbox" name="tech_dns_ipv6" id="tech_dns_ipv6" {{if .Config.TechDNSIpv6}}checked{{end}}>
+          </td>
+          <td>
+            <label for="tech_dns_ipv6">Enable IPv6 support</label>
+          </td>
+        </tr>
+        <tr techdns="config">
+          <td>
+            <input type="checkbox" name="tech_dns_blocking" id="tech_dns_blocking" {{if .Config.TechDNSBlocking}}checked{{end}}>
+          </td>
+          <td>
+            <label for="tech_dns_blocking">Enable Blocking Zone</label>
+          </td>
+        </tr>
+        <tr techdns="config">
+          <td>
+            <input type="checkbox" style="visibility: hidden;" disabled>
+          </td>
+          <td>
+            <label for="tech_dns_forwarders">TechnitiumDNS Forwarders:</label>
+            <input type="text" name="tech_dns_forwarders" placeholder="1.1.1.1, 8.8.8.8" value="{{.Config.TechDNSForwaders}}">
+          </td>
+        </tr>
+        <tr techdns="config">
+          <td>
+            <input type="checkbox" style="visibility: hidden;" disabled>
+          </td>
+          <td>
+            <label for="tech_dns_forwarder_proto">TechnitiumDNS Forwarders protocol:</label>
+            <input type="text" name="tech_dns_forwarder_proto" placeholder="Https" value="{{.Config.TechDNSForwaderProtocol}}">
+          </td>
+        </tr>
+      </table>
+    </details>
+
+      <span>You can't use TechnitiumDNS and Unbound + Pi-Hole at the same time, as both utilize same 53 port for DNS.</span><br>
+
+      <h1>OpenVPN</h1>
+      <p>OpenVPN Server Setup</p>
+        <table>
           <tr>
             <td>
               <input type="checkbox" name="ovpn_server_enable" id="ovpn_server_enable" {{if .Config.OpenVPNServer}}checked{{end}}>
@@ -250,7 +401,7 @@
               <b><label for="ovpn_server_enable">Enable OpenVPN Server</label></b>
             </td>
           </tr>
-          <tr>
+          <tr openvpn-server="config">
             <td>
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
@@ -259,16 +410,17 @@
               <input type="text" name="ovpnui_user" placeholder="admin" value="{{.Config.OpenVPNUIUser}}">
             </td>
           </tr>
-          <tr>
+          <tr openvpn-server="config">
             <td>
               &nbsp
             </td>
             <td>
-              <label for="ovpnui_password">OpenVPN Server Web UI Password:</label> <input type="password" autocomplete="off" name="ovpnui_password" placeholder="Change this password!" value="{{.Config.OpenVPNUIPassword}}">
+              <label for="ovpnui_password">OpenVPN Server Web UI Password:</label> 
+              <input type="password" autocomplete="off" name="ovpnui_password" placeholder="Change this password!" value="{{.Config.OpenVPNUIPassword}}">
             </td>
           </tr>
 
-          <tr>
+          <tr openvpn-server="config">
             <td>
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
@@ -277,7 +429,7 @@
               <input type="text" name="ovpn_trusted_subnet" placeholder="10.0.70.0/24" value="{{.Config.OpenVPNServerTrusSub}}">
             </td>
           </tr>
-          <tr>
+          <tr openvpn-server="config">
             <td>
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
@@ -286,42 +438,37 @@
               <input type="text" name="ovpn_guest_subnet" placeholder="10.0.71.0/24" value="{{.Config.OpenVPNServerGuestSub}}">
             </td>
           </tr>
-          <tr>
+          <tr openvpn-server="config">
             <td>
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
               <label for="ovpn_home_subnet">Your Home subnet:</label>
-              <input type="text" name="ovpn_home_subnet" placeholder="10.0.60.0/24" value="{{.Config.OpenVPNServerHomeSub}}"><span> This should be your Home subnet, to allow Trusted VPN Users access.</span>
+              <input type="text" name="ovpn_home_subnet" placeholder="10.0.60.0/24" value="{{.Config.OpenVPNServerHomeSub}}">
+              <span> This should be your Home subnet, to allow Trusted VPN Users access.</span>
             </td>
           </tr>
-          <tr>
+          <tr openvpn-server="config">
             <td>
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
               <label for="ovpn_remote">OpenVPN Server "remote" option:</label>
-              <input type="text" name="ovpn_remote" placeholder="remote 123.234.123.12 12345 udp" value="{{.Config.OpenVPNServerRemoteOpt}}" style="width: 210px;"><span> Client.ovpn profile connect line.</span>
+              <input type="text" name="ovpn_remote" placeholder="remote 123.234.123.12 12345 udp" value="{{.Config.OpenVPNServerRemoteOpt}}" style="width: 210px;">
+              <span> Client.ovpn profile connect line.</span>
             </td>
           </tr>
-          <td>
-            &nbsp
-          </td>
-          <td>
-            &nbsp
-          </td>
+          <tr>
+            <td>
+              &nbsp
+            </td>
+            <td>
+              &nbsp
+            </td>
+          </tr>
         </table>
-      </details>
-
-      <details>
-        <summary style="font-family: monospace; color: #000000;">
-          <span class="icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-              <path d="m15.146 12.354-5.792 5.792a.5.5 0 0 1-.854-.353V6.207a.5.5 0 0 1 .854-.353l5.792 5.792a.5.5 0 0 1 0 .708Z"></path>
-            </svg>
-          </span> OpenVPN Client Setup
-        </summary> 
-        <table style="margin-left: 30px;">
+        <p>OpenVPN Client Setup</p>
+        <table>
           <tr>
             <td>
               <input type="checkbox" name="ovpn_client_enable" id="ovpn_client_enable" {{if .Config.OpenVPNClient}}checked{{end}}>
@@ -334,24 +481,25 @@
     </form>
 
     <form id="upload-form" action="/upload?type=openvpn" method="post" enctype="multipart/form-data">
-        <table style="margin-left: 30px;">
-          <tr>
+        <table>
+          <tr openvpn-client="config">
             <td>
             <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <b><label for="ovpn_client_cert">OpenVPN Client Certificate:</label> </b>
+              <b><label for="ovpn_client_cert" title="Client.ovpn configuration file.">OpenVPN Client Configuration file:</label> </b>
               <input type="file" name="file"> 
               <input type="submit" value="Upload">
-              <p id="ovpn-success-message" style="display: none; margin-left: 10px;">File uploaded as: <span>~/raspberry-gateway/openvpn-client/{{.Config.OpenVPNClientCert}}</span></p>
+              <p id="ovpn-success-message" style="display: none; margin-left: 10px;">File uploaded as: 
+                <span>~/raspberry-gateway/openvpn-client/{{.Config.OpenVPNClientCert}}</span></p>
             </td>
           </tr>
         </table>
     </form>
 
     <form id="secret-form" action="/upload?type=openvpn-secret" method="post" enctype="multipart/form-data">
-      <table style="margin-left: 30px;">
-        <tr>
+      <table>
+        <tr openvpn-client="config">
           <td>
             <input type="checkbox" style="visibility: hidden;" disabled>
           </td>
@@ -359,25 +507,26 @@
             <label for="ovpn_client_secret">OpenVPN Client Secret:</label>
             <input type="file" name="file"> 
             <input type="submit" value="Upload">
-            <p id="secret-success-message" style="display: none; margin-left: 10px;">File uploaded as: <span>~/raspberry-gateway/openvpn-client/{{.Config.OpenVPNClientSecret}}</span></p>
+            <p id="secret-success-message" style="display: none; margin-left: 10px;">File uploaded as: 
+              <span>~/raspberry-gateway/openvpn-client/{{.Config.OpenVPNClientSecret}}</span></p>
           </td>
         </tr>
         </table>
     </form>
 
-
     <form id="config-form2" method="POST" action="/save">
-        <table style="margin-left: 30px;">
-          <tr>
+        <table>
+          <tr openvpn-client="config">
             <td>
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
               <label for="ovpn_client_allowed_subnet">OpenVPN Client Allowed Subnet:</label>
-              <input type="text" name="ovpn_client_allowed_subnet" placeholder="Sub&Mask: 1.1.1.1/24" value="{{.Config.OpenVPNClientAllowedSub}}"><span> This should be your local WiFi network.</span>
+              <input type="text" name="ovpn_client_allowed_subnet" placeholder="Sub&Mask: 1.1.1.1/24" value="{{.Config.OpenVPNClientAllowedSub}}">
+              <span> This should be your local WiFi network.</span>
             </td>
           </tr>
-          <tr>
+          <tr openvpn-client="config">
             <td>
               &nbsp
             </td>
@@ -385,28 +534,20 @@
               <span> This is to allow access to qBitTorrent Web UI from your local network when VPN-client tunnel is connected.</span>
             </td>
           </tr>
-          <tr>
+          <tr openvpn-client="config">
             <td>
               <input type="checkbox" name="ovpn_client_killswitch" id="ovpn_client_killswitch" {{if .Config.OpenVPNClientKillSwitch}}checked{{end}}>
             </td>
             <td>
-              <label for="ovpn_client_killswitch">OpenVPN Client Killswitch</label><span> Blocking all traffic if OpenVPN Client is not connected.</span>
+              <label for="ovpn_client_killswitch">OpenVPN Client Killswitch</label>
+              <span> Blocking all traffic if OpenVPN Client is not connected.</span>
             </td>
           </tr>
         </table>
-      </details>
 
       <h1>GlueTun</h1>
-    <details>
-        <summary style="font-family: monospace; color: #000000;">
-          <span class="icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-              <path d="m15.146 12.354-5.792 5.792a.5.5 0 0 1-.854-.353V6.207a.5.5 0 0 1 .854-.353l5.792 5.792a.5.5 0 0 1 0 .708Z"></path>
-            </svg>
-          </span> GlueTun universal VPN Client setup
-        </summary> 
-      
-        <table style="margin-left: 30px;">
+      <p>GlueTun universal VPN Client setup.</p>
+        <table>
           <tr>
             <td>
               <input type="checkbox" name="gluetun_vpnclient_enable" id="gluetun_vpnclient_enable" {{if .Config.GluetunEnable}}checked{{end}}>
@@ -415,41 +556,45 @@
               <b><label for="gluetun_vpnclient_enable">Enable GlueTun</label></b>
             </td>
           </tr>
-          <tr>
+          <tr gluetun-client="config">
             <td>
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <b><label for="gluetun_vpn_service_provider">GlueTun VPN Service Provider:</label> </b><input type="text" name="gluetun_vpn_service_provider" placeholder="GlueTun Service Provider" value="{{.Config.GluetunServiceProvider}}">
+              <b><label for="gluetun_vpn_service_provider">GlueTun VPN Service Provider:</label> </b>
+              <input type="text" name="gluetun_vpn_service_provider" placeholder="GlueTun Service Provider" value="{{.Config.GluetunServiceProvider}}">
               <span>&nbsp<a href="https://github.com/qdm12/gluetun-wiki/tree/main/setup/providers" target="_blank">List</a> of Supported Service Providers</span>
             </td>
           </tr>
-          <tr>
+          <tr gluetun-client="config">
             <td>
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="gluetun_server_countries">GlueTun Server Countries:</label> <input type="text" name="gluetun_server_countries" placeholder="Comma separated list" value="{{.Config.GluetunServerCountries}}">
+              <label for="gluetun_server_countries">GlueTun Server Countries:</label> 
+              <input type="text" name="gluetun_server_countries" placeholder="Comma separated list" value="{{.Config.GluetunServerCountries}}">
             </td>
           </tr>
-          <tr>
+          <tr gluetun-client="config">
             <td>
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="gluetun_server_cities">GlueTun Server Cities:</label> <input type="text" name="gluetun_server_cities" placeholder="Comma separated list" value="{{.Config.GluetunServerCities}}">
+              <label for="gluetun_server_cities">GlueTun Server Cities:</label> 
+              <input type="text" name="gluetun_server_cities" placeholder="Comma separated list" value="{{.Config.GluetunServerCities}}">
             </td>
           </tr>
-          <tr>
+          <tr gluetun-client="config">
             <td>
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="gluetun_server_update_per">GlueTun Server Update Period:</label> <input type="text" name="gluetun_server_update_per" placeholder="set 0" value="{{.Config.GluetunServerUpdatePer}}">
+              <label for="gluetun_server_update_per">GlueTun Server Update Period:</label> 
+              <input type="text" name="gluetun_server_update_per" placeholder="set 0" value="{{.Config.GluetunServerUpdatePer}}">
             </td>
           </tr>
 
-          <tr>
+          <tr gluetun-client="config">
             <td>
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
@@ -462,7 +607,7 @@
               </select>
             </td>
           </tr>
-          <tr>
+          <tr gluetun-client="config">
             <td>
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
@@ -483,7 +628,8 @@
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <b><label for="gluetun_openvpn_user">OpenVPN Client User:</label> </b><input type="text" name="gluetun_openvpn_user" placeholder="none" value="{{.Config.GluetunOpenvpnUser}}">
+              <b><label for="gluetun_openvpn_user">OpenVPN Client User:</label> </b>
+              <input type="text" name="gluetun_openvpn_user" placeholder="none" value="{{.Config.GluetunOpenvpnUser}}">
             </td>
           </tr>
           <tr data-vpn-type="openvpn">
@@ -491,7 +637,8 @@
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="gluetun_openvpn_password">OpenVPN Client Password:</label> <input type="password" autocomplete="off" name="gluetun_openvpn_password" placeholder="none" value="{{.Config.GluetunOpenvpnPassword}}">
+              <label for="gluetun_openvpn_password">OpenVPN Client Password:</label> 
+              <input type="password" autocomplete="off" name="gluetun_openvpn_password" placeholder="none" value="{{.Config.GluetunOpenvpnPassword}}">
             </td>
           </tr>
           <tr data-vpn-type="openvpn">
@@ -506,7 +653,7 @@
     </form>
 
     <form id="glue-form" action="/upload?type=gluetun" method="post" enctype="multipart/form-data">
-        <table style="margin-left: 30px;">
+        <table>
           <tr data-vpn-type="openvpn">
             <td>
             <input type="checkbox" style="visibility: hidden;" disabled>
@@ -515,29 +662,31 @@
               <b><label for="glue_ovpn_custom_conf">OpenVPN Custom Configuration file:</label> </b>
               <input type="file" name="file"> 
               <input type="submit" value="Upload">
-              <p id="glue-success-message" style="display: none; margin-left: 10px;">File uploaded as: <span>~/raspberry-gateway/gluetun/ovpn-client/{{.Config.GluetunOVPNCusomConfig}}</span></p>
+              <p id="glue-success-message" style="display: none; margin-left: 10px;">File uploaded as: 
+                <span>~/raspberry-gateway/gluetun/ovpn-client/{{.Config.GluetunOVPNCusomConfig}}</span></p>
             </td>
           </tr>
         </table>
     </form>
 
     <form id="config-form3" method="POST" action="/save">
-       <table style="margin-left: 30px;">
-        <tr data-vpn-type="wireguard">
-          <td>
-            <input type="checkbox" style="visibility: hidden;" disabled>
-          </td>
-          <td>
-            <p style="margin-left: 0px;">To configure your provider, please only modify the necessary fields and leave the rest as default.</p>
-          </td>
-        </tr>
+       <table>
+         <tr data-vpn-type="wireguard">
+           <td>
+             <input type="checkbox" style="visibility: hidden;" disabled>
+           </td>
+           <td>
+             <p style="margin-left: 0px;">To configure your provider, please only modify the necessary fields and leave the rest as default.</p>
+           </td>
+         </tr>
 
          <tr data-vpn-type="wireguard">
            <td>
              <input type="checkbox" style="visibility: hidden;" disabled>
            </td>
            <td>
-             <b><label for="gluetun_wireguard_private_key">WireGuard Private Key:</label> </b><input type="text" name="gluetun_wireguard_private_key" placeholder="yCbHtKAgJASnJs2S/aZsjag9Fy04csmR4qDUDkJgX2c=" value="{{.Config.GluetunWGPrivateKey}}">
+             <b><label for="gluetun_wireguard_private_key">WireGuard Private Key:</label> </b>
+             <input type="text" name="gluetun_wireguard_private_key" placeholder="yCbHtKAgJASnJs2S/aZsjag9Fy04csmR4qDUDkJgX2c=" value="{{.Config.GluetunWGPrivateKey}}">
              <span>Your 32 bytes Client private key in base64 format.</span>
            </td>
          </tr>
@@ -546,7 +695,8 @@
              <input type="checkbox" style="visibility: hidden;" disabled>
            </td>
            <td>
-             <label for="gluetun_wireguard_public_key">WireGuard Public Key:</label> <input type="text" name="gluetun_wireguard_public_key" placeholder="none" value="{{.Config.GluetunWGPublicKey}}">
+             <label for="gluetun_wireguard_public_key">WireGuard Public Key:</label> 
+             <input type="text" name="gluetun_wireguard_public_key" placeholder="none" value="{{.Config.GluetunWGPublicKey}}">
              <span>The Server 32 bytes public key in base64 format.</span>
            </td>
          </tr>
@@ -555,7 +705,8 @@
              <input type="checkbox" style="visibility: hidden;" disabled>
            </td>
            <td>
-             <label for="gluetun_wireguard_preshared_key">WireGuard Preshared Key:</label> <input type="text" name="gluetun_wireguard_preshared_key" placeholder="none" value="{{.Config.GluetunWGPresharedKey}}">
+             <label for="gluetun_wireguard_preshared_key">WireGuard Preshared Key:</label> 
+             <input type="text" name="gluetun_wireguard_preshared_key" placeholder="none" value="{{.Config.GluetunWGPresharedKey}}">
              <span>Your 32 bytes pre-shared key in base64 format.</span>
            </td>
          </tr>
@@ -564,7 +715,8 @@
              <input type="checkbox" style="visibility: hidden;" disabled>
            </td>
            <td>
-             <b><label for="gluetun_wireguard_address">WireGuard Addresses:</label> </b><input type="text" name="gluetun_wireguard_address" placeholder="WireGuard address" value="{{.Config.GluetunWGAddress}}">
+             <b><label for="gluetun_wireguard_address">WireGuard Addresses:</label> </b>
+             <input type="text" name="gluetun_wireguard_address" placeholder="WireGuard address" value="{{.Config.GluetunWGAddress}}">
              <span>IP network interface address in the format xx.xx.xx.xx/xx.</span>
            </td>
          </tr>
@@ -573,7 +725,8 @@
              <input type="checkbox" style="visibility: hidden;" disabled>
            </td>
            <td>
-             <label for="gluetun_wireguard_endpoint_ip">WireGuard Endpoint IP:</label> <input type="text" name="gluetun_wireguard_endpoint_ip" placeholder="none" value="{{.Config.GluetunWGEndpointIP}}">
+             <label for="gluetun_wireguard_endpoint_ip">WireGuard Endpoint IP:</label> 
+             <input type="text" name="gluetun_wireguard_endpoint_ip" placeholder="none" value="{{.Config.GluetunWGEndpointIP}}">
              <span>The Server endpoint IP address.</span>
            </td>
          </tr>
@@ -582,24 +735,16 @@
              <input type="checkbox" style="visibility: hidden;" disabled>
            </td>
            <td>
-             <label for="gluetun_wireguard_endpoint_port">WireGuard Endpoint Port:</label> <input type="text" name="gluetun_wireguard_endpoint_port" placeholder="none" value="{{.Config.GluetunWGEndpointPort}}">
+             <label for="gluetun_wireguard_endpoint_port">WireGuard Endpoint Port:</label> 
+             <input type="text" name="gluetun_wireguard_endpoint_port" placeholder="none" value="{{.Config.GluetunWGEndpointPort}}">
              <span>The Server endpoint port.</span>
            </td>
          </tr>
        </table>
-    </details>
       
       <h1>WireGuard</h1>
-      <details>
-        <summary style="font-family: monospace; color: #000000;">
-          <span class="icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-              <path d="m15.146 12.354-5.792 5.792a.5.5 0 0 1-.854-.353V6.207a.5.5 0 0 1 .854-.353l5.792 5.792a.5.5 0 0 1 0 .708Z"></path>
-            </svg>
-          </span> WireGuard Server and UI setup
-        </summary> 
- 
-        <table style="margin-left: 30px;">
+      <p>WireGuard Server and UI setup.</p>
+        <table>
           <tr>
             <td>
               <b><input type="checkbox" name="wireguard_server_enable" id="wireguard_server_enable" {{if .Config.WireGuardServer}}checked{{end}}></b>
@@ -608,68 +753,66 @@
               <b><label for="wireguard_server_enable">WireGuard Server</label></b>
             </td>
           </tr>
-          <tr>
+          <tr wireguard-server="config">
             <td>
               &nbsp
             </td>
             <td>
-            <label for="wireguard_user">WireGuard Server Web UI User:</label>  <input type="text" autocomplete="off" name="wireguard_user" placeholder="admin" value="{{.Config.WireGuardUIUser}}">
+            <label for="wireguard_user">WireGuard Server Web UI User:</label>  
+            <input type="text" autocomplete="off" name="wireguard_user" placeholder="admin" value="{{.Config.WireGuardUIUser}}">
             </td>
-          <tr>
+          <tr wireguard-server="config">
             <td>
               &nbsp
             </td>
             <td>
-            <label for="wireguard_password">WireGuard Server Web UI Password:</label>  <input type="password" autocomplete="off" name="wireguard_password" placeholder="Change this password!" value="{{.Config.WireGuardServerPassword}}">
+            <label for="wireguard_password">WireGuard Server Web UI Password:</label>  
+            <input type="password" autocomplete="off" name="wireguard_password" placeholder="Change this password!" value="{{.Config.WireGuardServerPassword}}">
             </td>
           </tr>
-          <tr>
+          <tr wireguard-server="config">
             <td>
               &nbsp
             </td>
             <td>
-            <label for="wireguard_serverurl">WireGuard Server URL:</label>  <input type="text" autocomplete="off" name="wireguard_serverurl" placeholder="wg.example.com" value="{{.Config.WireGuardServerUrl}}">
+             <label for="wireguard_serverurl">WireGuard Server URL:</label>  
+             <input type="text" autocomplete="off" name="wireguard_serverurl" placeholder="wg.example.com" value="{{.Config.WireGuardServerUrl}}">
             </td>
-          <tr>
+          </tr>
         </table>
-      </details>
 
       <h1>qBitTorrent</h1>
-      <details>
-        <summary style="font-family: monospace; color: #000000;">
-          <span class="icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-              <path d="m15.146 12.354-5.792 5.792a.5.5 0 0 1-.854-.353V6.207a.5.5 0 0 1 .854-.353l5.792 5.792a.5.5 0 0 1 0 .708Z"></path>
-            </svg>
-          </span> An open-source software torrent tracker
-        </summary>      
-
-        <table style="margin-left: 30px;">
+      <p>An open-source software torrent tracker</p>
+        <table>
           <tr>
             <td>
               <input type="checkbox" name="qbittorrent_enable" id="qbittorrent_enable" {{if .Config.QbitTorrentEnable}}checked{{end}}>
             </td>
             <td>
-              <b><label for="qbittorrent_enable">Install qBitTorrent</label></b>
+              <b><label for="qbittorrent_enable">Enable qBitTorrent</label></b>
             </td>
           </tr>
-          <tr>
+          <tr qbittorrent="config">
             <td>
               &nbsp
             </td>
             <td>
-              <label for="qbittorrent_default_password">Default Web UI Password:</label> <input type="text" autocomplete="off" name="qbittorrent_default_password" placeholder="Change this password!" value="{{.Config.QbitTorrentPassword}}" disabled> <span>Change this default password via WebUI at first login.</span>
+              <label for="qbittorrent_default_password">Default Web UI Password:</label> 
+              <input type="text" autocomplete="off" name="qbittorrent_default_password" placeholder="Change this password!" value="{{.Config.QbitTorrentPassword}}" disabled> 
+              <span>Change this default password via WebUI at first login.</span>
             </td>
           </tr>
-          <tr>
+          <tr qbittorrent="config">
             <td>
               &nbsp
             </td>
             <td>
-              <label for="qbittorrent_webui_port">qBitTorrent Web UI Port:</label> <input type="text" name="qbittorrent_webui_port" placeholder="8090" value="{{.Config.QbitTorrentWebuiPort}}"> <span>Do not change it unless you know what you are doing.</span>
+              <label for="qbittorrent_webui_port">qBitTorrent Web UI Port:</label> 
+              <input type="text" name="qbittorrent_webui_port" placeholder="8090" value="{{.Config.QbitTorrentWebuiPort}}"> 
+              <span>Do not change it unless you know what you are doing.</span>
             </td>
           </tr>
-          <tr>
+          <tr qbittorrent="config">
             <td>
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
@@ -677,7 +820,7 @@
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
           </tr>
-          <tr>
+          <tr qbittorrent="config">
             <td>
               <input type="checkbox" name="qbittorrent_inside_vpn" id="qbittorrent_inside_vpn" {{if .Config.QbitTorrentInVPN}}checked{{end}}>
             </td>
@@ -686,7 +829,7 @@
               <p id="qbittorrent_inside_ena" style="display: none; margin-left: 10px;">Don't forget to upload your <b>"OpenVPN Client Certificate"</b> and set <b>"OpenVPN Client Allowed Subnet"</b> above.</p>
             </td>
           </tr>
-          <tr>
+          <tr qbittorrent="config">
             <td>
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
@@ -694,7 +837,7 @@
             <span>Route all qBitTorrent traffic via OpenVPN Client connection.</span>
             </td>
           </tr>
-          <tr>
+          <tr qbittorrent="config">
             <td>
               <input type="checkbox" name="qbittorrent_inside_gluetun" id="qbittorrent_inside_gluetun" {{if .Config.QbitTorrentInGluetun}}checked{{end}}>
             </td>
@@ -703,7 +846,7 @@
               <p id="qbittorrent_insideg_ena" style="display: none; margin-left: 10px;">Don't forget to complete <b>"GlueTun"</b> configuration above.</p>
             </td>
           </tr>
-          <tr>
+          <tr qbittorrent="config">
             <td>
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
@@ -712,7 +855,6 @@
             </td>
           </tr>
         </table>
-      </details>
 
       <h1>Monitoring</h1>
       <p>Raspberry-monitoring setup.</p>
@@ -730,7 +872,8 @@
             <input type="checkbox" style="visibility: hidden;" disabled>
           </td>
           <td>
-            <label for="monitoring_grafana_admin_password">Grafana first login Password:</label> <input type="text" name="monitoring_grafana_admin_password" placeholder="admin" value="{{.Config.MonitoringGrafPassword}}">
+            <label for="monitoring_grafana_admin_password">Grafana first login Password:</label> 
+            <input type="text" name="monitoring_grafana_admin_password" placeholder="admin" value="{{.Config.MonitoringGrafPassword}}">
           </td>
         </tr>
         <tr>
@@ -738,7 +881,9 @@
             <input type="checkbox" style="visibility: hidden;" disabled>
           </td>
           <td>
-            <label for="monitoring_days_keep_interval">Days to keep history in DB:</label> <input type="text" name="monitoring_days_keep_interval" placeholder="90d" value="{{.Config.MonitoringDays2Keep}}"> <span> Decrease if you have less than 5Gb of free disk space.</span>
+            <label for="monitoring_days_keep_interval">Days to keep history in DB:</label> 
+            <input type="text" name="monitoring_days_keep_interval" placeholder="90d" value="{{.Config.MonitoringDays2Keep}}"> 
+            <span> Decrease if you have less than 5Gb of free disk space.</span>
           </td>
         </tr>
         <tr>
@@ -746,7 +891,8 @@
             <input type="checkbox" style="visibility: hidden;" disabled>
           </td>
           <td>
-            <label for="monitoring_speedtest_interval">Speed-test run interval:</label> <input type="text" name="monitoring_speedtest_interval" placeholder="60m" value="{{.Config.MonitoringSpeedTestInterval}}">
+            <label for="monitoring_speedtest_interval">Speed-test run interval:</label> 
+            <input type="text" name="monitoring_speedtest_interval" placeholder="60m" value="{{.Config.MonitoringSpeedTestInterval}}">
           </td>
         </tr>
         <tr>
@@ -754,7 +900,8 @@
             <input type="checkbox" style="visibility: hidden;" disabled>
           </td>
           <td>
-            <label for="monitoring_ping_interval">Ping hosts interval:</label> <input type="text" name="monitoring_ping_interval" placeholder="30s" value="{{.Config.MonitoringPingInterval}}">
+            <label for="monitoring_ping_interval">Ping hosts interval:</label> 
+            <input type="text" name="monitoring_ping_interval" placeholder="30s" value="{{.Config.MonitoringPingInterval}}">
           </td>
         </tr>
         <tr>
@@ -767,7 +914,6 @@
         </tr>
       </table>
       
-
       <details>
         <summary style="font-family: monospace; color: #000000;">
           <span class="icon">
@@ -795,29 +941,32 @@
             </td>
           </tr>
 
-          <tr>
+          <tr pikvm-monitoring="config">
             <td>
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="pikvm_target_ip">PiKVM IP address:</label> <input type="text" name="pikvm_target_ip" placeholder="IP address" value="{{.Config.PiKVMtargetIp}}">
+              <label for="pikvm_target_ip">PiKVM IP address:</label> 
+              <input type="text" name="pikvm_target_ip" placeholder="IP address" value="{{.Config.PiKVMtargetIp}}">
             </td>
           </tr>
-          <tr>
+          <tr pikvm-monitoring="config">
             <td>
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="pikvm_web_user">PiKVM Web UI user:</label> <input type="text" name="pikvm_web_user" placeholder="Username" value="{{.Config.PiKVMwebUser}}">
+              <label for="pikvm_web_user">PiKVM Web UI user:</label> 
+              <input type="text" name="pikvm_web_user" placeholder="Username" value="{{.Config.PiKVMwebUser}}">
               <span>The PiKVM side Web-UI username for accessing statistics.</span>
             </td>
           </tr>
-          <tr>
+          <tr pikvm-monitoring="config">
             <td>
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="pikvm_web_password">PiKVM Web UI password:</label> <input type="password" name="pikvm_web_password" placeholder="Password" value="{{.Config.PiKVMwebPassword}}">
+              <label for="pikvm_web_password">PiKVM Web UI password:</label> 
+              <input type="password" name="pikvm_web_password" placeholder="Password" value="{{.Config.PiKVMwebPassword}}">
               <span>PiKVM Web-UI password.</span>
             </td>
           </tr>
@@ -827,9 +976,13 @@
               <input type="checkbox" name="airgradient_monitoring_enable" id="airgradient_monitoring_enable" {{if .Config.AirGradientMonitoring}}checked{{end}}>
             </td>
             <td>
-              <b><label for="airgradient_monitoring_enable">AirGradient Monitoring</label></b> <span>Configure advanced.config.yml before running Installation.</span>
+              <b><label for="airgradient_monitoring_enable">AirGradient Monitoring</label></b> 
+            </td>
+            <td id="airgradient_ena" style="display: none;">
+              <span margin-left: 10px;">Configure <b>advanced.config.yml</b> before running Installation</span>
             </td>
           </tr>
+
           <tr>
             <td>
               <input type="checkbox" name="starlink_monitoring_enable" id="starlink_monitoring_enable" {{if .Config.StarLinkMonitoring}}checked{{end}}>
@@ -838,20 +991,22 @@
               <b><label for="starlink_monitoring_enable">StarLink Monitoring</label></b>
             </td>
           </tr>
-          <tr>
+          <tr starlink-monitoring="config">
             <td>
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="starlink_ip">StarLink IP address:</label> <input type="text" name="starlink_ip" placeholder="IP address" value="{{.Config.StarLinkIP}}">
+              <label for="starlink_ip">StarLink IP address:</label> 
+              <input type="text" name="starlink_ip" placeholder="IP address" value="{{.Config.StarLinkIP}}">
             </td>
           </tr>
-          <tr>
+          <tr starlink-monitoring="config">
             <td>
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="starlink_port">StarLink Port:</label> <input type="text" name="starlink_port" placeholder="Port" value="{{.Config.StarLinkPort}}">
+              <label for="starlink_port">StarLink Port:</label> 
+              <input type="text" name="starlink_port" placeholder="Port" value="{{.Config.StarLinkPort}}">
             </td>
           </tr>
 
@@ -863,44 +1018,49 @@
               <b><label for="shelly_plug_monitoring_enable">ShellyPlug Monitoring</label></b>
             </td>
           </tr>
-          <tr>
+          <tr shellyplug-monitoring="config">
             <td>
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="shelly_plug_hostname">ShellyPlug Hostname:</label> <input type="text" name="shelly_plug_hostname" placeholder="hostname" value="{{.Config.ShellyPlugHostname}}">
+              <label for="shelly_plug_hostname">ShellyPlug Hostname:</label> 
+              <input type="text" name="shelly_plug_hostname" placeholder="hostname" value="{{.Config.ShellyPlugHostname}}">
             </td>
           </tr>
-          <tr>
+          <tr shellyplug-monitoring="config">
             <td>
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="shelly_ip">ShellyPlug IP:</label> <input type="text" name="shelly_ip" placeholder="IP address" value="{{.Config.ShellyPlugIP}}">
+              <label for="shelly_ip">ShellyPlug IP:</label> 
+              <input type="text" name="shelly_ip" placeholder="IP address" value="{{.Config.ShellyPlugIP}}">
             </td>
           </tr>
-          <tr>
+          <tr shellyplug-monitoring="config">
             <td>
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="shelly_port">ShellyPlug Port:</label> <input type="text" name="shelly_port" placeholder="Port" value="{{.Config.ShellyPlugPort}}">
+              <label for="shelly_port">ShellyPlug Port:</label> 
+              <input type="text" name="shelly_port" placeholder="Port" value="{{.Config.ShellyPlugPort}}">
             </td>
           </tr>
-          <tr>
+          <tr shellyplug-monitoring="config">
             <td>
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="shelly_plug_http_username">ShellyPlug Username:</label> <input type="text" name="shelly_plug_http_username" placeholder="Unsername" value="{{.Config.ShellyPlugHttpUser}}">
+              <label for="shelly_plug_http_username">ShellyPlug Username:</label> 
+              <input type="text" name="shelly_plug_http_username" placeholder="Unsername" value="{{.Config.ShellyPlugHttpUser}}">
             </td>
           </tr>
-          <tr>
+          <tr shellyplug-monitoring="config">
             <td>
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="shelly_plug_http_password">ShellyPlug Password:</label> <input type="password" name="shelly_plug_http_password" placeholder="Unsername" value="{{.Config.ShellyPlugHttpPassword}}">
+              <label for="shelly_plug_http_password">ShellyPlug Password:</label> 
+              <input type="password" name="shelly_plug_http_password" placeholder="Unsername" value="{{.Config.ShellyPlugHttpPassword}}">
             </td>
           </tr>
           <tr>
@@ -908,7 +1068,8 @@
               &nbsp
             </td>
             <td>
-              <label for="raspberry_gateway_ansible_use" style="visibility: hidden;">Ansible Use:</label> <input type="text" name="raspberry_gateway_ansible_use" value="{{.InventoryConfig.All.Hosts.RaspberryGateway.AnsibleUse}}" style="visibility: hidden;" disabled>
+            <!-- Ansible Use --><label for="raspberry_gateway_ansible_use" style="visibility: hidden;">o</label>
+              <input type="text" name="raspberry_gateway_ansible_use" value="{{.InventoryConfig.All.Hosts.RaspberryGateway.AnsibleUse}}" style="visibility: hidden;" disabled>
             </td>
           </tr>
         </table>
@@ -1008,6 +1169,19 @@
           }
         });
 
+      // AirGradient popup airgradient_monitoring_enable
+        const checkbox3 = document.getElementById("airgradient_monitoring_enable");
+        const messageBlock3 = document.getElementById("airgradient_ena");
+
+        checkbox3.addEventListener("change", () => {
+          if (checkbox3.checked) {
+            messageBlock3.style.display = "block";
+          } else {
+            messageBlock3.style.display = "none";
+          }
+        });
+
+
       // Combine config-form1, config-form2, and config-form3 into one form and submit it
         const saveMessage = document.getElementById('save-message');
 
@@ -1088,6 +1262,143 @@
           }
         });    
 
+      // Hide/show TechnitiumDNS rows based on tech_dns_enable value
+  //    const TechDNSEnable = document.getElementById('tech_dns_enable');
+    //    const TechDNSConfigRows = document.querySelectorAll('tr[techdns="config"]');
+
+        // Hide the TechnitiumDBS config rows by default
+      //  TechDNSConfigRows.forEach(row => row.style.display = 'none');
+
+//        TechDNSEnable.addEventListener('change', () => {
+  //        if (TechDNSEnable.checked) {
+    //        TechDNSConfigRows.forEach(row => row.style.display = '');
+      //    } else {
+        //    TechDNSConfigRows.forEach(row => row.style.display = 'none');
+ //         }
+   //     });
+
+      // Hide/show rows based on OpenVPN Server enable value  
+        const OpenVPNServerEnable = document.getElementById('ovpn_server_enable');
+        const OpenVPNServerConfigRows = document.querySelectorAll('tr[openvpn-server="config"]');
+
+        // Hide the OpenVPN Server config rows by default
+        OpenVPNServerConfigRows.forEach(row => row.style.display = 'none');
+
+        OpenVPNServerEnable.addEventListener('change', () => {
+          if (OpenVPNServerEnable.checked) {
+            OpenVPNServerConfigRows.forEach(row => row.style.display = '');
+          } else {
+            OpenVPNServerConfigRows.forEach(row => row.style.display = 'none');
+          }
+        });
+
+      // Hide/show rows based on OpenVPN Client enable value  
+      const OpenVPNClientEnable = document.getElementById('ovpn_client_enable');
+        const OpenVPNClientConfigRows = document.querySelectorAll('tr[openvpn-client="config"]');
+
+        // Hide the OpenVPN Clienr config rows by default
+        OpenVPNClientConfigRows.forEach(row => row.style.display = 'none');
+
+        OpenVPNClientEnable.addEventListener('change', () => {
+          if (OpenVPNClientEnable.checked) {
+            OpenVPNClientConfigRows.forEach(row => row.style.display = '');
+          } else {
+            OpenVPNClientConfigRows.forEach(row => row.style.display = 'none');
+          }
+        });
+
+      // Hide/show rows based on GlueTun Client enable value  
+        const glueTunEnable = document.getElementById('gluetun_vpnclient_enable');
+        const glueTunConfigRows = document.querySelectorAll('tr[gluetun-client="config"]');
+
+        // Hide the GlueTun Client config rows by default
+        glueTunConfigRows.forEach(row => row.style.display = 'none');
+
+        glueTunEnable.addEventListener('change', () => {
+          if (glueTunEnable.checked) {
+            glueTunConfigRows.forEach(row => row.style.display = '');
+          } else {
+            glueTunConfigRows.forEach(row => row.style.display = 'none');
+            openvpnRows.forEach(row => row.style.display = 'none');
+            wireguardRows.forEach(row => row.style.display = 'none');
+          }
+        });
+
+      // Hide/show rows based on Wireguard server enable value  
+        const wireguardServerEnable = document.getElementById('wireguard_server_enable');
+        const wireguardServerConfigRows = document.querySelectorAll('tr[wireguard-server="config"]');
+
+        // Hide the wireguard server config rows by default
+        wireguardServerConfigRows.forEach(row => row.style.display = 'none');
+
+        wireguardServerEnable.addEventListener('change', () => {
+          if (wireguardServerEnable.checked) {
+            wireguardServerConfigRows.forEach(row => row.style.display = '');
+          } else {
+            wireguardServerConfigRows.forEach(row => row.style.display = 'none');
+          }
+        });
+
+      // Hide/show rows based on qBitTorrent server enable value  
+      const qBitTorrentEnable = document.getElementById('qbittorrent_enable');
+        const qBitTorrentConfigRows = document.querySelectorAll('tr[qbittorrent="config"]');
+
+        // Hide the qBitTorrent server config rows by default
+        qBitTorrentConfigRows.forEach(row => row.style.display = 'none');
+
+        qBitTorrentEnable.addEventListener('change', () => {
+          if (qBitTorrentEnable.checked) {
+            qBitTorrentConfigRows.forEach(row => row.style.display = '');
+          } else {
+            qBitTorrentConfigRows.forEach(row => row.style.display = 'none');
+          }
+        });
+
+      // Hide/show rows based on PiKVM server enable value  
+      const pikvmmonitoringEnable = document.getElementById('pikvm_monitoring_enable');
+        const pikvmmonitoringConfigRows = document.querySelectorAll('tr[pikvm-monitoring="config"]');
+
+        // Hide the wireguard server config rows by default
+        pikvmmonitoringConfigRows.forEach(row => row.style.display = 'none');
+
+        pikvmmonitoringEnable.addEventListener('change', () => {
+          if (pikvmmonitoringEnable.checked) {
+            pikvmmonitoringConfigRows.forEach(row => row.style.display = '');
+          } else {
+            pikvmmonitoringConfigRows.forEach(row => row.style.display = 'none');
+          }
+        });
+
+      // Hide/show rows based on StarLink server enable value  
+      const starlinkmonitoringEnable = document.getElementById('starlink_monitoring_enable');
+        const starlinkmonitoringConfigRows = document.querySelectorAll('tr[starlink-monitoring="config"]');
+
+        // Hide the StarLink server config rows by default
+        starlinkmonitoringConfigRows.forEach(row => row.style.display = 'none');
+
+        starlinkmonitoringEnable.addEventListener('change', () => {
+          if (starlinkmonitoringEnable.checked) {
+            starlinkmonitoringConfigRows.forEach(row => row.style.display = '');
+          } else {
+            starlinkmonitoringConfigRows.forEach(row => row.style.display = 'none');
+          }
+        });
+
+      // Hide/show rows based on SellyPlug server enable value  
+      const shellyplugmonitoringEnable = document.getElementById('shelly_plug_monitoring_enable');
+        const shellyplugmonitoringConfigRows = document.querySelectorAll('tr[shellyplug-monitoring="config"]');
+
+        // Hide the SellyPlug server config rows by default
+        shellyplugmonitoringConfigRows.forEach(row => row.style.display = 'none');
+
+        shellyplugmonitoringEnable.addEventListener('change', () => {
+          if (shellyplugmonitoringEnable.checked) {
+            shellyplugmonitoringConfigRows.forEach(row => row.style.display = '');
+          } else {
+            shellyplugmonitoringConfigRows.forEach(row => row.style.display = 'none');
+          }
+        });
+
       // Checkbox logic  
         const unboundDnsEnable = document.getElementById('unbound_dns_enable');
         const piholeEnable = document.querySelector('input[name="pihole_enable"]');
@@ -1112,12 +1423,14 @@
         unboundDnsEnable.addEventListener('change', () => {
           if (unboundDnsEnable.checked) {
             techDnsEnable.checked = false;
+        //    TechDNSConfigRows.forEach(row => row.style.display = 'none');
           }
         });
         
         piholeEnable.addEventListener('change', () => {
           if (piholeEnable.checked) {
             techDnsEnable.checked = false;
+      //      TechDNSConfigRows.forEach(row => row.style.display = 'none');
           }
         });
         
@@ -1126,6 +1439,7 @@
             techDnsEnable.checked = false;
             unboundDnsEnable.checked = true;
             piholeEnable.checked = true;
+         //   TechDNSConfigRows.forEach(row => row.style.display = 'none');
           }
         });
         
@@ -1143,8 +1457,10 @@
             qbittorrentEnable.checked = true;
             gluetunEnable.checked = false;
             qbitTorrentInGluetun.checked = false;
+            OpenVPNClientConfigRows.forEach(row => row.style.display = '');
           } else {
             ovpnClientEnable.checked = false;
+            OpenVPNClientConfigRows.forEach(row => row.style.display = 'none');
           }
         });        
 
@@ -1163,9 +1479,11 @@
             gluetunEnable.checked = true;
             qbitTorrentInGluetun.checked = true;
             qbittorrentInsideVpn.checked = false;
+            glueTunConfigRows.forEach(row => row.style.display = '');
           } else {
             gluetunEnable.checked = false;
             gluetunOvpnCustomConf.checked = false;
+            glueTunConfigRows.forEach(row => row.style.display = 'none');
           }
         }); 
 
