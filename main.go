@@ -18,12 +18,24 @@ type Config struct {
 	ConfigDir                   string `yaml:"config_dir"`
 	URTimezone                  string `yaml:"ur_timezone"`
 	UnboundDNSEnable            bool   `yaml:"unbound_dns_enable"`
+	UnboundDBSIdentity          string `yaml:"unbound_dns_identitiy"`
+	UndoundDNSHide              bool   `yaml:"unbound_dns_hide"`
+	UnboundDNSIpV4              bool   `yaml:"unbound_dns_ipv4"`
+	UnboundDNSIpV6              bool   `yaml:"unbound_dns_ipv6"`
+	UnboundDNSNumThreads        string `yaml:"unbound_dns_num_threads"`
+	UnboundDNSUpstream          string `yaml:"unbound_dns_upstream_4_pihole"`
 	PiholeEnable                bool   `yaml:"pihole_enable"`
 	PiholeWithUnbound           bool   `yaml:"pihole_with_unbound"`
 	PiholePassword              string `yaml:"pihole_password"`
 	PiholeHostname              string `yaml:"pihole_hostname"`
 	TechDNSEnable               bool   `yaml:"tech_dns_enable"`
 	TechDNSPassword             string `yaml:"tech_dns_password"`
+	TechDNSHostname             string `yaml:"tech_dns_hostname"`
+	TechDNSIpv6                 bool   `yaml:"tech_dns_ipv6"`
+	TechDNSBlocking             bool   `yaml:"tech_dns_blocking"`
+	TechDNSForwaders            string `yaml:"tech_dns_forwarders"`
+	TechDNSForwaderProtocol     string `yaml:"tech_dns_forwarder_proto"`
+	TechDNSServer               string `yaml:"tech_dns_server"`
 	OpenVPNServer               bool   `yaml:"ovpn_server_enable"`
 	OpenVPNUIUser               string `yaml:"ovpnui_user"`
 	OpenVPNUIPassword           string `yaml:"ovpnui_password"`
@@ -355,12 +367,24 @@ func saveConfig(w http.ResponseWriter, r *http.Request) {
 		ConfigDir:                   r.FormValue("config_dir"),
 		URTimezone:                  r.FormValue("ur_timezone"),
 		UnboundDNSEnable:            r.FormValue("unbound_dns_enable") == "on",
+		UnboundDBSIdentity:          r.FormValue("unbound_dns_identitiy"),
+		UndoundDNSHide:              r.FormValue("unbound_dns_hide") == "on",
+		UnboundDNSIpV4:              r.FormValue("unbound_dns_ipv4") == "on",
+		UnboundDNSIpV6:              r.FormValue("unbound_dns_ipv6") == "on",
+		UnboundDNSNumThreads:        r.FormValue("unbound_dns_num_threads"),
+		UnboundDNSUpstream:          r.FormValue("unbound_dns_upstream_4_pihole"),
 		PiholeEnable:                r.FormValue("pihole_enable") == "on",
 		PiholeWithUnbound:           r.FormValue("pihole_with_unbound") == "on",
 		PiholePassword:              r.FormValue("pihole_password"),
 		PiholeHostname:              "pihole",
 		TechDNSEnable:               r.FormValue("tech_dns_enable") == "on",
 		TechDNSPassword:             r.FormValue("tech_dns_password"),
+		TechDNSHostname:             r.FormValue("tech_dns_hostname"),
+		TechDNSServer:               r.FormValue("tech_dns_server"),
+		TechDNSIpv6:                 r.FormValue("tech_dns_ipv6") == "on",
+		TechDNSBlocking:             r.FormValue("tech_dns_blocking") == "on",
+		TechDNSForwaders:            r.FormValue("tech_dns_forwarders"),
+		TechDNSForwaderProtocol:     r.FormValue("tech_dns_forwarder_proto"),
 		OpenVPNServer:               r.FormValue("ovpn_server_enable") == "on",
 		OpenVPNUIUser:               r.FormValue("ovpnui_user"),
 		OpenVPNUIPassword:           r.FormValue("ovpnui_password"),
