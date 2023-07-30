@@ -82,7 +82,9 @@
             <input type="checkbox" name="portainer_enable" id="portainer_enable" {{if .Config.PortainerEnable}}checked{{end}}>
           </td>
           <td>
-            <label for="portainer_enable" title="UI for Containers management"><b>Install Portainer</b></label>
+            <label for="portainer_enable" title="UI for Containers management">
+              <b>Install Portainer</b>
+            </label>
           </td>
         </tr>
         <tr>
@@ -95,8 +97,10 @@
         <td>
         </td>
           <td>
-            <label for="ur_timezone"><b>Timezone:</b></label>
-            <input type="text" name="ur_timezone" placeholder="Local Timezone" value="{{.Config.URTimezone}}">
+            <label for="ur_timezone" title="Your timezone for all services.">
+              <b>Timezone:</b>
+            </label>
+            <input type="text" name="ur_timezone" title="Your timezone for all services." placeholder="Local Timezone" value="{{.Config.URTimezone}}">
             <span>&nbsp Define your <a href="https://ipapi.co/timezone" target="_blank">Time Zone</a></span>
           </td>
         </tr>
@@ -110,8 +114,10 @@
         <td>
         </td>
           <td>
-            <label for="raspberry_gateway_ansible_user"><b>Ansible User:</b></label>
-            <input type="text" name="raspberry_gateway_ansible_user" placeholder="Current Linux username" value="{{.InventoryConfig.All.Hosts.RaspberryGateway.AnsibleUser}}">
+            <label for="raspberry_gateway_ansible_user" title="The username used by Ansible to connect to the Raspberry Gateway.">
+              <b>Ansible User:</b>
+            </label>
+            <input type="text" name="raspberry_gateway_ansible_user" title="The username used by Ansible to connect to the Raspberry Gateway." placeholder="Current Linux username" value="{{.InventoryConfig.All.Hosts.RaspberryGateway.AnsibleUser}}">
           </td>
         </tr>
         <tr>
@@ -137,29 +143,33 @@
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="raspberry_gateway_ansible_connection"><b>Ansible Connection:</b></label>
-              <input type="text" name="raspberry_gateway_ansible_connection" placeholder="Local or ssh" value="{{.InventoryConfig.All.Hosts.RaspberryGateway.AnsibleConnection}}">
+              <label for="raspberry_gateway_ansible_connection" title="The connection type used by Ansible to connect to the Raspberry Gateway.">
+                <b>Ansible Connection:</b>
+              </label>
+              <input type="text" name="raspberry_gateway_ansible_connection" title="The connection type used by Ansible to connect to the Raspberry Gateway." placeholder="Local or ssh" value="{{.InventoryConfig.All.Hosts.RaspberryGateway.AnsibleConnection}}">
             </td>
           </tr>
           <tr>
             <td></td>
             <td>
-              <span>Keep default - "Local", for local installations, or "ssh" for remote.</span>
+              <span>Keep default - "local", for local installations, or "ssh" for remote.</span>
             </td>
           </tr>
-          <tr>
+          <tr ansible-host="not-local">
             <td>
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="raspberry_gateway_ip"><b>Ansible host IP:</b></label>
-              <input type="text" name="raspberry_gateway_ip" placeholder="IP of remote server" value="{{.InventoryConfig.All.Hosts.RaspberryGateway.IP}}">
+              <label for="raspberry_gateway_ip" title="The IP address of the Raspberry Gateway.">
+                <b>Ansible host IP:</b>
+              </label>
+              <input type="text" name="raspberry_gateway_ip" title="The IP address of the Raspberry Gateway." placeholder="IP of remote server" value="{{.InventoryConfig.All.Hosts.RaspberryGateway.IP}}">
             </td>
           </tr>
-          <tr>
+          <tr ansible-host="not-local">
             <td></td>
             <td>
-              <span>For "Local" installations - does not make sense, for remote - set remote Raspberry Gateway IP.</span>
+              <span>For "local" installations - does not make sense, for remote - set remote Raspberry Gateway IP.</span>
             </td>
           </tr>
         </table>
@@ -946,32 +956,33 @@
     <span style="font-size: 0.8em; display: block; margin: auto; text-align: center;">2023 by <a href="https://github.com/d3vilh" target="_blank">d3vilh</a> for <a href="https://github.com/d3vilh/raspberry-gateway" target="_blank">raspberry-gateway</a>.</span><br>
 
     <script>
-  // File upload logic for upload-form
-  const uploadForm = document.getElementById('upload-form');
-  const uploadSuccessMessage = document.getElementById('ovpn-success-message');
 
-  uploadForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    uploadSuccessMessage.style.display = 'block';
-  });
+      // File upload logic for upload-form
+        const uploadForm = document.getElementById('upload-form');
+        const uploadSuccessMessage = document.getElementById('ovpn-success-message');
 
-  // File upload logic for glue-form
-  const glueForm = document.getElementById('glue-form');
-  const glueSuccessMessage = document.getElementById('glue-success-message');
+        uploadForm.addEventListener('submit', (event) => {
+          event.preventDefault();
+          uploadSuccessMessage.style.display = 'block';
+        });
 
-  glueForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    glueSuccessMessage.style.display = 'block';
-  });
+      // File upload logic for glue-form
+        const glueForm = document.getElementById('glue-form');
+        const glueSuccessMessage = document.getElementById('glue-success-message');
 
-  // File upload logic for secret-form
-  const secretForm = document.getElementById('secret-form');
-  const secretSuccessMessage = document.getElementById('secret-success-message');
+        glueForm.addEventListener('submit', (event) => {
+          event.preventDefault();
+          glueSuccessMessage.style.display = 'block';
+        });
 
-  secretForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    secretSuccessMessage.style.display = 'block';
-  });
+      // File upload logic for secret-form
+        const secretForm = document.getElementById('secret-form');
+        const secretSuccessMessage = document.getElementById('secret-success-message');
+
+        secretForm.addEventListener('submit', (event) => {
+          event.preventDefault();
+          secretSuccessMessage.style.display = 'block';
+        });
 
       // QbitTorrent Inside VPN popup qbittorrent_inside_ena
         const checkbox = document.getElementById("qbittorrent_inside_vpn");
@@ -998,39 +1009,41 @@
         });
 
       // Combine config-form1, config-form2, and config-form3 into one form and submit it
-      const saveMessage = document.getElementById('save-message');
-      document.getElementById('submit-btn').addEventListener('click', function(event) {
-        event.preventDefault();
-        var formData1 = new FormData(document.getElementById('config-form1'));
-        var formData2 = new FormData(document.getElementById('config-form2'));
-        var formData3 = new FormData(document.getElementById('config-form3'));
-        var formData = new FormData();
-        for (var pair of formData1.entries()) {
-          formData.append(pair[0], pair[1]);
-        }
-        for (var pair of formData2.entries()) {
-          formData.append(pair[0], pair[1]);
-        }
-        for (var pair of formData3.entries()) {
-          formData.append(pair[0], pair[1]);
-        }
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/save');
-        xhr.onload = function() {
-            // handle success response
-            console.log(xhr.responseText);
-            saveMessage.style.display = 'inline-block';
-            //alert("New configuration have been saved.");
-          };
-          xhr.onerror = function() {
-            alert("Something went wrong.");
-            // handle error response
-          };
-          xhr.send(formData);
-      });
+        const saveMessage = document.getElementById('save-message');
+
+        document.getElementById('submit-btn').addEventListener('click', function(event) {
+          event.preventDefault();
+          var formData1 = new FormData(document.getElementById('config-form1'));
+          var formData2 = new FormData(document.getElementById('config-form2'));
+          var formData3 = new FormData(document.getElementById('config-form3'));
+          var formData = new FormData();
+          for (var pair of formData1.entries()) {
+            formData.append(pair[0], pair[1]);
+          }
+          for (var pair of formData2.entries()) {
+            formData.append(pair[0], pair[1]);
+          }
+          for (var pair of formData3.entries()) {
+            formData.append(pair[0], pair[1]);
+          }
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', '/save');
+          xhr.onload = function() {
+              // handle success response
+              console.log(xhr.responseText);
+              saveMessage.style.display = 'inline-block';
+              //alert("New configuration have been saved.");
+            };
+            xhr.onerror = function() {
+              alert("Something went wrong.");
+              // handle error response
+            };
+            xhr.send(formData);
+        });
  
       // Auto refresh iframe for webinstall.log
         const outputIframe = document.getElementById('output-iframe');
+
         setInterval(() => {
           outputIframe.src = 'webinstall.log?' + new Date().getTime();
           outputIframe.onload = () => {
@@ -1059,6 +1072,21 @@
             wireguardRows.forEach(row => row.style.display = 'none');
           }
         });
+
+      // Hide/show rows based on ansible_connection value
+        const ansibleConnectionInput = document.querySelector('input[name="raspberry_gateway_ansible_connection"]');
+        const gatewayIpRows = document.querySelectorAll('tr[ansible-host="not-local"]');
+        
+        // Hide the gateway IP rows by default
+        gatewayIpRows.forEach(row => row.style.display = 'none');
+        
+        ansibleConnectionInput.addEventListener('input', () => {
+          if (ansibleConnectionInput.value !== 'local') {
+            gatewayIpRows.forEach(row => row.style.display = '');
+          } else {
+            gatewayIpRows.forEach(row => row.style.display = 'none');
+          }
+        });    
 
       // Checkbox logic  
         const unboundDnsEnable = document.getElementById('unbound_dns_enable');
@@ -1176,7 +1204,7 @@
           const openvpnForm = document.getElementById('upload-form');
           const gluetunForm = document.getElementById('glue-form');
           const secretForm = document.getElementById('secret-form');
-          // Rest of the code goes here
+          
           openvpnForm.addEventListener('submit', (event) => {
             event.preventDefault();
             console.log("DBG: OpenVPN form submitted");
@@ -1193,6 +1221,7 @@
               console.error(error);
             });
           });
+
           if (gluetunForm) {
             gluetunForm.addEventListener('submit', (event) => {
               event.preventDefault();
@@ -1234,8 +1263,6 @@
           } else {
             console.error("secret-upload-form not found");
           }
-
-
       });
     </script>
 </div>
