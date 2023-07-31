@@ -210,7 +210,7 @@
           </tr>
           <tr>
             <td>
-              <input type="checkbox" name="unbound_dns_hide" id="unbound_dns_hide" {{if .Config.UndoundDNSHide}}checked{{end}}>
+              <input type="checkbox" name="unbound_dns_hide" id="unbound_dns_hide" {{if eq .Config.UndoundDNSHide "yes"}}checked{{end}}>
             </td>
             <td>
               <label for="unbound_dns_hide">Unbound Hide mode</label>
@@ -218,7 +218,7 @@
           </tr>
           <tr>
             <td>
-              <input type="checkbox" name="unbound_dns_ipv4" id="unbound_dns_ipv4" {{if .Config.UnboundDNSIpV4}}checked{{end}}>
+              <input type="checkbox" name="unbound_dns_ipv4" id="unbound_dns_ipv4" {{if eq .Config.UnboundDNSIpV4 "yes"}}checked{{end}}>
             </td>
             <td>
               <label for="unbound_dns_ipv4">Unbound IP4 Suppport</label>
@@ -226,7 +226,7 @@
           </tr>
           <tr>
             <td>
-              <input type="checkbox" name="unbound_dns_ipv6" id="unbound_dns_ipv6" {{if .Config.UnboundDNSIpV6}}checked{{end}}>
+              <input type="checkbox" name="unbound_dns_ipv6" id="unbound_dns_ipv6" {{if eq .Config.UnboundDNSIpV6 "yes"}}checked{{end}}>
             </td>
             <td>
               <label for="unbound_dns_ipv6">Unbound IP6 Support</label>
