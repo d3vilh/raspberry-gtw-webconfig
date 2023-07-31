@@ -19,9 +19,9 @@ type Config struct {
 	URTimezone                  string `yaml:"ur_timezone"`
 	UnboundDNSEnable            bool   `yaml:"unbound_dns_enable"`
 	UnboundDBSIdentity          string `yaml:"unbound_dns_identitiy"`
-	UndoundDNSHide              bool   `yaml:"unbound_dns_hide"`
-	UnboundDNSIpV4              bool   `yaml:"unbound_dns_ipv4"`
-	UnboundDNSIpV6              bool   `yaml:"unbound_dns_ipv6"`
+	UndoundDNSHide              string `yaml:"unbound_dns_hide"`
+	UnboundDNSIpV4              string `yaml:"unbound_dns_ipv4"`
+	UnboundDNSIpV6              string `yaml:"unbound_dns_ipv6"`
 	UnboundDNSNumThreads        string `yaml:"unbound_dns_num_threads"`
 	UnboundDNSUpstream          string `yaml:"unbound_dns_upstream_4_pihole"`
 	PiholeEnable                bool   `yaml:"pihole_enable"`
@@ -368,9 +368,9 @@ func saveConfig(w http.ResponseWriter, r *http.Request) {
 		URTimezone:                  r.FormValue("ur_timezone"),
 		UnboundDNSEnable:            r.FormValue("unbound_dns_enable") == "on",
 		UnboundDBSIdentity:          r.FormValue("unbound_dns_identitiy"),
-		UndoundDNSHide:              r.FormValue("unbound_dns_hide") == "on",
-		UnboundDNSIpV4:              r.FormValue("unbound_dns_ipv4") == "on",
-		UnboundDNSIpV6:              r.FormValue("unbound_dns_ipv6") == "on",
+		UndoundDNSHide:              r.FormValue("unbound_dns_hide"),
+		UnboundDNSIpV4:              r.FormValue("unbound_dns_ipv4"),
+		UnboundDNSIpV6:              r.FormValue("unbound_dns_ipv6"),
 		UnboundDNSNumThreads:        r.FormValue("unbound_dns_num_threads"),
 		UnboundDNSUpstream:          r.FormValue("unbound_dns_upstream_4_pihole"),
 		PiholeEnable:                r.FormValue("pihole_enable") == "on",
@@ -444,6 +444,24 @@ func saveConfig(w http.ResponseWriter, r *http.Request) {
 		GluetunWGEndpointIP:         r.FormValue("gluetun_wireguard_endpoint_ip"),
 		GluetunWGEndpointPort:       r.FormValue("gluetun_wireguard_endpoint_port"),
 	}
+	if r.FormValue("unbound_dns_hide") == "on" {
+		config.UndoundDNSHide = "yes"
+	} else {
+		config.UndoundDNSHide = "no"
+	}
+
+	if r.FormValue("unbound_dns_ipv4") == "on" {
+		config.UnboundDNSIpV4 = "yes"
+	} else {
+		config.UnboundDNSIpV4 = "no"
+	}
+
+	if r.FormValue("unbound_dns_ipv6") == "on" {
+		config.UnboundDNSIpV6 = "yes"
+	} else {
+		config.UnboundDNSIpV6 = "no"
+	}
+
 	err := writeConfig(config)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
