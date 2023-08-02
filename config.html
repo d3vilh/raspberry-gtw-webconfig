@@ -82,7 +82,7 @@
             <input type="checkbox" name="portainer_enable" id="portainer_enable" {{if .Config.PortainerEnable}}checked{{end}}>
           </td>
           <td>
-            <label for="portainer_enable" title="UI for Containers management">
+            <label for="portainer_enable" title="Enables Portainer container - container management UI">
               <b>Install Portainer</b>
             </label>
           </td>
@@ -143,10 +143,10 @@
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="raspberry_gateway_ansible_connection" title="The connection type used by Ansible to connect to the Raspberry Gateway.">
+              <label for="raspberry_gateway_ansible_connection" title="The connection type used by Ansible to connect to the Raspberry Gateway">
                 <b>Ansible Connection:</b>
               </label>
-              <input type="text" name="raspberry_gateway_ansible_connection" title="The connection type used by Ansible to connect to the Raspberry Gateway." placeholder="Local or ssh" value="{{.InventoryConfig.All.Hosts.RaspberryGateway.AnsibleConnection}}">
+              <input type="text" name="raspberry_gateway_ansible_connection" title="The connection type used by Ansible to connect to the Raspberry Gateway" placeholder="Local or ssh" value="{{.InventoryConfig.All.Hosts.RaspberryGateway.AnsibleConnection}}">
             </td>
           </tr>
           <tr>
@@ -160,10 +160,10 @@
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="raspberry_gateway_ip" title="The IP address of the Raspberry Gateway.">
+              <label for="raspberry_gateway_ip" title="The IP address of the Raspberry Gateway">
                 <b>Ansible host IP:</b>
               </label>
-              <input type="text" name="raspberry_gateway_ip" title="The IP address of the Raspberry Gateway." placeholder="IP of remote server" value="{{.InventoryConfig.All.Hosts.RaspberryGateway.IP}}">
+              <input type="text" name="raspberry_gateway_ip" title="The IP address of the Raspberry Gateway" placeholder="IP of remote server" value="{{.InventoryConfig.All.Hosts.RaspberryGateway.IP}}">
             </td>
           </tr>
           <tr ansible-host="not-local">
@@ -181,7 +181,7 @@
       <table style="background-color: transparent">
         <tr>
           <td>
-            <input type="checkbox" name="unbound_dns_enable" id="unbound_dns_enable" {{if .Config.UnboundDNSEnable}}checked{{end}}>
+            <input type="checkbox" name="unbound_dns_enable" id="unbound_dns_enable" title="Enables Unbound DNS container" {{if .Config.UnboundDNSEnable}}checked{{end}}>
           </td>
           <td>
             <b><label for="unbound_dns_enable">Unbound DNS</label></b>
@@ -204,41 +204,32 @@
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="unbound_dns_identitiy">Unbound Identitiy:</label>
-              <input type="text" name="unbound_dns_identitiy" placeholder="unbound-dns" value="{{.Config.UnboundDBSIdentity}}">
+              <label for="unbound_dns_identitiy" tilte="Unbound will report this identity rather than the hostname of the server">Unbound Identitiy:</label>
+              <input type="text" name="unbound_dns_identitiy" placeholder="unbound-dns" tilte="Unbound will report this identity rather than the hostname of the server" value="{{.Config.UnboundDBSIdentity}}">
             </td>
           </tr>
           <tr>
             <td>
-              <input type="checkbox" name="unbound_dns_hide" id="unbound_dns_hide" {{if eq .Config.UndoundDNSHide "yes"}}checked{{end}}>
+              <input type="checkbox" name="unbound_dns_hide" id="unbound_dns_hide" title="Send minimum information to upstream servers, reduce responce size, refuse .id and .version queries" {{if eq .Config.UndoundDNSHide "yes"}}checked{{end}}>
             </td>
             <td>
-              <label for="unbound_dns_hide">Unbound Hide mode</label>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <input type="checkbox" name="unbound_dns_ipv4" id="unbound_dns_ipv4" {{if eq .Config.UnboundDNSIpV4 "yes"}}checked{{end}}>
-            </td>
-            <td>
-              <label for="unbound_dns_ipv4">Unbound IP4 Suppport</label>
+              <label for="unbound_dns_hide" title="Send minimum information to upstream servers, reduce responce size, refuse .id and .version queries">Unbound Hide mode</label>
             </td>
           </tr>
           <tr>
             <td>
-              <input type="checkbox" name="unbound_dns_ipv6" id="unbound_dns_ipv6" {{if eq .Config.UnboundDNSIpV6 "yes"}}checked{{end}}>
+              <input type="checkbox" name="unbound_dns_ipv4" id="unbound_dns_ipv4" title="Enable ipv4 support" {{if eq .Config.UnboundDNSIpV4 "yes"}}checked{{end}}>
             </td>
             <td>
-              <label for="unbound_dns_ipv6">Unbound IP6 Support</label>
+              <label for="unbound_dns_ipv4" title="Enable ipv4 support">Unbound IP4 Suppport</label>
             </td>
           </tr>
           <tr>
             <td>
-              <input type="checkbox" style="visibility: hidden;" disabled>
+              <input type="checkbox" name="unbound_dns_ipv6" id="unbound_dns_ipv6" title="Enable ipv6 support" {{if eq .Config.UnboundDNSIpV6 "yes"}}checked{{end}}>
             </td>
             <td>
-              <label for="unbound_dns_num_threads">Number of threads:</label>
-              <input type="text" name="unbound_dns_num_threads" placeholder="1" value="{{.Config.UnboundDNSNumThreads}}">
+              <label for="unbound_dns_ipv6" title="Enable ipv6 support">Unbound IP6 Support</label>
             </td>
           </tr>
           <tr>
@@ -246,8 +237,17 @@
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="unbound_dns_upstream_4_pihole">Unbound Pi-Hole Upstream DNS Server:</label>
-              <input type="text" name="unbound_dns_upstream_4_pihole" placeholder="127.0.0.1#5335" value="{{.Config.UnboundDNSUpstream}}">
+              <label for="unbound_dns_num_threads" title="Keep 1, unless understand you really need it">Number of threads:</label>
+              <input type="text" name="unbound_dns_num_threads" placeholder="1" title="Keep 1, unless understand you really need it" value="{{.Config.UnboundDNSNumThreads}}">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input type="checkbox" style="visibility: hidden;" disabled>
+            </td>
+            <td>
+              <label for="unbound_dns_upstream_4_pihole" title="Pi-Hole parameter, to use Unbound as upstream DNS server">Unbound Pi-Hole Upstream DNS Server:</label>
+              <input type="text" name="unbound_dns_upstream_4_pihole" placeholder="127.0.0.1#5335" title="Pi-Hole parameter, to use Unbound as upstream DNS server" value="{{.Config.UnboundDNSUpstream}}">
             </td>
           </tr>
         </table>        
@@ -256,10 +256,10 @@
       <table style="background-color: transparent">
         <tr>
           <td>
-            <input type="checkbox" name="pihole_enable" id="pihole_enable" {{if .Config.PiholeEnable}}checked{{end}}>
+            <input type="checkbox" name="pihole_enable" id="pihole_enable" title="Enables Pi-Hole Container" {{if .Config.PiholeEnable}}checked{{end}}>
           </td>
           <td>
-            <b><label for="pihole_enable">Pi-hole</label></b>
+            <b><label for="pihole_enable" title="Enable Pi-Hole functionality">Pi-hole</label></b>
           </td>
         </tr>
         <tr>
@@ -267,8 +267,8 @@
             <input type="checkbox" style="visibility: hidden;" disabled>
           </td>
           <td>
-            <label for="pihole_password">Pi-hole Web UI Password:</label> 
-            <input type="password" autocomplete="off" name="pihole_password" placeholder="Change this password!" value="{{.Config.PiholePassword}}">
+            <label for="pihole_password" title="Pi-Hole Web UI Password">Pi-hole Web UI Password:</label> 
+            <input type="password" autocomplete="off" name="pihole_password" title="Pi-Hole Web UI Password" placeholder="Change this password!" value="{{.Config.PiholePassword}}">
           </td>
         </tr>
       </table>
@@ -288,8 +288,8 @@
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="pihole_hostname">Pi-Hole Hostname:</label>
-              <input type="text" name="pihole_hostname" placeholder="pihole" value="{{.Config.PiholeHostname}}">
+              <label for="pihole_hostname" title="Pi-Hole Hostname">Pi-Hole Hostname:</label>
+              <input type="text" name="pihole_hostname" placeholder="pihole" title="Pi-Hole Hostname" value="{{.Config.PiholeHostname}}">
             </td>
           </tr>
         </table>
@@ -298,18 +298,18 @@
       <table style="background-color: transparent">
         <tr>
           <td>
-            <input type="checkbox" name="pihole_with_unbound" id="pihole_with_unbound" {{if .Config.PiholeWithUnbound}}checked{{end}}>
+            <input type="checkbox" name="pihole_with_unbound" id="pihole_with_unbound" title="Enable Pi-Hole to use Unbound DNS as upstream DNS server" {{if .Config.PiholeWithUnbound}}checked{{end}}>
           </td>
           <td>
-            <b><label for="pihole_with_unbound">Pi-hole with Unbound as Local DNS</label></b>
+            <b><label for="pihole_with_unbound" title="Enable Pi-Hole to use Unbound DNS as upstream DNS server">Pi-hole with Unbound as Local DNS</label></b>
           </td>
         </tr>
         <tr>
           <td>
-            <input type="checkbox" name="tech_dns_enable" id="tech_dns_enable" {{if .Config.TechDNSEnable}}checked{{end}}>
+            <input type="checkbox" name="tech_dns_enable" id="tech_dns_enable" title="Enables Technitium DNS container" {{if .Config.TechDNSEnable}}checked{{end}}>
           </td>
           <td>
-            <b><label for="tech_dns_enable">TechnitiumDNS</label></b>
+            <b><label for="tech_dns_enable" title="Enables Technitium DNS container">TechnitiumDNS</label></b>
           </td>
         </tr>
         <tr>
@@ -317,8 +317,8 @@
             <input type="checkbox" style="visibility: hidden;" disabled>
           </td>
           <td>
-            <label for="tech_dns_password">TechnitiumDNS Web UI Password:</label> 
-            <input type="password" autocomplete="off" name="tech_dns_password" placeholder="Change this password!" value="{{.Config.TechDNSPassword}}">
+            <label for="tech_dns_password" title="Technitium DNS Web UI password">TechnitiumDNS Web UI Password:</label> 
+            <input type="password" autocomplete="off" name="tech_dns_password" placeholder="Change this password!" title="Technitium DNS Web UI password" value="{{.Config.TechDNSPassword}}">
           </td>
         </tr>
       </table>
@@ -338,8 +338,8 @@
             <input type="checkbox" style="visibility: hidden;" disabled>
           </td>
           <td>
-            <label for="tech_dns_hostname">TechnitiumDNS Hostname:</label>
-            <input type="text" name="tech_dns_hostname" placeholder="tech-dns" value="{{.Config.TechDNSHostname}}">
+            <label for="tech_dns_hostname" title="Technitium DNS Container Hostname">TechnitiumDNS Hostname:</label>
+            <input type="text" name="tech_dns_hostname" placeholder="tech-dns" title="Technitium DNS Container Hostname" value="{{.Config.TechDNSHostname}}">
           </td>
         </tr>
         <tr techdns="config">
@@ -347,33 +347,24 @@
             <input type="checkbox" style="visibility: hidden;" disabled>
           </td>
           <td>
-            <label for="tech_dns_server">TechnitiumDNS Server:</label>
-            <input type="text" name="tech_dns_server" placeholder="tech-dns" value="{{.Config.TechDNSServer}}">
+            <label for="tech_dns_server" title="The primary domain name used by this DNS Server to identify itself">TechnitiumDNS Server:</label>
+            <input type="text" name="tech_dns_server" placeholder="tech-dns" title="The primary domain name used by this DNS Server to identify itself" value="{{.Config.TechDNSServer}}">
           </td>
         </tr>
         <tr techdns="config">
           <td>
-            <input type="checkbox" name="tech_dns_ipv6" id="tech_dns_ipv6" {{if .Config.TechDNSIpv6}}checked{{end}}>
+            <input type="checkbox" name="tech_dns_ipv6" id="tech_dns_ipv6" title="Enable IPv6 support" {{if .Config.TechDNSIpv6}}checked{{end}}>
           </td>
           <td>
-            <label for="tech_dns_ipv6">Enable IPv6 support</label>
-          </td>
-        </tr>
-        <tr techdns="config">
-          <td>
-            <input type="checkbox" name="tech_dns_blocking" id="tech_dns_blocking" {{if .Config.TechDNSBlocking}}checked{{end}}>
-          </td>
-          <td>
-            <label for="tech_dns_blocking">Enable Blocking Zone</label>
+            <label for="tech_dns_ipv6" title="Enable IPv6 support">Enable IPv6 support</label>
           </td>
         </tr>
         <tr techdns="config">
           <td>
-            <input type="checkbox" style="visibility: hidden;" disabled>
+            <input type="checkbox" name="tech_dns_blocking" id="tech_dns_blocking" title="Sets DNS server to block domain names using Blocked Zone and Block List Zone" {{if .Config.TechDNSBlocking}}checked{{end}}>
           </td>
           <td>
-            <label for="tech_dns_forwarders">TechnitiumDNS Forwarders:</label>
-            <input type="text" name="tech_dns_forwarders" placeholder="1.1.1.1, 8.8.8.8" value="{{.Config.TechDNSForwaders}}">
+            <label for="tech_dns_blocking" title="Sets DNS server to block domain names using Blocked Zone and Block List Zone">Enable Blocking Zone</label>
           </td>
         </tr>
         <tr techdns="config">
@@ -381,8 +372,17 @@
             <input type="checkbox" style="visibility: hidden;" disabled>
           </td>
           <td>
-            <label for="tech_dns_forwarder_proto">TechnitiumDNS Forwarders protocol:</label>
-            <input type="text" name="tech_dns_forwarder_proto" placeholder="Https" value="{{.Config.TechDNSForwaderProtocol}}">
+            <label for="tech_dns_forwarders" title="List of DNS servers to forward DNS queries to">TechnitiumDNS Forwarders:</label>
+            <input type="text" name="tech_dns_forwarders" placeholder="1.1.1.1, 8.8.8.8" title="List of DNS servers to forward DNS queries to" value="{{.Config.TechDNSForwaders}}">
+          </td>
+        </tr>
+        <tr techdns="config">
+          <td>
+            <input type="checkbox" style="visibility: hidden;" disabled>
+          </td>
+          <td>
+            <label for="tech_dns_forwarder_proto" title="Forwarder protocol options: Udp, Tcp, Tls, Https, HttpsJson" >TechnitiumDNS Forwarders protocol:</label>
+            <input type="text" name="tech_dns_forwarder_proto" placeholder="Https" title="Forwarder protocol options: Udp, Tcp, Tls, Https, HttpsJson" value="{{.Config.TechDNSForwaderProtocol}}">
           </td>
         </tr>
       </table>
@@ -395,10 +395,10 @@
         <table>
           <tr>
             <td>
-              <input type="checkbox" name="ovpn_server_enable" id="ovpn_server_enable" {{if .Config.OpenVPNServer}}checked{{end}}>
+              <input type="checkbox" name="ovpn_server_enable" id="ovpn_server_enable" title="Enables OpenVPN Server and Web UI" {{if .Config.OpenVPNServer}}checked{{end}}>
             </td>
             <td>
-              <b><label for="ovpn_server_enable">Enable OpenVPN Server</label></b>
+              <b><label for="ovpn_server_enable" title="Enable OpenVPN Server and Web UI">Enable OpenVPN Server</label></b>
             </td>
           </tr>
           <tr openvpn-server="config">
@@ -406,8 +406,8 @@
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="ovpnui_user">OpenVPN Server Web UI Username:</label>
-              <input type="text" name="ovpnui_user" placeholder="admin" value="{{.Config.OpenVPNUIUser}}">
+              <label for="ovpnui_user" title="OpenVPN Server Web UI username">OpenVPN Server Web UI Username:</label>
+              <input type="text" name="ovpnui_user" placeholder="admin" title="OpenVPN Server Web UI username" value="{{.Config.OpenVPNUIUser}}">
             </td>
           </tr>
           <tr openvpn-server="config">
@@ -415,8 +415,8 @@
               &nbsp
             </td>
             <td>
-              <label for="ovpnui_password">OpenVPN Server Web UI Password:</label> 
-              <input type="password" autocomplete="off" name="ovpnui_password" placeholder="Change this password!" value="{{.Config.OpenVPNUIPassword}}">
+              <label for="ovpnui_password" title="OpenVPN Server Web UI password">OpenVPN Server Web UI Password:</label> 
+              <input type="password" autocomplete="off" name="ovpnui_password" placeholder="Change this password!" title="OpenVPN Server Web UI password" value="{{.Config.OpenVPNUIPassword}}">
             </td>
           </tr>
 
@@ -425,8 +425,8 @@
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="ovpn_trusted_subnet">OpenVPN Server Trusted VPN users subnet:</label>
-              <input type="text" name="ovpn_trusted_subnet" placeholder="10.0.70.0/24" value="{{.Config.OpenVPNServerTrusSub}}">
+              <label for="ovpn_trusted_subnet" title="Trusted VPN users subnet. Check documentation">OpenVPN Server Trusted VPN users subnet:</label>
+              <input type="text" name="ovpn_trusted_subnet" placeholder="10.0.70.0/24" title="Trusted VPN users subnet. Check documentation" value="{{.Config.OpenVPNServerTrusSub}}">
             </td>
           </tr>
           <tr openvpn-server="config">
@@ -434,8 +434,8 @@
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="ovpn_guest_subnet">OpenVPN Server Guest VPN users subnet:</label>
-              <input type="text" name="ovpn_guest_subnet" placeholder="10.0.71.0/24" value="{{.Config.OpenVPNServerGuestSub}}">
+              <label for="ovpn_guest_subnet" title="Guests VPN users subnet. Check documentation">OpenVPN Server Guest VPN users subnet:</label>
+              <input type="text" name="ovpn_guest_subnet" placeholder="10.0.71.0/24" title="Guests VPN users subnet. Check documentation" value="{{.Config.OpenVPNServerGuestSub}}">
             </td>
           </tr>
           <tr openvpn-server="config">
@@ -443,8 +443,8 @@
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="ovpn_home_subnet">Your Home subnet:</label>
-              <input type="text" name="ovpn_home_subnet" placeholder="10.0.60.0/24" value="{{.Config.OpenVPNServerHomeSub}}">
+              <label for="ovpn_home_subnet" title="Home Network (WiFi or Lan). Check documentation">Your Home subnet:</label>
+              <input type="text" name="ovpn_home_subnet" placeholder="10.0.60.0/24" title="Home Network (WiFi or Lan). Check documentation" value="{{.Config.OpenVPNServerHomeSub}}">
               <span> This should be your Home subnet, to allow Trusted VPN Users access.</span>
             </td>
           </tr>
@@ -453,8 +453,8 @@
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="ovpn_remote">OpenVPN Server "remote" option:</label>
-              <input type="text" name="ovpn_remote" placeholder="remote 123.234.123.12 12345 udp" value="{{.Config.OpenVPNServerRemoteOpt}}" style="width: 210px;">
+              <label for="ovpn_remote" title="OpenVPN client.ovpn profile connect line">OpenVPN Server "remote" option:</label>
+              <input type="text" name="ovpn_remote" placeholder="remote 123.234.123.12 12345 udp" title="OpenVPN client.ovpn profile connect line" value="{{.Config.OpenVPNServerRemoteOpt}}" style="width: 210px;">
               <span> Client.ovpn profile connect line.</span>
             </td>
           </tr>
@@ -471,10 +471,10 @@
         <table>
           <tr>
             <td>
-              <input type="checkbox" name="ovpn_client_enable" id="ovpn_client_enable" {{if .Config.OpenVPNClient}}checked{{end}}>
+              <input type="checkbox" name="ovpn_client_enable" id="ovpn_client_enable" title="Enables OpenVPN Client container" {{if .Config.OpenVPNClient}}checked{{end}}>
             </td>
             <td>
-              <b><label for="ovpn_client_enable">Enable OpenVPN Client</label></b>
+              <b><label for="ovpn_client_enable" title="Enables OpenVPN Client container">Enable OpenVPN Client</label></b>
             </td>
           </tr>
         </table>
@@ -487,7 +487,7 @@
             <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <b><label for="ovpn_client_cert" title="Client.ovpn configuration file.">OpenVPN Client Configuration file:</label> </b>
+              <b><label for="ovpn_client_cert" title="Client.ovpn OpenVPN configuration profile">OpenVPN Client Configuration file:</label> </b>
               <input type="file" name="file"> 
               <input type="submit" value="Upload">
               <p id="ovpn-success-message" style="display: none; margin-left: 10px;">File uploaded as: 
@@ -504,8 +504,8 @@
             <input type="checkbox" style="visibility: hidden;" disabled>
           </td>
           <td>
-            <label for="ovpn_client_secret">OpenVPN Client Secret:</label>
-            <input type="file" name="file"> 
+            <label for="ovpn_client_secret" title="Text file with client user and password. Check documentation">OpenVPN Client Secret:</label>
+            <input type="file" name="file" title="Text file with client user and password. Check documentation"> 
             <input type="submit" value="Upload">
             <p id="secret-success-message" style="display: none; margin-left: 10px;">File uploaded as: 
               <span>~/raspberry-gateway/openvpn-client/{{.Config.OpenVPNClientSecret}}</span></p>
@@ -521,8 +521,8 @@
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="ovpn_client_allowed_subnet">OpenVPN Client Allowed Subnet:</label>
-              <input type="text" name="ovpn_client_allowed_subnet" placeholder="Sub&Mask: 1.1.1.1/24" value="{{.Config.OpenVPNClientAllowedSub}}">
+              <label for="ovpn_client_allowed_subnet" title="Allowed subnet for ovpn-client to access containers Web-UI. Your local WiFi or Lan network defined here.">OpenVPN Client Allowed Subnet:</label>
+              <input type="text" name="ovpn_client_allowed_subnet" placeholder="Sub&Mask: 1.1.1.1/24" title="Allowed subnet for ovpn-client to access containers Web-UI. Your local WiFi or Lan network defined here." value="{{.Config.OpenVPNClientAllowedSub}}">
               <span> This should be your local WiFi network.</span>
             </td>
           </tr>
@@ -536,10 +536,10 @@
           </tr>
           <tr openvpn-client="config">
             <td>
-              <input type="checkbox" name="ovpn_client_killswitch" id="ovpn_client_killswitch" {{if .Config.OpenVPNClientKillSwitch}}checked{{end}}>
+              <input type="checkbox" name="ovpn_client_killswitch" id="ovpn_client_killswitch" title="Allows &quot;OpenVPN Client Allowed Subnet&quot; access to containers running in VPN and block all other traffic if ovpn-client is down" {{if .Config.OpenVPNClientKillSwitch}}checked{{end}}>
             </td>
             <td>
-              <label for="ovpn_client_killswitch">OpenVPN Client Killswitch</label>
+              <label for="ovpn_client_killswitch" title="Allows &quot;OpenVPN Client Allowed Subnet&quot; access to containers running in VPN and block all other traffic if ovpn-client is down">OpenVPN Client Killswitch"</label>
               <span> Blocking all traffic if OpenVPN Client is not connected.</span>
             </td>
           </tr>
@@ -550,10 +550,10 @@
         <table>
           <tr>
             <td>
-              <input type="checkbox" name="gluetun_vpnclient_enable" id="gluetun_vpnclient_enable" {{if .Config.GluetunEnable}}checked{{end}}>
+              <input type="checkbox" name="gluetun_vpnclient_enable" id="gluetun_vpnclient_enable" title="Enables GlueTun Universal VPN client" {{if .Config.GluetunEnable}}checked{{end}}>
             </td>
             <td>
-              <b><label for="gluetun_vpnclient_enable">Enable GlueTun</label></b>
+              <b><label for="gluetun_vpnclient_enable" title="Enables GlueTun Universal VPN client">Enable GlueTun</label></b>
             </td>
           </tr>
           <tr gluetun-client="config">
@@ -561,8 +561,8 @@
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <b><label for="gluetun_vpn_service_provider">GlueTun VPN Service Provider:</label> </b>
-              <input type="text" name="gluetun_vpn_service_provider" placeholder="GlueTun Service Provider" value="{{.Config.GluetunServiceProvider}}">
+              <b><label for="gluetun_vpn_service_provider" title="Sets VPN provider, check documentation">GlueTun VPN Service Provider:</label> </b>
+              <input type="text" name="gluetun_vpn_service_provider" placeholder="GlueTun Service Provider" title="Sets VPN provider, check documentation" value="{{.Config.GluetunServiceProvider}}">
               <span>&nbsp<a href="https://github.com/qdm12/gluetun-wiki/tree/main/setup/providers" target="_blank">List</a> of Supported Service Providers</span>
             </td>
           </tr>
@@ -571,8 +571,8 @@
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="gluetun_server_countries">GlueTun Server Countries:</label> 
-              <input type="text" name="gluetun_server_countries" placeholder="Comma separated list" value="{{.Config.GluetunServerCountries}}">
+              <label for="gluetun_server_countries" title="Comma separated list of Countries. Check documentation">GlueTun Server Countries:</label> 
+              <input type="text" name="gluetun_server_countries" placeholder="Comma separated list" title="Comma separated list of Countries. Check documentation" value="{{.Config.GluetunServerCountries}}">
             </td>
           </tr>
           <tr gluetun-client="config">
@@ -580,8 +580,8 @@
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="gluetun_server_cities">GlueTun Server Cities:</label> 
-              <input type="text" name="gluetun_server_cities" placeholder="Comma separated list" value="{{.Config.GluetunServerCities}}">
+              <label for="gluetun_server_cities" title="Comma separated list of Cities. Check documentation">GlueTun Server Cities:</label> 
+              <input type="text" name="gluetun_server_cities" placeholder="Comma separated list" title="Comma separated list of Cities. Check documentation" value="{{.Config.GluetunServerCities}}">
             </td>
           </tr>
           <tr gluetun-client="config">
@@ -589,8 +589,8 @@
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="gluetun_server_update_per">GlueTun Server Update Period:</label> 
-              <input type="text" name="gluetun_server_update_per" placeholder="set 0" value="{{.Config.GluetunServerUpdatePer}}">
+              <label for="gluetun_server_update_per" title="Period to update your servers list using the built-in Gluetun update mechanisms">GlueTun Server Update Period:</label> 
+              <input type="text" name="gluetun_server_update_per" placeholder="set 0" title="Period to update your servers list using the built-in Gluetun update mechanisms" value="{{.Config.GluetunServerUpdatePer}}">
             </td>
           </tr>
 
@@ -599,7 +599,7 @@
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <b><label for="gluetun_vpn_type">GlueTun VPN Type:</label> </b>
+              <b><label for="gluetun_vpn_type" title="Type of Gluetun client VPN connection.">GlueTun VPN Type:</label> </b>
               <select name="gluetun_vpn_type">
                 <option value="choose" selected>Choose Type</option>
                 <option value="openvpn">OpenVPN</option>
@@ -628,7 +628,7 @@
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <b><label for="gluetun_openvpn_user">OpenVPN Client User:</label> </b>
+              <b><label for="gluetun_openvpn_user" title="OpenVPN Client Username. Use if you do have such option. If no - leave &quot;none&quot; as default">OpenVPN Client User:</label> </b>
               <input type="text" name="gluetun_openvpn_user" placeholder="none" value="{{.Config.GluetunOpenvpnUser}}">
             </td>
           </tr>
@@ -637,16 +637,16 @@
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="gluetun_openvpn_password">OpenVPN Client Password:</label> 
+              <label for="gluetun_openvpn_password" title="OpenVPN Client Password. Use if you do have such option. If no - leave &quot;none&quot; as default">OpenVPN Client Password:</label> 
               <input type="password" autocomplete="off" name="gluetun_openvpn_password" placeholder="none" value="{{.Config.GluetunOpenvpnPassword}}">
             </td>
           </tr>
           <tr data-vpn-type="openvpn">
             <td>
-              <input type="checkbox" name="gluetun_vpnclient_custom" id="gluetun_vpnclient_custom" {{if .Config.GluetunVPNCluentCustom}}checked{{end}}>
+              <input type="checkbox" name="gluetun_vpnclient_custom" id="gluetun_vpnclient_custom" title="Custom OpenVPN configuration. To use with Client.ovpn or Client.conf configuration files" {{if .Config.GluetunVPNCluentCustom}}checked{{end}}>
             </td>
             <td>
-              <b><label for="gluetun_vpnclient_custom">OpenVPN Client Custom Configuration</label> </b>
+              <b><label for="gluetun_vpnclient_custom" title="Custom OpenVPN configuration. To use with Client.ovpn or Client.conf configuration files">OpenVPN Client Custom Configuration</label> </b>
             </td>
           </tr>
         </table>
@@ -659,8 +659,8 @@
             <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <b><label for="glue_ovpn_custom_conf">OpenVPN Custom Configuration file:</label> </b>
-              <input type="file" name="file"> 
+              <b><label for="glue_ovpn_custom_conf" title="Upload your custom Client.ovpn or Client.conf configuration file">OpenVPN Custom Configuration file:</label> </b>
+              <input type="file" name="file" title="Upload your custom Client.ovpn or Client.conf configuration file"> 
               <input type="submit" value="Upload">
               <p id="glue-success-message" style="display: none; margin-left: 10px;">File uploaded as: 
                 <span>~/raspberry-gateway/gluetun/ovpn-client/{{.Config.GluetunOVPNCusomConfig}}</span></p>
@@ -685,8 +685,8 @@
              <input type="checkbox" style="visibility: hidden;" disabled>
            </td>
            <td>
-             <b><label for="gluetun_wireguard_private_key">WireGuard Private Key:</label> </b>
-             <input type="text" name="gluetun_wireguard_private_key" placeholder="yCbHtKAgJASnJs2S/aZsjag9Fy04csmR4qDUDkJgX2c=" value="{{.Config.GluetunWGPrivateKey}}">
+             <b><label for="gluetun_wireguard_private_key" title="Wireguard Client private key to use">WireGuard Private Key:</label> </b>
+             <input type="text" name="gluetun_wireguard_private_key" placeholder="yCbHtKAgJASnJs2S/aZsjag9Fy04csmR4qDUDkJgX2c=" title="Wireguard Client private key to use" value="{{.Config.GluetunWGPrivateKey}}">
              <span>Your 32 bytes Client private key in base64 format.</span>
            </td>
          </tr>
@@ -695,8 +695,8 @@
              <input type="checkbox" style="visibility: hidden;" disabled>
            </td>
            <td>
-             <label for="gluetun_wireguard_public_key">WireGuard Public Key:</label> 
-             <input type="text" name="gluetun_wireguard_public_key" placeholder="none" value="{{.Config.GluetunWGPublicKey}}">
+             <label for="gluetun_wireguard_public_key" title="Wireguard Server public key to use">WireGuard Public Key:</label> 
+             <input type="text" name="gluetun_wireguard_public_key" placeholder="none" title="Wireguard Server public key to use" value="{{.Config.GluetunWGPublicKey}}">
              <span>The Server 32 bytes public key in base64 format.</span>
            </td>
          </tr>
@@ -705,8 +705,8 @@
              <input type="checkbox" style="visibility: hidden;" disabled>
            </td>
            <td>
-             <label for="gluetun_wireguard_preshared_key">WireGuard Preshared Key:</label> 
-             <input type="text" name="gluetun_wireguard_preshared_key" placeholder="none" value="{{.Config.GluetunWGPresharedKey}}">
+             <label for="gluetun_wireguard_preshared_key" title="Wireguard Preshared key to use">WireGuard Preshared Key:</label> 
+             <input type="text" name="gluetun_wireguard_preshared_key" placeholder="none" title="Wireguard Preshared key to use" value="{{.Config.GluetunWGPresharedKey}}">
              <span>Your 32 bytes pre-shared key in base64 format.</span>
            </td>
          </tr>
@@ -715,8 +715,8 @@
              <input type="checkbox" style="visibility: hidden;" disabled>
            </td>
            <td>
-             <b><label for="gluetun_wireguard_address">WireGuard Addresses:</label> </b>
-             <input type="text" name="gluetun_wireguard_address" placeholder="WireGuard address" value="{{.Config.GluetunWGAddress}}">
+             <b><label for="gluetun_wireguard_address" title="Valid IP network interface address in the format xx.xx.xx.xx/xx or ff:ff:ff...:ff/128">WireGuard Addresses:</label> </b>
+             <input type="text" name="gluetun_wireguard_address" placeholder="WireGuard address" title="Valid IP network interface address in the format xx.xx.xx.xx/xx or ff:ff:ff...:ff/128" value="{{.Config.GluetunWGAddress}}">
              <span>IP network interface address in the format xx.xx.xx.xx/xx.</span>
            </td>
          </tr>
@@ -725,8 +725,8 @@
              <input type="checkbox" style="visibility: hidden;" disabled>
            </td>
            <td>
-             <label for="gluetun_wireguard_endpoint_ip">WireGuard Endpoint IP:</label> 
-             <input type="text" name="gluetun_wireguard_endpoint_ip" placeholder="none" value="{{.Config.GluetunWGEndpointIP}}">
+             <label for="gluetun_wireguard_endpoint_ip" title="Valid IP address in the format xx.xx.xx.xx:xxxxx or [ff:ff:ff...:ff]:xxxxx">WireGuard Endpoint IP:</label> 
+             <input type="text" name="gluetun_wireguard_endpoint_ip" placeholder="none" title="Valid IP address in the format xx.xx.xx.xx:xxxxx or [ff:ff:ff...:ff]:xxxxx" value="{{.Config.GluetunWGEndpointIP}}">
              <span>The Server endpoint IP address.</span>
            </td>
          </tr>
@@ -735,39 +735,22 @@
              <input type="checkbox" style="visibility: hidden;" disabled>
            </td>
            <td>
-             <label for="gluetun_wireguard_endpoint_port">WireGuard Endpoint Port:</label> 
-             <input type="text" name="gluetun_wireguard_endpoint_port" placeholder="none" value="{{.Config.GluetunWGEndpointPort}}">
+             <label for="gluetun_wireguard_endpoint_port" title="Valid port number in the format xxxx">WireGuard Endpoint Port:</label> 
+             <input type="text" name="gluetun_wireguard_endpoint_port" placeholder="none" title="Valid port number in the format xxxx" value="{{.Config.GluetunWGEndpointPort}}">
              <span>The Server endpoint port.</span>
            </td>
          </tr>
        </table>
       
-      <h1>WireGuard</h1>
+      <h1>WireGuard Server</h1>
       <p>WireGuard Server and UI setup.</p>
         <table>
           <tr>
             <td>
-              <b><input type="checkbox" name="wireguard_server_enable" id="wireguard_server_enable" {{if .Config.WireGuardServer}}checked{{end}}></b>
+              <b><input type="checkbox" name="wireguard_server_enable" id="wireguard_server_enable" title="Enables WireGuard Server and its Web UI" {{if .Config.WireGuardServer}}checked{{end}}></b>
             </td>
             <td>
-              <b><label for="wireguard_server_enable">WireGuard Server</label></b>
-            </td>
-          </tr>
-          <tr wireguard-server="config">
-            <td>
-              &nbsp
-            </td>
-            <td>
-            <label for="wireguard_user">WireGuard Server Web UI User:</label>  
-            <input type="text" autocomplete="off" name="wireguard_user" placeholder="admin" value="{{.Config.WireGuardUIUser}}">
-            </td>
-          <tr wireguard-server="config">
-            <td>
-              &nbsp
-            </td>
-            <td>
-            <label for="wireguard_password">WireGuard Server Web UI Password:</label>  
-            <input type="password" autocomplete="off" name="wireguard_password" placeholder="Change this password!" value="{{.Config.WireGuardServerPassword}}">
+              <b><label for="wireguard_server_enable" title="Enables WireGuard Server and its Web UI">WireGuard Server</label></b>
             </td>
           </tr>
           <tr wireguard-server="config">
@@ -775,8 +758,25 @@
               &nbsp
             </td>
             <td>
-             <label for="wireguard_serverurl">WireGuard Server URL:</label>  
-             <input type="text" autocomplete="off" name="wireguard_serverurl" placeholder="wg.example.com" value="{{.Config.WireGuardServerUrl}}">
+            <label for="wireguard_user" title="WireGuard Server username">WireGuard Server Web UI User:</label>  
+            <input type="text" autocomplete="off" name="wireguard_user" placeholder="admin" title="WireGuard Server username" value="{{.Config.WireGuardUIUser}}">
+            </td>
+          <tr wireguard-server="config">
+            <td>
+              &nbsp
+            </td>
+            <td>
+            <label for="wireguard_password" title="WireGuard Server password">WireGuard Server Web UI Password:</label>  
+            <input type="password" autocomplete="off" name="wireguard_password" placeholder="Change this password!" title="WireGuard Server password" value="{{.Config.WireGuardServerPassword}}">
+            </td>
+          </tr>
+          <tr wireguard-server="config">
+            <td>
+              &nbsp
+            </td>
+            <td>
+             <label for="wireguard_serverurl" title="DNS hostname of your WireGuard server">WireGuard Server URL:</label>  
+             <input type="text" autocomplete="off" name="wireguard_serverurl" placeholder="wg.example.com" title="DNS hostname of your WireGuard server" value="{{.Config.WireGuardServerUrl}}">
             </td>
           </tr>
         </table>
@@ -786,10 +786,10 @@
         <table>
           <tr>
             <td>
-              <input type="checkbox" name="qbittorrent_enable" id="qbittorrent_enable" {{if .Config.QbitTorrentEnable}}checked{{end}}>
+              <input type="checkbox" name="qbittorrent_enable" id="qbittorrent_enable" title="Enables qBitTorrent client setup" {{if .Config.QbitTorrentEnable}}checked{{end}}>
             </td>
             <td>
-              <b><label for="qbittorrent_enable">Enable qBitTorrent</label></b>
+              <b><label for="qbittorrent_enable" title="Enables qBitTorrent client setup">Enable qBitTorrent</label></b>
             </td>
           </tr>
           <tr qbittorrent="config">
@@ -797,8 +797,8 @@
               &nbsp
             </td>
             <td>
-              <label for="qbittorrent_default_password">Default Web UI Password:</label> 
-              <input type="text" autocomplete="off" name="qbittorrent_default_password" placeholder="Change this password!" value="{{.Config.QbitTorrentPassword}}" disabled> 
+              <label for="qbittorrent_default_password" title="qBitTorrent default Web UI password">Default Web UI Password:</label> 
+              <input type="text" autocomplete="off" name="qbittorrent_default_password" placeholder="Change this password!" title="qBitTorrent default Web UI password" value="{{.Config.QbitTorrentPassword}}" disabled> 
               <span>Change this default password via WebUI at first login.</span>
             </td>
           </tr>
@@ -807,8 +807,8 @@
               &nbsp
             </td>
             <td>
-              <label for="qbittorrent_webui_port">qBitTorrent Web UI Port:</label> 
-              <input type="text" name="qbittorrent_webui_port" placeholder="8090" value="{{.Config.QbitTorrentWebuiPort}}"> 
+              <label for="qbittorrent_webui_port" title="qBitTorrent default port">qBitTorrent Web UI Port:</label> 
+              <input type="text" name="qbittorrent_webui_port" placeholder="8090" title="qBitTorrent default port" value="{{.Config.QbitTorrentWebuiPort}}"> 
               <span>Do not change it unless you know what you are doing.</span>
             </td>
           </tr>
@@ -822,10 +822,10 @@
           </tr>
           <tr qbittorrent="config">
             <td>
-              <input type="checkbox" name="qbittorrent_inside_vpn" id="qbittorrent_inside_vpn" {{if .Config.QbitTorrentInVPN}}checked{{end}}>
+              <input type="checkbox" name="qbittorrent_inside_vpn" id="qbittorrent_inside_vpn" title="Check it, if you would like to route all torrent traffic via OpenVPN connection." {{if .Config.QbitTorrentInVPN}}checked{{end}}>
             </td>
             <td>
-              <b><label for="qbittorrent_inside_vpn">Route torrent traffic via OpenVPN Client</label></b>
+              <b><label for="qbittorrent_inside_vpn" title="Check it, if you would like to route all torrent traffic via OpenVPN connection.">Route torrent traffic via OpenVPN Client</label></b>
               <p id="qbittorrent_inside_ena" style="display: none; margin-left: 10px;">Don't forget to upload your <b>"OpenVPN Client Certificate"</b> and set <b>"OpenVPN Client Allowed Subnet"</b> above.</p>
             </td>
           </tr>
@@ -839,10 +839,10 @@
           </tr>
           <tr qbittorrent="config">
             <td>
-              <input type="checkbox" name="qbittorrent_inside_gluetun" id="qbittorrent_inside_gluetun" {{if .Config.QbitTorrentInGluetun}}checked{{end}}>
+              <input type="checkbox" name="qbittorrent_inside_gluetun" id="qbittorrent_inside_gluetun" title="Check it, if you would like to route all torrent traffic via GlueTun (OpenVPN or WireGuard) connection." {{if .Config.QbitTorrentInGluetun}}checked{{end}}>
             </td>
             <td>
-              <b><label for="qbittorrent_inside_gluetun">Route torrent traffic via GlueTun VPN</label></b>
+              <b><label for="qbittorrent_inside_gluetun" title="Check it, if you would like to route all torrent traffic via GlueTun (OpenVPN or WireGuard) connection.">Route torrent traffic via GlueTun VPN</label></b>
               <p id="qbittorrent_insideg_ena" style="display: none; margin-left: 10px;">Don't forget to complete <b>"GlueTun"</b> configuration above.</p>
             </td>
           </tr>
@@ -861,19 +861,10 @@
       <table>
         <tr>
           <td>
-            <input type="checkbox" name="monitoring_enable" id="monitoring_enable" {{if .Config.MonitoringEnable}}checked{{end}}>
+            <input type="checkbox" name="monitoring_enable" id="monitoring_enable" title="Enables Raspberry monitoring" {{if .Config.MonitoringEnable}}checked{{end}}>
           </td>
           <td>
-            <b><label for="monitoring_enable">Enable Monitoring</label></b>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <input type="checkbox" style="visibility: hidden;" disabled>
-          </td>
-          <td>
-            <label for="monitoring_grafana_admin_password">Grafana first login Password:</label> 
-            <input type="text" name="monitoring_grafana_admin_password" placeholder="admin" value="{{.Config.MonitoringGrafPassword}}">
+            <b><label for="monitoring_enable" title="Enables Raspberry monitoring">Enable Monitoring</label></b>
           </td>
         </tr>
         <tr>
@@ -881,8 +872,17 @@
             <input type="checkbox" style="visibility: hidden;" disabled>
           </td>
           <td>
-            <label for="monitoring_days_keep_interval">Days to keep history in DB:</label> 
-            <input type="text" name="monitoring_days_keep_interval" placeholder="90d" value="{{.Config.MonitoringDays2Keep}}"> 
+            <label for="monitoring_grafana_admin_password" title="Password for first time entry into Grafana Web UI">Grafana first login Password:</label> 
+            <input type="text" name="monitoring_grafana_admin_password" placeholder="admin" title="Password for first time entry into Grafana Web UI" value="{{.Config.MonitoringGrafPassword}}">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="checkbox" style="visibility: hidden;" disabled>
+          </td>
+          <td>
+            <label for="monitoring_days_keep_interval" title="How long to keep data in Prometheus DB (decrease if you have less than 5Gb of free disk space)">Days to keep history in DB:</label> 
+            <input type="text" name="monitoring_days_keep_interval" placeholder="90d" title="How long to keep data in Prometheus DB (decrease if you have less than 5Gb of free disk space)" value="{{.Config.MonitoringDays2Keep}}"> 
             <span> Decrease if you have less than 5Gb of free disk space.</span>
           </td>
         </tr>
@@ -891,8 +891,8 @@
             <input type="checkbox" style="visibility: hidden;" disabled>
           </td>
           <td>
-            <label for="monitoring_speedtest_interval">Speed-test run interval:</label> 
-            <input type="text" name="monitoring_speedtest_interval" placeholder="60m" value="{{.Config.MonitoringSpeedTestInterval}}">
+            <label for="monitoring_speedtest_interval" title="How often to run speedtest (don't change without purpose)">Speed-test run interval:</label> 
+            <input type="text" name="monitoring_speedtest_interval" placeholder="60m" title="How often to run speedtest (don't change without purpose)" value="{{.Config.MonitoringSpeedTestInterval}}">
           </td>
         </tr>
         <tr>
@@ -900,8 +900,8 @@
             <input type="checkbox" style="visibility: hidden;" disabled>
           </td>
           <td>
-            <label for="monitoring_ping_interval">Ping hosts interval:</label> 
-            <input type="text" name="monitoring_ping_interval" placeholder="30s" value="{{.Config.MonitoringPingInterval}}">
+            <label for="monitoring_ping_interval" title="How often to ping hosts (don't change without purpose)">Ping hosts interval:</label> 
+            <input type="text" name="monitoring_ping_interval" placeholder="30s" title="How often to ping hosts (don't change without purpose)" value="{{.Config.MonitoringPingInterval}}">
           </td>
         </tr>
         <tr>
@@ -926,18 +926,18 @@
         <table style="margin-left: 30px;"> 
           <tr>
             <td>
-              <input type="checkbox" name="openvpn_monitoring_enable" id="openvpn_monitoring_enable" {{if .Config.OpenVPNMonitoringEnable}}checked{{end}}>
+              <input type="checkbox" name="openvpn_monitoring_enable" id="openvpn_monitoring_enable" title="Enables OpenVPN server Grafana dashboard and exporter" {{if .Config.OpenVPNMonitoringEnable}}checked{{end}}>
             </td>
             <td>
-              <b><label for="openvpn_monitoring_enable">OpenVPN Server Monitoring</label></b>
+              <b><label for="openvpn_monitoring_enable" title="Enables OpenVPN server Grafana dashboard and exporter">OpenVPN Server Monitoring</label></b>
             </td>
           </tr>
           <tr>
             <td>
-              <input type="checkbox" name="pikvm_monitoring_enable" id="pikvm_monitoring_enable" {{if .Config.PiKVMMonitoringEnable}}checked{{end}}>
+              <input type="checkbox" name="pikvm_monitoring_enable" id="pikvm_monitoring_enable" title="Enables Pi-KVM server Grafana dashboard and exporter" {{if .Config.PiKVMMonitoringEnable}}checked{{end}}>
             </td>
             <td>
-              <b><label for="pikvm_monitoring_enable">PiKVM Monitoring</label></b>
+              <b><label for="pikvm_monitoring_enable" title="Enables Pi-KVM server Grafana dashboard and exporter">PiKVM Monitoring</label></b>
             </td>
           </tr>
 
@@ -946,8 +946,8 @@
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="pikvm_target_ip">PiKVM IP address:</label> 
-              <input type="text" name="pikvm_target_ip" placeholder="IP address" value="{{.Config.PiKVMtargetIp}}">
+              <label for="pikvm_target_ip" title="PiKVM IP address to connect to">PiKVM IP address:</label> 
+              <input type="text" name="pikvm_target_ip" placeholder="IP address" title="PiKVM IP address to connect to" value="{{.Config.PiKVMtargetIp}}">
             </td>
           </tr>
           <tr pikvm-monitoring="config">
@@ -955,8 +955,8 @@
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="pikvm_web_user">PiKVM Web UI user:</label> 
-              <input type="text" name="pikvm_web_user" placeholder="Username" value="{{.Config.PiKVMwebUser}}">
+              <label for="pikvm_web_user" title="PiKVM Web UI username. Default user/password for your PiKVM is &quot;admin/admin&quot;">PiKVM Web UI user:</label> 
+              <input type="text" name="pikvm_web_user" placeholder="Username" title="PiKVM Web UI username. Default user/password for your PiKVM is &quot;admin/admin&quot;" value="{{.Config.PiKVMwebUser}}">
               <span>The PiKVM side Web-UI username for accessing statistics.</span>
             </td>
           </tr>
@@ -965,18 +965,18 @@
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="pikvm_web_password">PiKVM Web UI password:</label> 
-              <input type="password" name="pikvm_web_password" placeholder="Password" value="{{.Config.PiKVMwebPassword}}">
+              <label for="pikvm_web_password" title="PiKVM Web UI password. Default user/password for your PiKVM is &quot;admin/admin&quot;">PiKVM Web UI password:</label> 
+              <input type="password" name="pikvm_web_password" placeholder="Password" title="PiKVM Web UI password. Default user/password for your PiKVM is &quot;admin/admin&quot;" value="{{.Config.PiKVMwebPassword}}">
               <span>PiKVM Web-UI password.</span>
             </td>
           </tr>
 
           <tr>
             <td>
-              <input type="checkbox" name="airgradient_monitoring_enable" id="airgradient_monitoring_enable" {{if .Config.AirGradientMonitoring}}checked{{end}}>
+              <input type="checkbox" name="airgradient_monitoring_enable" id="airgradient_monitoring_enable" title="Enables AirGradient Grafana dashboard and exporter" {{if .Config.AirGradientMonitoring}}checked{{end}}>
             </td>
             <td>
-              <b><label for="airgradient_monitoring_enable">AirGradient Monitoring</label></b> 
+              <b><label for="airgradient_monitoring_enable" title="Enables AirGradient Grafana dashboard and exporter">AirGradient Monitoring</label></b> 
             </td>
             <td id="airgradient_ena" style="display: none;">
               <span margin-left: 10px;">Configure <b>advanced.config.yml</b> before running Installation</span>
@@ -985,19 +985,10 @@
 
           <tr>
             <td>
-              <input type="checkbox" name="starlink_monitoring_enable" id="starlink_monitoring_enable" {{if .Config.StarLinkMonitoring}}checked{{end}}>
+              <input type="checkbox" name="starlink_monitoring_enable" id="starlink_monitoring_enable" title="Enables StarLink Grafana dashboard and exporter" {{if .Config.StarLinkMonitoring}}checked{{end}}>
             </td>
             <td>
-              <b><label for="starlink_monitoring_enable">StarLink Monitoring</label></b>
-            </td>
-          </tr>
-          <tr starlink-monitoring="config">
-            <td>
-              <input type="checkbox" style="visibility: hidden;" disabled>
-            </td>
-            <td>
-              <label for="starlink_ip">StarLink IP address:</label> 
-              <input type="text" name="starlink_ip" placeholder="IP address" value="{{.Config.StarLinkIP}}">
+              <b><label for="starlink_monitoring_enable" title="Enables StarLink Grafana dashboard and exporter">StarLink Monitoring</label></b>
             </td>
           </tr>
           <tr starlink-monitoring="config">
@@ -1005,26 +996,26 @@
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="starlink_port">StarLink Port:</label> 
-              <input type="text" name="starlink_port" placeholder="Port" value="{{.Config.StarLinkPort}}">
+              <label for="starlink_ip" title="StarLink IP address to connect to">StarLink IP address:</label> 
+              <input type="text" name="starlink_ip" placeholder="IP address" title="StarLink IP address to connect to" value="{{.Config.StarLinkIP}}">
+            </td>
+          </tr>
+          <tr starlink-monitoring="config">
+            <td>
+              <input type="checkbox" style="visibility: hidden;" disabled>
+            </td>
+            <td>
+              <label for="starlink_port" title="StarLink port to connect to. Default is &quot;9817&quot;">StarLink Port:</label> 
+              <input type="text" name="starlink_port" placeholder="9817" title="StarLink port to connect to. Default is &quot;9817&quot;" value="{{.Config.StarLinkPort}}">
             </td>
           </tr>
 
           <tr>
             <td>
-              <input type="checkbox" name="shelly_plug_monitoring_enable" id="shelly_plug_monitoring_enable" {{if .Config.ShellyPlugMonitoring}}checked{{end}}>
+              <input type="checkbox" name="shelly_plug_monitoring_enable" id="shelly_plug_monitoring_enable" title="Enables ShellyPlug Grafana dashboard and exporter" {{if .Config.ShellyPlugMonitoring}}checked{{end}}>
             </td>
             <td>
-              <b><label for="shelly_plug_monitoring_enable">ShellyPlug Monitoring</label></b>
-            </td>
-          </tr>
-          <tr shellyplug-monitoring="config">
-            <td>
-              <input type="checkbox" style="visibility: hidden;" disabled>
-            </td>
-            <td>
-              <label for="shelly_plug_hostname">ShellyPlug Hostname:</label> 
-              <input type="text" name="shelly_plug_hostname" placeholder="hostname" value="{{.Config.ShellyPlugHostname}}">
+              <b><label for="shelly_plug_monitoring_enable" title="Enables ShellyPlug Grafana dashboard and exporter">ShellyPlug Monitoring</label></b>
             </td>
           </tr>
           <tr shellyplug-monitoring="config">
@@ -1032,8 +1023,8 @@
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="shelly_ip">ShellyPlug IP:</label> 
-              <input type="text" name="shelly_ip" placeholder="IP address" value="{{.Config.ShellyPlugIP}}">
+              <label for="shelly_plug_hostname" title="Shelly hostname or IP address">ShellyPlug Hostname:</label> 
+              <input type="text" name="shelly_plug_hostname" placeholder="hostname" title="Shelly hostname or IP address" value="{{.Config.ShellyPlugHostname}}">
             </td>
           </tr>
           <tr shellyplug-monitoring="config">
@@ -1041,8 +1032,8 @@
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="shelly_port">ShellyPlug Port:</label> 
-              <input type="text" name="shelly_port" placeholder="Port" value="{{.Config.ShellyPlugPort}}">
+              <label for="shelly_ip" title="Shelly IP address">ShellyPlug IP:</label> 
+              <input type="text" name="shelly_ip" placeholder="IP address" title="Shelly IP address" value="{{.Config.ShellyPlugIP}}">
             </td>
           </tr>
           <tr shellyplug-monitoring="config">
@@ -1050,8 +1041,8 @@
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="shelly_plug_http_username">ShellyPlug Username:</label> 
-              <input type="text" name="shelly_plug_http_username" placeholder="Unsername" value="{{.Config.ShellyPlugHttpUser}}">
+              <label for="shelly_port" title="Shelly port to connect to. Default is &quot;9924&quot;">ShellyPlug Port:</label> 
+              <input type="text" name="shelly_port" placeholder="9924" title="Shelly port to connect to. Default is &quot;9924&quot;" value="{{.Config.ShellyPlugPort}}">
             </td>
           </tr>
           <tr shellyplug-monitoring="config">
@@ -1059,8 +1050,17 @@
               <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              <label for="shelly_plug_http_password">ShellyPlug Password:</label> 
-              <input type="password" name="shelly_plug_http_password" placeholder="Unsername" value="{{.Config.ShellyPlugHttpPassword}}">
+              <label for="shelly_plug_http_username" title="Shelly username">ShellyPlug Username:</label> 
+              <input type="text" name="shelly_plug_http_username" placeholder="Unsername" title="Shelly username" value="{{.Config.ShellyPlugHttpUser}}">
+            </td>
+          </tr>
+          <tr shellyplug-monitoring="config">
+            <td>
+              <input type="checkbox" style="visibility: hidden;" disabled>
+            </td>
+            <td>
+              <label for="shelly_plug_http_password" title="Shelly password">ShellyPlug Password:</label> 
+              <input type="password" name="shelly_plug_http_password" placeholder="Unsername" title="Shelly password" value="{{.Config.ShellyPlugHttpPassword}}">
             </td>
           </tr>
           <tr>
