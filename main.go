@@ -17,7 +17,10 @@ import (
 type Config struct {
 	ConfigDir                   string `yaml:"config_dir"`
 	URTimezone                  string `yaml:"ur_timezone"`
+	PortainerEnable             bool   `yaml:"portainer_enable"`
+	RemovePortainer             bool   `yaml:"remove_portainer"`
 	UnboundDNSEnable            bool   `yaml:"unbound_dns_enable"`
+	RemoveUnboundDNS            bool   `yaml:"remove_unbound_dns"`
 	UnboundDBSIdentity          string `yaml:"unbound_dns_identitiy"`
 	UndoundDNSHide              string `yaml:"unbound_dns_hide"`
 	UnboundDNSIpV4              string `yaml:"unbound_dns_ipv4"`
@@ -25,10 +28,12 @@ type Config struct {
 	UnboundDNSNumThreads        string `yaml:"unbound_dns_num_threads"`
 	UnboundDNSUpstream          string `yaml:"unbound_dns_upstream_4_pihole"`
 	PiholeEnable                bool   `yaml:"pihole_enable"`
+	RemovePihole                bool   `yaml:"remove_pihole"`
 	PiholeWithUnbound           bool   `yaml:"pihole_with_unbound"`
 	PiholePassword              string `yaml:"pihole_password"`
 	PiholeHostname              string `yaml:"pihole_hostname"`
 	TechDNSEnable               bool   `yaml:"tech_dns_enable"`
+	RemoveTechDNS               bool   `yaml:"remove_tech_dns"`
 	TechDNSPassword             string `yaml:"tech_dns_password"`
 	TechDNSHostname             string `yaml:"tech_dns_hostname"`
 	TechDNSIpv6                 bool   `yaml:"tech_dns_ipv6"`
@@ -37,6 +42,7 @@ type Config struct {
 	TechDNSForwaderProtocol     string `yaml:"tech_dns_forwarder_proto"`
 	TechDNSServer               string `yaml:"tech_dns_server"`
 	OpenVPNServer               bool   `yaml:"ovpn_server_enable"`
+	RemoveOpenVPNServer         bool   `yaml:"remove_ovpn_server"`
 	OpenVPNUIUser               string `yaml:"ovpnui_user"`
 	OpenVPNUIPassword           string `yaml:"ovpnui_password"`
 	OpenVPNServerTrusSub        string `yaml:"ovpn_trusted_subnet"`
@@ -44,21 +50,41 @@ type Config struct {
 	OpenVPNServerHomeSub        string `yaml:"ovpn_home_subnet"`
 	OpenVPNServerRemoteOpt      string `yaml:"ovpn_remote"`
 	OpenVPNClient               bool   `yaml:"ovpn_client_enable"`
+	RemoveOpenVPNClient         bool   `yaml:"remove_ovpn_client"`
 	OpenVPNClientCert           string `yaml:"ovpn_client_cert"`
 	OpenVPNClientAllowedSub     string `yaml:"ovpn_client_allowed_subnet"`
 	OpenVPNClientSecret         string `yaml:"ovpn_client_secret"`
 	OpenVPNClientKillSwitch     bool   `yaml:"ovpn_client_killswitch"`
+	GluetunEnable               bool   `yaml:"gluetun_vpnclient_enable"`
+	RemoveGluetun               bool   `yaml:"remove_gluetun"`
+	GluetunServerCountries      string `yaml:"gluetun_server_countries"`
+	GluetunServerCities         string `yaml:"gluetun_server_cities"`
+	GluetunServerUpdatePer      string `yaml:"gluetun_server_update_per"`
+	GluetunServiceProvider      string `yaml:"gluetun_vpn_service_provider"`
+	GluetunVPNType              string `yaml:"gluetun_vpn_type"`
+	GluetunOpenvpnUser          string `yaml:"gluetun_openvpn_user"`
+	GluetunOpenvpnPassword      string `yaml:"gluetun_openvpn_password"`
+	GluetunVPNCluentCustom      bool   `yaml:"gluetun_vpnclient_custom"`
+	GluetunOVPNCusomConfig      string `yaml:"glue_ovpn_custom_conf"`
+	GluetunWGPrivateKey         string `yaml:"gluetun_wireguard_private_key"`
+	GluetunWGPublicKey          string `yaml:"gluetun_wireguard_public_key"`
+	GluetunWGPresharedKey       string `yaml:"gluetun_wireguard_preshared_key"`
+	GluetunWGAddress            string `yaml:"gluetun_wireguard_address"`
+	GluetunWGEndpointIP         string `yaml:"gluetun_wireguard_endpoint_ip"`
+	GluetunWGEndpointPort       string `yaml:"gluetun_wireguard_endpoint_port"`
 	WireGuardServer             bool   `yaml:"wireguard_server_enable"`
+	RemoveWireGuardServer       bool   `yaml:"remove_wireguard"`
 	WireGuardUIUser             string `yaml:"wireguard_user"`
 	WireGuardServerPassword     string `yaml:"wireguard_password"`
 	WireGuardServerUrl          string `yaml:"wireguard_serverurl"`
-	PortainerEnable             bool   `yaml:"portainer_enable"`
 	QbitTorrentEnable           bool   `yaml:"qbittorrent_enable"`
+	RemoveQbitTorrent           bool   `yaml:"remove_qbittorrent"`
 	QbitTorrentPassword         string `yaml:"qbittorrent_default_password"`
 	QbitTorrentInVPN            bool   `yaml:"qbittorrent_inside_vpn"`
 	QbitTorrentInGluetun        bool   `yaml:"qbittorrent_inside_gluetun"`
 	QbitTorrentWebuiPort        string `yaml:"qbittorrent_webui_port"`
 	MonitoringEnable            bool   `yaml:"monitoring_enable"`
+	RemoveMonitoring            bool   `yaml:"remove_monitoring"`
 	MonitoringGrafPassword      string `yaml:"monitoring_grafana_admin_password"`
 	MonitoringDays2Keep         string `yaml:"monitoring_days_keep_interval"`
 	MonitoringSpeedTestInterval string `yaml:"monitoring_speedtest_interval"`
@@ -78,22 +104,6 @@ type Config struct {
 	ShellyPlugPort              string `yaml:"shelly_port"`
 	ShellyPlugHttpUser          string `yaml:"shelly_plug_http_username"`
 	ShellyPlugHttpPassword      string `yaml:"shelly_plug_http_password"`
-	GluetunEnable               bool   `yaml:"gluetun_vpnclient_enable"`
-	GluetunServerCountries      string `yaml:"gluetun_server_countries"`
-	GluetunServerCities         string `yaml:"gluetun_server_cities"`
-	GluetunServerUpdatePer      string `yaml:"gluetun_server_update_per"`
-	GluetunServiceProvider      string `yaml:"gluetun_vpn_service_provider"`
-	GluetunVPNType              string `yaml:"gluetun_vpn_type"`
-	GluetunOpenvpnUser          string `yaml:"gluetun_openvpn_user"`
-	GluetunOpenvpnPassword      string `yaml:"gluetun_openvpn_password"`
-	GluetunVPNCluentCustom      bool   `yaml:"gluetun_vpnclient_custom"`
-	GluetunOVPNCusomConfig      string `yaml:"glue_ovpn_custom_conf"`
-	GluetunWGPrivateKey         string `yaml:"gluetun_wireguard_private_key"`
-	GluetunWGPublicKey          string `yaml:"gluetun_wireguard_public_key"`
-	GluetunWGPresharedKey       string `yaml:"gluetun_wireguard_preshared_key"`
-	GluetunWGAddress            string `yaml:"gluetun_wireguard_address"`
-	GluetunWGEndpointIP         string `yaml:"gluetun_wireguard_endpoint_ip"`
-	GluetunWGEndpointPort       string `yaml:"gluetun_wireguard_endpoint_port"`
 	IPAddress                   string // to pass your IP address to the template
 }
 
@@ -366,7 +376,10 @@ func saveConfig(w http.ResponseWriter, r *http.Request) {
 	config := Config{
 		ConfigDir:                   r.FormValue("config_dir"),
 		URTimezone:                  r.FormValue("ur_timezone"),
+		PortainerEnable:             r.FormValue("portainer_enable") == "on",
+		RemovePortainer:             r.FormValue("remove_portainer") == "on",
 		UnboundDNSEnable:            r.FormValue("unbound_dns_enable") == "on",
+		RemoveUnboundDNS:            r.FormValue("remove_unbound_dns") == "on",
 		UnboundDBSIdentity:          r.FormValue("unbound_dns_identitiy"),
 		UndoundDNSHide:              r.FormValue("unbound_dns_hide"),
 		UnboundDNSIpV4:              r.FormValue("unbound_dns_ipv4"),
@@ -374,10 +387,12 @@ func saveConfig(w http.ResponseWriter, r *http.Request) {
 		UnboundDNSNumThreads:        r.FormValue("unbound_dns_num_threads"),
 		UnboundDNSUpstream:          r.FormValue("unbound_dns_upstream_4_pihole"),
 		PiholeEnable:                r.FormValue("pihole_enable") == "on",
+		RemovePihole:                r.FormValue("remove_pihole") == "on",
 		PiholeWithUnbound:           r.FormValue("pihole_with_unbound") == "on",
 		PiholePassword:              r.FormValue("pihole_password"),
 		PiholeHostname:              "pihole",
 		TechDNSEnable:               r.FormValue("tech_dns_enable") == "on",
+		RemoveTechDNS:               r.FormValue("remove_tech_dns") == "on",
 		TechDNSPassword:             r.FormValue("tech_dns_password"),
 		TechDNSHostname:             r.FormValue("tech_dns_hostname"),
 		TechDNSServer:               r.FormValue("tech_dns_server"),
@@ -386,6 +401,7 @@ func saveConfig(w http.ResponseWriter, r *http.Request) {
 		TechDNSForwaders:            r.FormValue("tech_dns_forwarders"),
 		TechDNSForwaderProtocol:     r.FormValue("tech_dns_forwarder_proto"),
 		OpenVPNServer:               r.FormValue("ovpn_server_enable") == "on",
+		RemoveOpenVPNServer:         r.FormValue("remove_ovpn_server") == "on",
 		OpenVPNUIUser:               r.FormValue("ovpnui_user"),
 		OpenVPNUIPassword:           r.FormValue("ovpnui_password"),
 		OpenVPNServerTrusSub:        r.FormValue("ovpn_trusted_subnet"),
@@ -393,21 +409,41 @@ func saveConfig(w http.ResponseWriter, r *http.Request) {
 		OpenVPNServerHomeSub:        r.FormValue("ovpn_home_subnet"),
 		OpenVPNServerRemoteOpt:      r.FormValue("ovpn_remote"),
 		OpenVPNClient:               r.FormValue("ovpn_client_enable") == "on",
+		RemoveOpenVPNClient:         r.FormValue("remove_ovpn_client") == "on",
 		OpenVPNClientCert:           "webinstall-client.ovpn",
 		OpenVPNClientAllowedSub:     r.FormValue("ovpn_client_allowed_subnet"),
 		OpenVPNClientSecret:         "webinstall-credentials.txt",
 		OpenVPNClientKillSwitch:     r.FormValue("ovpn_client_killswitch") == "on",
+		GluetunEnable:               r.FormValue("gluetun_vpnclient_enable") == "on",
+		RemoveGluetun:               r.FormValue("remove_gluetun") == "on",
+		GluetunServerCountries:      r.FormValue("gluetun_server_countries"),
+		GluetunServerCities:         r.FormValue("gluetun_server_cities"),
+		GluetunServerUpdatePer:      r.FormValue("gluetun_server_update_per"),
+		GluetunServiceProvider:      r.FormValue("gluetun_vpn_service_provider"),
+		GluetunVPNType:              r.FormValue("gluetun_vpn_type"),
+		GluetunOpenvpnUser:          r.FormValue("gluetun_openvpn_user"),
+		GluetunOpenvpnPassword:      r.FormValue("gluetun_openvpn_password"),
+		GluetunVPNCluentCustom:      r.FormValue("gluetun_vpnclient_custom") == "on",
+		GluetunOVPNCusomConfig:      "webinstall-client.ovpn",
+		GluetunWGPrivateKey:         r.FormValue("gluetun_wireguard_private_key"),
+		GluetunWGPublicKey:          r.FormValue("gluetun_wireguard_public_key"),
+		GluetunWGPresharedKey:       r.FormValue("gluetun_wireguard_preshared_key"),
+		GluetunWGAddress:            r.FormValue("gluetun_wireguard_address"),
+		GluetunWGEndpointIP:         r.FormValue("gluetun_wireguard_endpoint_ip"),
+		GluetunWGEndpointPort:       r.FormValue("gluetun_wireguard_endpoint_port"),
 		WireGuardServer:             r.FormValue("wireguard_server_enable") == "on",
+		RemoveWireGuardServer:       r.FormValue("remove_wireguard") == "on",
 		WireGuardUIUser:             r.FormValue("wireguard_user"),
 		WireGuardServerPassword:     r.FormValue("wireguard_password"),
 		WireGuardServerUrl:          r.FormValue("wireguard_serverurl"),
-		PortainerEnable:             r.FormValue("portainer_enable") == "on",
 		QbitTorrentEnable:           r.FormValue("qbittorrent_enable") == "on",
+		RemoveQbitTorrent:           r.FormValue("remove_qbittorrent") == "on",
 		QbitTorrentPassword:         "adminadmin",
 		QbitTorrentInVPN:            r.FormValue("qbittorrent_inside_vpn") == "on",
 		QbitTorrentInGluetun:        r.FormValue("qbittorrent_inside_gluetun") == "on",
 		QbitTorrentWebuiPort:        r.FormValue("qbittorrent_webui_port"),
 		MonitoringEnable:            r.FormValue("monitoring_enable") == "on",
+		RemoveMonitoring:            r.FormValue("remove_monitoring") == "on",
 		MonitoringGrafPassword:      r.FormValue("monitoring_grafana_admin_password"),
 		MonitoringDays2Keep:         r.FormValue("monitoring_days_keep_interval"),
 		MonitoringSpeedTestInterval: r.FormValue("monitoring_speedtest_interval"),
@@ -427,22 +463,6 @@ func saveConfig(w http.ResponseWriter, r *http.Request) {
 		ShellyPlugPort:              r.FormValue("shelly_port"),
 		ShellyPlugHttpUser:          r.FormValue("shelly_plug_http_username"),
 		ShellyPlugHttpPassword:      r.FormValue("shelly_plug_http_password"),
-		GluetunEnable:               r.FormValue("gluetun_vpnclient_enable") == "on",
-		GluetunServerCountries:      r.FormValue("gluetun_server_countries"),
-		GluetunServerCities:         r.FormValue("gluetun_server_cities"),
-		GluetunServerUpdatePer:      r.FormValue("gluetun_server_update_per"),
-		GluetunServiceProvider:      r.FormValue("gluetun_vpn_service_provider"),
-		GluetunVPNType:              r.FormValue("gluetun_vpn_type"),
-		GluetunOpenvpnUser:          r.FormValue("gluetun_openvpn_user"),
-		GluetunOpenvpnPassword:      r.FormValue("gluetun_openvpn_password"),
-		GluetunVPNCluentCustom:      r.FormValue("gluetun_vpnclient_custom") == "on",
-		GluetunOVPNCusomConfig:      "webinstall-client.ovpn",
-		GluetunWGPrivateKey:         r.FormValue("gluetun_wireguard_private_key"),
-		GluetunWGPublicKey:          r.FormValue("gluetun_wireguard_public_key"),
-		GluetunWGPresharedKey:       r.FormValue("gluetun_wireguard_preshared_key"),
-		GluetunWGAddress:            r.FormValue("gluetun_wireguard_address"),
-		GluetunWGEndpointIP:         r.FormValue("gluetun_wireguard_endpoint_ip"),
-		GluetunWGEndpointPort:       r.FormValue("gluetun_wireguard_endpoint_port"),
 	}
 	if r.FormValue("unbound_dns_hide") == "on" {
 		config.UndoundDNSHide = "yes"
