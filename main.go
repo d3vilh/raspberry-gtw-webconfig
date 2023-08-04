@@ -90,15 +90,20 @@ type Config struct {
 	MonitoringSpeedTestInterval string `yaml:"monitoring_speedtest_interval"`
 	MonitoringPingInterval      string `yaml:"monitoring_ping_interval"`
 	OpenVPNMonitoringEnable     bool   `yaml:"openvpn_monitoring_enable"`
+	RemoveOpenVPNMOnitoring     bool   `yaml:"remove_openvpn_monitoring"`
 	PiKVMMonitoringEnable       bool   `yaml:"pikvm_monitoring_enable"`
+	RemovePiKVMMonitoring       bool   `yaml:"remove_pikvm_monitoring"`
 	PiKVMtargetIp               string `yaml:"pikvm_target_ip"`
 	PiKVMwebUser                string `yaml:"pikvm_web_user"`
 	PiKVMwebPassword            string `yaml:"pikvm_web_password"`
 	AirGradientMonitoring       bool   `yaml:"airgradient_monitoring_enable"`
+	RemoveAirGradientMonitoring bool   `yaml:"remove_airgradient_monitoring"`
 	StarLinkMonitoring          bool   `yaml:"starlink_monitoring_enable"`
+	RemoveStarLinkMonitoring    bool   `yaml:"remove_starlink_monitoring"`
 	StarLinkIP                  string `yaml:"starlink_ip"`
 	StarLinkPort                string `yaml:"starlink_port"`
 	ShellyPlugMonitoring        bool   `yaml:"shelly_plug_monitoring_enable"`
+	RemoveShellyPlugMonitoring  bool   `yaml:"remove_shelly_plug_monitoring"`
 	ShellyPlugHostname          string `yaml:"shelly_plug_hostname"`
 	ShellyPlugIP                string `yaml:"shelly_ip"`
 	ShellyPlugPort              string `yaml:"shelly_port"`
@@ -449,15 +454,20 @@ func saveConfig(w http.ResponseWriter, r *http.Request) {
 		MonitoringSpeedTestInterval: r.FormValue("monitoring_speedtest_interval"),
 		MonitoringPingInterval:      r.FormValue("monitoring_ping_interval"),
 		OpenVPNMonitoringEnable:     r.FormValue("openvpn_monitoring_enable") == "on",
+		RemoveOpenVPNMOnitoring:     r.FormValue("remove_openvpn_monitoring") == "on",
 		PiKVMMonitoringEnable:       r.FormValue("pikvm_monitoring_enable") == "on",
+		RemovePiKVMMonitoring:       r.FormValue("remove_pikvm_monitoring") == "on",
 		PiKVMtargetIp:               r.FormValue("pikvm_target_ip"),
 		PiKVMwebUser:                r.FormValue("pikvm_web_user"),
 		PiKVMwebPassword:            r.FormValue("pikvm_web_password"),
 		AirGradientMonitoring:       r.FormValue("airgradient_monitoring_enable") == "on",
+		RemoveAirGradientMonitoring: r.FormValue("remove_airgradient_monitoring") == "on",
 		StarLinkMonitoring:          r.FormValue("starlink_monitoring_enable") == "on",
+		RemoveStarLinkMonitoring:    r.FormValue("remove_starlink_monitoring") == "on",
 		StarLinkIP:                  r.FormValue("starlink_ip"),
 		StarLinkPort:                r.FormValue("starlink_port"),
 		ShellyPlugMonitoring:        r.FormValue("shelly_plug_monitoring_enable") == "on",
+		RemoveShellyPlugMonitoring:  r.FormValue("remove_shelly_plug_monitoring") == "on",
 		ShellyPlugHostname:          r.FormValue("shelly_plug_hostname"),
 		ShellyPlugIP:                r.FormValue("shelly_ip"),
 		ShellyPlugPort:              r.FormValue("shelly_port"),
