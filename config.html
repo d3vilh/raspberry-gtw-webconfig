@@ -91,7 +91,7 @@
           </td>
           <td>
             <label for="remove_portainer" title="Remove Portainer container - container management UI">
-              <b>Uninstall Portainer</b>
+              Uninstall Portainer
             </label>
           </td>
         </tr>
@@ -200,7 +200,7 @@
             <input type="checkbox" name="remove_unbound_dns" id="remove_unbound_dns" title="Removes Unbound DNS container" {{if .Config.RemoveUnboundDNS}}checked{{end}}>
           </td>
           <td>
-            <b><label for="remove_unbound_dns">Uninstall Unbound DNS</label></b>
+            <label for="remove_unbound_dns">Uninstall Unbound DNS</label>
           </td>
         </tr>
       </table>
@@ -281,7 +281,7 @@
             <input type="checkbox" name="remove_pihole" id="remove_pihole" title="Removes Pi-Hole Container" {{if .Config.RemovePihole}}checked{{end}}>
           </td>
           <td>
-            <b><label for="remove_pihole" title="Remove Pi-Hole functionality">Uninstall Pi-hole</label></b>
+            <label for="remove_pihole" title="Remove Pi-Hole functionality">Uninstall Pi-hole</label>
           </td>
         </tr>
       </table>
@@ -341,7 +341,7 @@
             <input type="checkbox" name="remove_tech_dns" id="remove_tech_dns" title="Removes Technitium DNS container" {{if .Config.RemoveTechDNS}}checked{{end}}>
           </td>
           <td>
-            <b><label for="remove_tech_dns" title="Removes Technitium DNS container">Uninstall TechnitiumDNS</label></b>
+            <label for="remove_tech_dns" title="Removes Technitium DNS container">Uninstall TechnitiumDNS</label>
           </td>
         </tr>
       </table>
@@ -432,13 +432,13 @@
               <input type="checkbox" name="ovpn_server_enable" id="ovpn_server_enable" title="Installs OpenVPN Server and Web UI" {{if .Config.OpenVPNServer}}checked{{end}}>
             </td>
             <td>
-              <label for="ovpn_server_enable" title="Installs OpenVPN Server and Web UI"><b>Install</b> OpenVPN Server</label>
+              <label for="ovpn_server_enable" title="Installs OpenVPN Server and Web UI"><b>Install OpenVPN Server</b></label>
             </td>
             <td>
               <input type="checkbox" name="remove_ovpn_server" id="remove_ovpn_server" title="Removes OpenVPN Server and Web UI" {{if .Config.RemoveOpenVPNServer}}checked{{end}}>
             </td>
             <td>
-              <label for="remove_ovpn_server" title="Removes OpenVPN Server and Web UI"><b>Uninstall</b> OpenVPN Server</label>
+              <label for="remove_ovpn_server" title="Removes OpenVPN Server and Web UI">Uninstall OpenVPN Server</label>
             </td>
           </tr>
         </table>
@@ -516,13 +516,13 @@
               <input type="checkbox" name="ovpn_client_enable" id="ovpn_client_enable" title="Enables OpenVPN Client container" {{if .Config.OpenVPNClient}}checked{{end}}>
             </td>
             <td>
-              <label for="ovpn_client_enable" title="Enables OpenVPN Client container"><b>Install</b> OpenVPN Client</label>
+              <label for="ovpn_client_enable" title="Enables OpenVPN Client container"><b>Install OpenVPN Client</b></label>
             </td>
             <td>
               <input type="checkbox" name="remove_ovpn_client" id="remove_ovpn_client" title="Removes OpenVPN Client container" {{if .Config.RemoveOpenVPNClient}}checked{{end}}>
             </td>
             <td>
-              <label for="remove_ovpn_client" title="Removes OpenVPN Client container"><b>Uninstall</b> OpenVPN Client</label>
+              <label for="remove_ovpn_client" title="Removes OpenVPN Client container">Uninstall OpenVPN Client</label>
             </td>
           </tr>
         </table>
@@ -601,13 +601,13 @@
               <input type="checkbox" name="gluetun_vpnclient_enable" id="gluetun_vpnclient_enable" title="Enables GlueTun Universal VPN client" {{if .Config.GluetunEnable}}checked{{end}}>
             </td>
             <td>
-              <label for="gluetun_vpnclient_enable" title="Enables GlueTun Universal VPN client"><b>Install</b> GlueTun</label>
+              <label for="gluetun_vpnclient_enable" title="Enables GlueTun Universal VPN client"><b>Install GlueTun</b></label>
             </td>
             <td>
               <input type="checkbox" name="remove_gluetun" id="remove_gluetun" title="Removes GlueTun Universal VPN client" {{if .Config.RemoveGluetun}}checked{{end}}>
             </td>
             <td>
-              <label for="remove_gluetun" title="Removes GlueTun Universal VPN client"><b>Uninstall</b> GlueTun</label>
+              <label for="remove_gluetun" title="Removes GlueTun Universal VPN client">Uninstall GlueTun</label>
             </td>
           </tr>
         </table>
@@ -806,13 +806,13 @@
               <input type="checkbox" name="wireguard_server_enable" id="wireguard_server_enable" title="Enables WireGuard Server and its Web UI" {{if .Config.WireGuardServer}}checked{{end}}>
             </td>
             <td>
-              <label for="wireguard_server_enable" title="Enables WireGuard Server and its Web UI"><b>Install</b> WireGuard Server</label>
+              <label for="wireguard_server_enable" title="Enables WireGuard Server and its Web UI"><b>Install WireGuard Server</b></label>
             </td>
             <td>
               <input type="checkbox" name="remove_wireguard" id="remove_wireguard" title="Removes WireGuard Server and its Web UI" {{if .Config.RemoveWireGuardServer}}checked{{end}}>
             </td>
             <td>
-              <label for="remove_wireguard" title="Removes WireGuard Server and its Web UI"><b>Uninstall</b> WireGuard Server</label>
+              <label for="remove_wireguard" title="Removes WireGuard Server and its Web UI">Uninstall WireGuard Server</label>
             </td>
           </tr>
         </table>
@@ -853,13 +853,13 @@
               <input type="checkbox" name="qbittorrent_enable" id="qbittorrent_enable" title="Enables qBitTorrent client setup" {{if .Config.QbitTorrentEnable}}checked{{end}}>
             </td>
             <td>
-              <label for="qbittorrent_enable" title="Enables qBitTorrent client setup"><b>Install</b> qBitTorrent</label>
+              <label for="qbittorrent_enable" title="Enables qBitTorrent client setup"><b>Install qBitTorrent</b></label>
             </td>
             <td>
               <input type="checkbox" name="remove_qbittorrent" id="remove_qbittorrent" title="Removes qBitTorrent client setup" {{if .Config.RemoveQbitTorrent}}checked{{end}}>
             </td>
             <td>
-              <label for="remove_qbittorrent" title="Removes qBitTorrent client setup"><b>Uninstall</b> qBitTorrent</label>
+              <label for="remove_qbittorrent" title="Removes qBitTorrent client setup">Uninstall qBitTorrent</label>
             </td>
           </tr>
         </table>
@@ -936,13 +936,13 @@
             <input type="checkbox" name="monitoring_enable" id="monitoring_enable" title="Enables Raspberry monitoring" {{if .Config.MonitoringEnable}}checked{{end}}>
           </td>
           <td>
-            <label for="monitoring_enable" title="Enables Raspberry monitoring"><b>Install</b> Monitoring</label>
+            <label for="monitoring_enable" title="Enables Raspberry monitoring"><b>Install Monitoring</b></label>
           </td>
           <td>
             <input type="checkbox" name="remove_monitoring" id="remove_monitoring" title="Removes Raspberry monitoring" {{if .Config.RemoveMonitoring}}checked{{end}}>
           </td>
           <td>
-            <label for="remove_monitoring" title="Removes Raspberry monitoring"><b>Uninstall</b> Monitoring</label>
+            <label for="remove_monitoring" title="Removes Raspberry monitoring">Uninstall Monitoring</label>
           </td>
         </tr>
       </table>
@@ -1011,7 +1011,15 @@
             <td>
               <b><label for="openvpn_monitoring_enable" title="Enables OpenVPN server Grafana dashboard and exporter">OpenVPN Server Monitoring</label></b>
             </td>
+            <td>
+              <input type="checkbox" name="remove_openvpn_monitoring" id="remove_openvpn_monitoring" title="Removes OpenVPN server Grafana dashboard and exporter" {{if .Config.RemoveOpenVPNMOnitoring}}checked{{end}}>
+            </td>
+            <td>
+              <label for="remove_openvpn_monitoring" title="Removes OpenVPN server Grafana dashboard and exporter">Remove Dashboard</label>
+            </td>
           </tr>
+        </table>
+        <table style="margin-left: 30px;"> 
           <tr>
             <td>
               <input type="checkbox" name="pikvm_monitoring_enable" id="pikvm_monitoring_enable" title="Enables Pi-KVM server Grafana dashboard and exporter" {{if .Config.PiKVMMonitoringEnable}}checked{{end}}>
@@ -1019,8 +1027,17 @@
             <td>
               <b><label for="pikvm_monitoring_enable" title="Enables Pi-KVM server Grafana dashboard and exporter">PiKVM Monitoring</label></b>
             </td>
-          </tr>
 
+            <td>
+              <input type="checkbox" name="remove_pikvm_monitoring" id="remove_pikvm_monitoring" title="Remove Pi-KVM server Grafana dashboard and exporter" {{if .Config.RemovePiKVMMonitoring}}checked{{end}}>
+            </td>
+            <td>
+              <label for="remove_pikvm_monitoring" title="Remove Pi-KVM server Grafana dashboard and exporter">Remove Dashboard</label>
+            </td>
+          </tr>
+        </table>
+
+        <table style="margin-left: 30px;">
           <tr pikvm-monitoring="config">
             <td>
               <input type="checkbox" style="visibility: hidden;" disabled>
@@ -1050,7 +1067,9 @@
               <span>PiKVM Web-UI password.</span>
             </td>
           </tr>
+        </table>
 
+        <table style="margin-left: 30px;">
           <tr>
             <td>
               <input type="checkbox" name="airgradient_monitoring_enable" id="airgradient_monitoring_enable" title="Enables AirGradient Grafana dashboard and exporter" {{if .Config.AirGradientMonitoring}}checked{{end}}>
@@ -1058,11 +1077,26 @@
             <td>
               <b><label for="airgradient_monitoring_enable" title="Enables AirGradient Grafana dashboard and exporter">AirGradient Monitoring</label></b> 
             </td>
-            <td id="airgradient_ena" style="display: none;">
-              <span margin-left: 10px;">Configure <b>advanced.config.yml</b> before running Installation</span>
+            <td>
+              <input type="checkbox" name="remove_airgradient_monitoring" id="remove_airgradient_monitoring" title="Removes AirGradient Grafana dashboard and exporter" {{if .Config.RemoveAirGradientMonitoring}}checked{{end}}>
+            </td>
+            <td>
+              <label for="remove_airgradient_monitoring" title="Removes AirGradient Grafana dashboard and exporter">Remove Dashboard</label>
             </td>
           </tr>
+        </table>
+        <table style="margin-left: 30px;">
+          <tr>
+            <td>
+              <input type="checkbox" style="visibility: hidden; display: none;" disabled>
+            </td>
+            <td id="airgradient_ena" style="display: none;">
+              <span>Configure <b>advanced.config.yml</b> before running Installation</span>
+            </td>
+          </tr>
+        </table>
 
+        <table style="margin-left: 30px;">
           <tr>
             <td>
               <input type="checkbox" name="starlink_monitoring_enable" id="starlink_monitoring_enable" title="Enables StarLink Grafana dashboard and exporter" {{if .Config.StarLinkMonitoring}}checked{{end}}>
@@ -1070,7 +1104,15 @@
             <td>
               <b><label for="starlink_monitoring_enable" title="Enables StarLink Grafana dashboard and exporter">StarLink Monitoring</label></b>
             </td>
+            <td>
+              <input type="checkbox" name="remove_starlink_monitoring" id="remove_starlink_monitoring" title="Removes StarLink Grafana dashboard and exporter" {{if .Config.RemoveStarLinkMonitoring}}checked{{end}}>
+            </td>
+            <td>
+              <label for="remove_starlink_monitoring" title="Removes StarLink Grafana dashboard and exporter">Remove Dashboard</label>
+            </td>
           </tr>
+        </table>
+        <table style="margin-left: 30px;">
           <tr starlink-monitoring="config">
             <td>
               <input type="checkbox" style="visibility: hidden;" disabled>
@@ -1089,7 +1131,9 @@
               <input type="text" name="starlink_port" placeholder="9817" title="StarLink port to connect to. Default is &quot;9817&quot;" value="{{.Config.StarLinkPort}}">
             </td>
           </tr>
+        </table>
 
+        <table style="margin-left: 30px;">
           <tr>
             <td>
               <input type="checkbox" name="shelly_plug_monitoring_enable" id="shelly_plug_monitoring_enable" title="Enables ShellyPlug Grafana dashboard and exporter" {{if .Config.ShellyPlugMonitoring}}checked{{end}}>
@@ -1097,7 +1141,15 @@
             <td>
               <b><label for="shelly_plug_monitoring_enable" title="Enables ShellyPlug Grafana dashboard and exporter">ShellyPlug Monitoring</label></b>
             </td>
+            <td>
+              <input type="checkbox" name="remove_shelly_plug_monitoring" id="remove_shelly_plug_monitoring" title="Removes ShellyPlug Grafana dashboard and exporter" {{if .Config.RemoveShellyPlugMonitoring}}checked{{end}}>
+            </td>
+            <td>
+              <label for="remove_shelly_plug_monitoring" title="Removes ShellyPlug Grafana dashboard and exporter">Remove Dashboard</label>
+            </td>
           </tr>
+        </table>
+        <table style="margin-left: 30px;">
           <tr shellyplug-monitoring="config">
             <td>
               <input type="checkbox" style="visibility: hidden;" disabled>
@@ -1468,7 +1520,7 @@
         });
 
       // Hide/show rows based on PiKVM server enable value  
-      const pikvmmonitoringEnable = document.getElementById('pikvm_monitoring_enable');
+        const pikvmmonitoringEnable = document.getElementById('pikvm_monitoring_enable');
         const pikvmmonitoringConfigRows = document.querySelectorAll('tr[pikvm-monitoring="config"]');
 
         // Hide the wireguard server config rows by default
@@ -1540,10 +1592,19 @@
         const removeMonitoring = document.getElementById('remove_monitoring');
 
         const openvpnMonitoringEnable = document.getElementById('openvpn_monitoring_enable');
+        const removeOpenvpnMonitoring = document.getElementById('remove_openvpn_monitoring');
+
         const piKvmMonitoringEnable = document.getElementById('pikvm_monitoring_enable');
+        const removePiKvmMonitoring = document.getElementById('remove_pikvm_monitoring');
+
         const airGradientMonitoring = document.getElementById('airgradient_monitoring_enable');
+        const removeAirGradientMonitoring = document.getElementById('remove_airgradient_monitoring');
+
         const starLinkMonitoring = document.getElementById('starlink_monitoring_enable');
+        const removeStarLinkMonitoring = document.getElementById('remove_starlink_monitoring');
+
         const shellyPlugMonitoring = document.getElementById('shelly_plug_monitoring_enable');
+        const removeShellyPlugMonitoring = document.getElementById('remove_shelly_plug_monitoring');
 
         portainerEnable.addEventListener('change', () => {
           if (portainerEnable.checked) {
@@ -1568,6 +1629,7 @@
         removeUnboundDNS.addEventListener('change', () => {
           if (removeUnboundDNS.checked) {
             unboundDnsEnable.checked = false;
+            piholeWithUnbound.checked = false;
           }
         });
 
@@ -1582,6 +1644,8 @@
         removePihole.addEventListener('change', () => {
           if (removePihole.checked) {
             piholeEnable.checked = false;
+            piholeWithUnbound.checked = false;
+
           }
         });
 
@@ -1590,6 +1654,8 @@
             techDnsEnable.checked = false;
             unboundDnsEnable.checked = true;
             piholeEnable.checked = true;
+            removeUnboundDNS.checked = false;
+            removePihole.checked = false;
          //   TechDNSConfigRows.forEach(row => row.style.display = 'none');
           }
         });
@@ -1600,6 +1666,8 @@
             piholeEnable.checked = false;
             piholeWithUnbound.checked = false;
             removeTechDNS.checked = false;
+            removeUnboundDNS.checked = true;
+            removePihole.checked = true;
           }
         });
 
@@ -1665,6 +1733,12 @@
           if (openvpnMonitoringEnable.checked) {
             monitoringEnable.checked = true;
             removeMonitoring.checked = false;
+            removeOpenvpnMonitoring.checked = false;
+          }
+        });
+        removeOpenvpnMonitoring.addEventListener('change', () => {
+          if (removeOpenvpnMonitoring.checked) {
+            openvpnMonitoringEnable.checked = false;
           }
         });
 
@@ -1672,13 +1746,26 @@
           if (piKvmMonitoringEnable.checked) {
             monitoringEnable.checked = true;
             removeMonitoring.checked = false;
+            removePiKvmMonitoring.checked = false;
           }
         });
-        
+        removePiKvmMonitoring.addEventListener('change', () => {
+          if (removePiKvmMonitoring.checked) {
+            piKvmMonitoringEnable.checked = false;
+            pikvmmonitoringConfigRows.forEach(row => row.style.display = 'none');
+          }
+        });
+
         airGradientMonitoring.addEventListener('change', () => {
           if (airGradientMonitoring.checked) {
             monitoringEnable.checked = true;
             removeMonitoring.checked = false;
+            removeAirGradientMonitoring.checked = false;
+          }
+        });
+        removeAirGradientMonitoring.addEventListener('change', () => {
+          if (removeAirGradientMonitoring.checked) {
+            airGradientMonitoring.checked = false;
           }
         });
 
@@ -1686,6 +1773,13 @@
           if (starLinkMonitoring.checked) {
             monitoringEnable.checked = true;
             removeMonitoring.checked = false;
+            removeStarLinkMonitoring.checked = false;
+          }
+        });
+        removeStarLinkMonitoring.addEventListener('change', () => {
+          if (removeStarLinkMonitoring.checked) {
+            starLinkMonitoring.checked = false;
+            starlinkmonitoringConfigRows.forEach(row => row.style.display = 'none');
           }
         });
 
@@ -1693,6 +1787,13 @@
           if (shellyPlugMonitoring.checked) {
             monitoringEnable.checked = true;
             removeMonitoring.checked = false;
+            removeShellyPlugMonitoring.checked = false;
+          }
+        });
+        removeShellyPlugMonitoring.addEventListener('change', () => {
+          if (removeShellyPlugMonitoring.checked) {
+            shellyPlugMonitoring.checked = false;
+            shellyplugmonitoringConfigRows.forEach(row => row.style.display = 'none');
           }
         });
 
