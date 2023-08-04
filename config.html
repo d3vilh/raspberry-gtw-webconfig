@@ -86,7 +86,17 @@
               <b>Install Portainer</b>
             </label>
           </td>
+          <td>
+            <input type="checkbox" name="remove_portainer" id="remove_portainer" {{if .Config.RemovePortainer}}checked{{end}}>
+          </td>
+          <td>
+            <label for="remove_portainer" title="Remove Portainer container - container management UI">
+              <b>Uninstall Portainer</b>
+            </label>
+          </td>
         </tr>
+      </table>
+      <table>
         <tr>
           <td></td>
           <td>
@@ -184,7 +194,13 @@
             <input type="checkbox" name="unbound_dns_enable" id="unbound_dns_enable" title="Enables Unbound DNS container" {{if .Config.UnboundDNSEnable}}checked{{end}}>
           </td>
           <td>
-            <b><label for="unbound_dns_enable">Unbound DNS</label></b>
+            <b><label for="unbound_dns_enable">Install Unbound DNS</label></b>
+          </td>
+          <td>
+            <input type="checkbox" name="remove_unbound_dns" id="remove_unbound_dns" title="Removes Unbound DNS container" {{if .Config.RemoveUnboundDNS}}checked{{end}}>
+          </td>
+          <td>
+            <b><label for="remove_unbound_dns">Uninstall Unbound DNS</label></b>
           </td>
         </tr>
       </table>
@@ -259,9 +275,17 @@
             <input type="checkbox" name="pihole_enable" id="pihole_enable" title="Enables Pi-Hole Container" {{if .Config.PiholeEnable}}checked{{end}}>
           </td>
           <td>
-            <b><label for="pihole_enable" title="Enable Pi-Hole functionality">Pi-hole</label></b>
+            <b><label for="pihole_enable" title="Enable Pi-Hole functionality">Install Pi-hole</label></b>
+          </td>
+          <td>
+            <input type="checkbox" name="remove_pihole" id="remove_pihole" title="Removes Pi-Hole Container" {{if .Config.RemovePihole}}checked{{end}}>
+          </td>
+          <td>
+            <b><label for="remove_pihole" title="Remove Pi-Hole functionality">Uninstall Pi-hole</label></b>
           </td>
         </tr>
+      </table>
+      <table>
         <tr>
           <td>
             <input type="checkbox" style="visibility: hidden;" disabled>
@@ -304,14 +328,24 @@
             <b><label for="pihole_with_unbound" title="Enable Pi-Hole to use Unbound DNS as upstream DNS server">Pi-hole with Unbound as Local DNS</label></b>
           </td>
         </tr>
+      </table>
+      <table>
         <tr>
           <td>
             <input type="checkbox" name="tech_dns_enable" id="tech_dns_enable" title="Enables Technitium DNS container" {{if .Config.TechDNSEnable}}checked{{end}}>
           </td>
           <td>
-            <b><label for="tech_dns_enable" title="Enables Technitium DNS container">TechnitiumDNS</label></b>
+            <b><label for="tech_dns_enable" title="Enables Technitium DNS container">Install TechnitiumDNS</label></b>
+          </td>
+          <td>
+            <input type="checkbox" name="remove_tech_dns" id="remove_tech_dns" title="Removes Technitium DNS container" {{if .Config.RemoveTechDNS}}checked{{end}}>
+          </td>
+          <td>
+            <b><label for="remove_tech_dns" title="Removes Technitium DNS container">Uninstall TechnitiumDNS</label></b>
           </td>
         </tr>
+      </table>
+      <table>
         <tr>
           <td>
             <input type="checkbox" style="visibility: hidden;" disabled>
@@ -395,12 +429,20 @@
         <table>
           <tr>
             <td>
-              <input type="checkbox" name="ovpn_server_enable" id="ovpn_server_enable" title="Enables OpenVPN Server and Web UI" {{if .Config.OpenVPNServer}}checked{{end}}>
+              <input type="checkbox" name="ovpn_server_enable" id="ovpn_server_enable" title="Installs OpenVPN Server and Web UI" {{if .Config.OpenVPNServer}}checked{{end}}>
             </td>
             <td>
-              <b><label for="ovpn_server_enable" title="Enable OpenVPN Server and Web UI">Enable OpenVPN Server</label></b>
+              <label for="ovpn_server_enable" title="Installs OpenVPN Server and Web UI"><b>Install</b> OpenVPN Server</label>
+            </td>
+            <td>
+              <input type="checkbox" name="remove_ovpn_server" id="remove_ovpn_server" title="Removes OpenVPN Server and Web UI" {{if .Config.RemoveOpenVPNServer}}checked{{end}}>
+            </td>
+            <td>
+              <label for="remove_ovpn_server" title="Removes OpenVPN Server and Web UI"><b>Uninstall</b> OpenVPN Server</label>
             </td>
           </tr>
+        </table>
+        <table>
           <tr openvpn-server="config">
             <td>
               <input type="checkbox" style="visibility: hidden;" disabled>
@@ -474,7 +516,13 @@
               <input type="checkbox" name="ovpn_client_enable" id="ovpn_client_enable" title="Enables OpenVPN Client container" {{if .Config.OpenVPNClient}}checked{{end}}>
             </td>
             <td>
-              <b><label for="ovpn_client_enable" title="Enables OpenVPN Client container">Enable OpenVPN Client</label></b>
+              <label for="ovpn_client_enable" title="Enables OpenVPN Client container"><b>Install</b> OpenVPN Client</label>
+            </td>
+            <td>
+              <input type="checkbox" name="remove_ovpn_client" id="remove_ovpn_client" title="Removes OpenVPN Client container" {{if .Config.RemoveOpenVPNClient}}checked{{end}}>
+            </td>
+            <td>
+              <label for="remove_ovpn_client" title="Removes OpenVPN Client container"><b>Uninstall</b> OpenVPN Client</label>
             </td>
           </tr>
         </table>
@@ -553,9 +601,17 @@
               <input type="checkbox" name="gluetun_vpnclient_enable" id="gluetun_vpnclient_enable" title="Enables GlueTun Universal VPN client" {{if .Config.GluetunEnable}}checked{{end}}>
             </td>
             <td>
-              <b><label for="gluetun_vpnclient_enable" title="Enables GlueTun Universal VPN client">Enable GlueTun</label></b>
+              <label for="gluetun_vpnclient_enable" title="Enables GlueTun Universal VPN client"><b>Install</b> GlueTun</label>
+            </td>
+            <td>
+              <input type="checkbox" name="remove_gluetun" id="remove_gluetun" title="Removes GlueTun Universal VPN client" {{if .Config.RemoveGluetun}}checked{{end}}>
+            </td>
+            <td>
+              <label for="remove_gluetun" title="Removes GlueTun Universal VPN client"><b>Uninstall</b> GlueTun</label>
             </td>
           </tr>
+        </table>
+        <table
           <tr gluetun-client="config">
             <td>
               <input type="checkbox" style="visibility: hidden;" disabled>
@@ -747,12 +803,20 @@
         <table>
           <tr>
             <td>
-              <b><input type="checkbox" name="wireguard_server_enable" id="wireguard_server_enable" title="Enables WireGuard Server and its Web UI" {{if .Config.WireGuardServer}}checked{{end}}></b>
+              <input type="checkbox" name="wireguard_server_enable" id="wireguard_server_enable" title="Enables WireGuard Server and its Web UI" {{if .Config.WireGuardServer}}checked{{end}}>
             </td>
             <td>
-              <b><label for="wireguard_server_enable" title="Enables WireGuard Server and its Web UI">WireGuard Server</label></b>
+              <label for="wireguard_server_enable" title="Enables WireGuard Server and its Web UI"><b>Install</b> WireGuard Server</label>
+            </td>
+            <td>
+              <input type="checkbox" name="remove_wireguard" id="remove_wireguard" title="Removes WireGuard Server and its Web UI" {{if .Config.RemoveWireGuardServer}}checked{{end}}>
+            </td>
+            <td>
+              <label for="remove_wireguard" title="Removes WireGuard Server and its Web UI"><b>Uninstall</b> WireGuard Server</label>
             </td>
           </tr>
+        </table>
+        <table>
           <tr wireguard-server="config">
             <td>
               &nbsp
@@ -789,9 +853,17 @@
               <input type="checkbox" name="qbittorrent_enable" id="qbittorrent_enable" title="Enables qBitTorrent client setup" {{if .Config.QbitTorrentEnable}}checked{{end}}>
             </td>
             <td>
-              <b><label for="qbittorrent_enable" title="Enables qBitTorrent client setup">Enable qBitTorrent</label></b>
+              <label for="qbittorrent_enable" title="Enables qBitTorrent client setup"><b>Install</b> qBitTorrent</label>
+            </td>
+            <td>
+              <input type="checkbox" name="remove_qbittorrent" id="remove_qbittorrent" title="Removes qBitTorrent client setup" {{if .Config.RemoveQbitTorrent}}checked{{end}}>
+            </td>
+            <td>
+              <label for="remove_qbittorrent" title="Removes qBitTorrent client setup"><b>Uninstall</b> qBitTorrent</label>
             </td>
           </tr>
+        </table>
+        <table>
           <tr qbittorrent="config">
             <td>
               &nbsp
@@ -864,9 +936,17 @@
             <input type="checkbox" name="monitoring_enable" id="monitoring_enable" title="Enables Raspberry monitoring" {{if .Config.MonitoringEnable}}checked{{end}}>
           </td>
           <td>
-            <b><label for="monitoring_enable" title="Enables Raspberry monitoring">Enable Monitoring</label></b>
+            <label for="monitoring_enable" title="Enables Raspberry monitoring"><b>Install</b> Monitoring</label>
+          </td>
+          <td>
+            <input type="checkbox" name="remove_monitoring" id="remove_monitoring" title="Removes Raspberry monitoring" {{if .Config.RemoveMonitoring}}checked{{end}}>
+          </td>
+          <td>
+            <label for="remove_monitoring" title="Removes Raspberry monitoring"><b>Uninstall</b> Monitoring</label>
           </td>
         </tr>
+      </table>
+      <table>
         <tr>
           <td>
             <input type="checkbox" style="visibility: hidden;" disabled>
@@ -1082,7 +1162,8 @@
     <p>The installation process will take some time.<br> Once that's done, it'll be like you have a new <a href="https://github.com/d3vilh/raspberry-gateway" target="_blank">Raspberry Gateway</a> up and running.</p>
     <span>Latest installation log will be saved in ~/raspberry-gateway/webinstall.log</span><br><br>
     <form id="install-form" method="POST" action="/install">
-        <input type="submit" value="Install" style="font-size: 2em; width: 130px; height: 40px;" onclick="return confirm('Are you sure you want to install?');">
+        <input type="submit" value="Install" style="font-size: 2em; width: 160px; height: 40px;" onclick="return confirm('Are you sure you want to Install?');"> &nbsp;
+        <input type="submit" value="Uninstall" style="font-size: 2em; width: 160px; height: 40px;" onclick="return confirm('Are you sure you want to Uninstall?');">
     </form>
     <br>
 
@@ -1225,7 +1306,98 @@
           };
         }, 3000);
 
-      // Gluetun Hide/Show VPN and Wireguard options
+      // Hide/show rows based on ansible_connection value
+        const ansibleConnectionInput = document.querySelector('input[name="raspberry_gateway_ansible_connection"]');
+        const gatewayIpRows = document.querySelectorAll('tr[ansible-host="not-local"]');
+        
+        // Hide the gateway IP rows by default
+        gatewayIpRows.forEach(row => row.style.display = 'none');
+        
+        ansibleConnectionInput.addEventListener('input', () => {
+          if (ansibleConnectionInput.value !== 'local') {
+            gatewayIpRows.forEach(row => row.style.display = '');
+          } else {
+            gatewayIpRows.forEach(row => row.style.display = 'none');
+          }
+        });    
+
+      // Hide/show rows based on OpenVPN Server enable value  
+        const OpenVPNServerEnable = document.getElementById('ovpn_server_enable');
+        const OpenVPNServerConfigRows = document.querySelectorAll('tr[openvpn-server="config"]');
+        const removeOvpnServer = document.getElementById('remove_ovpn_server');
+
+        // Hide the OpenVPN Server config rows by default
+        OpenVPNServerConfigRows.forEach(row => row.style.display = 'none');
+
+        OpenVPNServerEnable.addEventListener('change', () => {
+          if (OpenVPNServerEnable.checked) {
+            OpenVPNServerConfigRows.forEach(row => row.style.display = '');
+            removeOvpnServer.checked = false;
+          } else {
+            OpenVPNServerConfigRows.forEach(row => row.style.display = 'none');
+          }
+        });
+
+        removeOvpnServer.addEventListener('change', () => {
+          if (removeOvpnServer.checked) {
+            OpenVPNServerEnable.checked = false;
+            OpenVPNServerConfigRows.forEach(row => row.style.display = 'none');
+          }
+        });
+
+      // Hide/show rows based on OpenVPN Client enable value  
+        const OpenVPNClientEnable = document.getElementById('ovpn_client_enable');
+        const OpenVPNClientConfigRows = document.querySelectorAll('tr[openvpn-client="config"]');
+        const removeOvpnClient = document.getElementById('remove_ovpn_client');
+
+        // Hide the OpenVPN Clienr config rows by default
+        OpenVPNClientConfigRows.forEach(row => row.style.display = 'none');
+
+        OpenVPNClientEnable.addEventListener('change', () => {
+          if (OpenVPNClientEnable.checked) {
+            removeOppnClient.checked = false;
+            OpenVPNClientConfigRows.forEach(row => row.style.display = '');
+          } else {
+            OpenVPNClientConfigRows.forEach(row => row.style.display = 'none');
+          }
+        });
+
+        removeOvpnClient.addEventListener('change', () => {
+          if (removeOvpnClient.checked) {
+            OpenVPNClientEnable.checked = false;
+            OpenVPNClientConfigRows.forEach(row => row.style.display = 'none');
+          }
+        });
+
+      // Hide/show rows based on GlueTun Client enable value  
+        const glueTunEnable = document.getElementById('gluetun_vpnclient_enable');
+        const removeGluetun = document.getElementById('remove_gluetun');
+        const glueTunConfigRows = document.querySelectorAll('tr[gluetun-client="config"]');
+
+        // Hide the GlueTun Client config rows by default
+        glueTunConfigRows.forEach(row => row.style.display = 'none');
+
+        glueTunEnable.addEventListener('change', () => {
+          if (glueTunEnable.checked) {
+            glueTunConfigRows.forEach(row => row.style.display = '');
+            removeGluetun.checked = false;
+          } else {
+            glueTunConfigRows.forEach(row => row.style.display = 'none');
+            openvpnRows.forEach(row => row.style.display = 'none');
+            wireguardRows.forEach(row => row.style.display = 'none');
+          }
+        });
+
+        removeGluetun.addEventListener('change', () => {
+          if (removeGluetun.checked) {
+            glueTunEnable.checked = false;
+            glueTunConfigRows.forEach(row => row.style.display = 'none');
+            openvpnRows.forEach(row => row.style.display = 'none');
+            wireguardRows.forEach(row => row.style.display = 'none');
+          }
+        });
+
+      // Gluetun Hide/Show OpenVPN and Wireguard options
         const selectElement = document.querySelector('select[name="gluetun_vpn_type"]');
         const openvpnRows = document.querySelectorAll('tr[data-vpn-type="openvpn"]');
         const wireguardRows = document.querySelectorAll('tr[data-vpn-type="wireguard"]');
@@ -1247,70 +1419,9 @@
           }
         });
 
-      // Hide/show rows based on ansible_connection value
-        const ansibleConnectionInput = document.querySelector('input[name="raspberry_gateway_ansible_connection"]');
-        const gatewayIpRows = document.querySelectorAll('tr[ansible-host="not-local"]');
-        
-        // Hide the gateway IP rows by default
-        gatewayIpRows.forEach(row => row.style.display = 'none');
-        
-        ansibleConnectionInput.addEventListener('input', () => {
-          if (ansibleConnectionInput.value !== 'local') {
-            gatewayIpRows.forEach(row => row.style.display = '');
-          } else {
-            gatewayIpRows.forEach(row => row.style.display = 'none');
-          }
-        });    
-
-      // Hide/show rows based on OpenVPN Server enable value  
-        const OpenVPNServerEnable = document.getElementById('ovpn_server_enable');
-        const OpenVPNServerConfigRows = document.querySelectorAll('tr[openvpn-server="config"]');
-
-        // Hide the OpenVPN Server config rows by default
-        OpenVPNServerConfigRows.forEach(row => row.style.display = 'none');
-
-        OpenVPNServerEnable.addEventListener('change', () => {
-          if (OpenVPNServerEnable.checked) {
-            OpenVPNServerConfigRows.forEach(row => row.style.display = '');
-          } else {
-            OpenVPNServerConfigRows.forEach(row => row.style.display = 'none');
-          }
-        });
-
-      // Hide/show rows based on OpenVPN Client enable value  
-      const OpenVPNClientEnable = document.getElementById('ovpn_client_enable');
-        const OpenVPNClientConfigRows = document.querySelectorAll('tr[openvpn-client="config"]');
-
-        // Hide the OpenVPN Clienr config rows by default
-        OpenVPNClientConfigRows.forEach(row => row.style.display = 'none');
-
-        OpenVPNClientEnable.addEventListener('change', () => {
-          if (OpenVPNClientEnable.checked) {
-            OpenVPNClientConfigRows.forEach(row => row.style.display = '');
-          } else {
-            OpenVPNClientConfigRows.forEach(row => row.style.display = 'none');
-          }
-        });
-
-      // Hide/show rows based on GlueTun Client enable value  
-        const glueTunEnable = document.getElementById('gluetun_vpnclient_enable');
-        const glueTunConfigRows = document.querySelectorAll('tr[gluetun-client="config"]');
-
-        // Hide the GlueTun Client config rows by default
-        glueTunConfigRows.forEach(row => row.style.display = 'none');
-
-        glueTunEnable.addEventListener('change', () => {
-          if (glueTunEnable.checked) {
-            glueTunConfigRows.forEach(row => row.style.display = '');
-          } else {
-            glueTunConfigRows.forEach(row => row.style.display = 'none');
-            openvpnRows.forEach(row => row.style.display = 'none');
-            wireguardRows.forEach(row => row.style.display = 'none');
-          }
-        });
-
       // Hide/show rows based on Wireguard server enable value  
         const wireguardServerEnable = document.getElementById('wireguard_server_enable');
+        const removeWireGuardServer = document.getElementById('remove_wireguard');
         const wireguardServerConfigRows = document.querySelectorAll('tr[wireguard-server="config"]');
 
         // Hide the wireguard server config rows by default
@@ -1318,14 +1429,23 @@
 
         wireguardServerEnable.addEventListener('change', () => {
           if (wireguardServerEnable.checked) {
+            removeWireGuardServer.checked = false;
             wireguardServerConfigRows.forEach(row => row.style.display = '');
           } else {
             wireguardServerConfigRows.forEach(row => row.style.display = 'none');
           }
         });
 
+        removeWireGuardServer.addEventListener('change', () => {
+          if (removeWireGuardServer.checked) {
+            wireguardServerEnable.checked = false;
+            wireguardServerConfigRows.forEach(row => row.style.display = 'none');
+          }
+        });
+
       // Hide/show rows based on qBitTorrent server enable value  
-      const qBitTorrentEnable = document.getElementById('qbittorrent_enable');
+        const qBitTorrentEnable = document.getElementById('qbittorrent_enable');
+        const removeQBitTorrent = document.getElementById('remove_qbittorrent');
         const qBitTorrentConfigRows = document.querySelectorAll('tr[qbittorrent="config"]');
 
         // Hide the qBitTorrent server config rows by default
@@ -1333,8 +1453,16 @@
 
         qBitTorrentEnable.addEventListener('change', () => {
           if (qBitTorrentEnable.checked) {
+            removeQBitTorrent.checked = false;
             qBitTorrentConfigRows.forEach(row => row.style.display = '');
           } else {
+            qBitTorrentConfigRows.forEach(row => row.style.display = 'none');
+          }
+        });
+
+        removeQBitTorrent.addEventListener('change', () => {
+          if (removeQBitTorrent.checked) {
+            qBitTorrentEnable.checked = false;
             qBitTorrentConfigRows.forEach(row => row.style.display = 'none');
           }
         });
@@ -1385,12 +1513,22 @@
         });
 
       // Checkbox logic  
+        const removePortainer = document.getElementById('remove_portainer');
+        const portainerEnable = document.getElementById('portainer_enable');
+
         const unboundDnsEnable = document.getElementById('unbound_dns_enable');
+        const removeUnboundDNS = document.getElementById('remove_unbound_dns');
+
         const piholeEnable = document.querySelector('input[name="pihole_enable"]');
+        const removePihole = document.getElementById('remove_pihole');
         const piholeWithUnbound = document.querySelector('input[name="pihole_with_unbound"]');
+
         const techDnsEnable = document.getElementById('tech_dns_enable');
+        const removeTechDNS = document.getElementById('remove_tech_dns');
 
         const ovpnClientEnable = document.getElementById('ovpn_client_enable');
+        const removeOppnClient = document.getElementById('remove_ovpn_client');
+
         const qbittorrentEnable = document.getElementById('qbittorrent_enable');
         const qbittorrentInsideVpn = document.getElementById('qbittorrent_inside_vpn');
         const qbitTorrentInGluetun = document.getElementById('qbittorrent_inside_gluetun');
@@ -1399,26 +1537,54 @@
         const gluetunOvpnCustomConf = document.getElementById('gluetun_vpnclient_custom');
         
         const monitoringEnable = document.getElementById('monitoring_enable');
+        const removeMonitoring = document.getElementById('remove_monitoring');
+
         const openvpnMonitoringEnable = document.getElementById('openvpn_monitoring_enable');
         const piKvmMonitoringEnable = document.getElementById('pikvm_monitoring_enable');
         const airGradientMonitoring = document.getElementById('airgradient_monitoring_enable');
         const starLinkMonitoring = document.getElementById('starlink_monitoring_enable');
         const shellyPlugMonitoring = document.getElementById('shelly_plug_monitoring_enable');
 
+        portainerEnable.addEventListener('change', () => {
+          if (portainerEnable.checked) {
+            removePortainer.checked = false;
+          }
+        });
+
+        removePortainer.addEventListener('change', () => {
+          if (removePortainer.checked) {
+            portainerEnable.checked = false;
+          }
+        });
+
         unboundDnsEnable.addEventListener('change', () => {
           if (unboundDnsEnable.checked) {
             techDnsEnable.checked = false;
+            removeUnboundDNS.checked = false;
         //    TechDNSConfigRows.forEach(row => row.style.display = 'none');
           }
         });
         
+        removeUnboundDNS.addEventListener('change', () => {
+          if (removeUnboundDNS.checked) {
+            unboundDnsEnable.checked = false;
+          }
+        });
+
         piholeEnable.addEventListener('change', () => {
           if (piholeEnable.checked) {
             techDnsEnable.checked = false;
+            removePihole.checked = false; 
       //      TechDNSConfigRows.forEach(row => row.style.display = 'none');
           }
         });
         
+        removePihole.addEventListener('change', () => {
+          if (removePihole.checked) {
+            piholeEnable.checked = false;
+          }
+        });
+
         piholeWithUnbound.addEventListener('change', () => {
           if (piholeWithUnbound.checked) {
             techDnsEnable.checked = false;
@@ -1433,6 +1599,13 @@
             unboundDnsEnable.checked = false;
             piholeEnable.checked = false;
             piholeWithUnbound.checked = false;
+            removeTechDNS.checked = false;
+          }
+        });
+
+        removeTechDNS.addEventListener('change', () => {
+          if (removeTechDNS.checked) {
+            techDnsEnable.checked = false;
           }
         });
 
@@ -1472,33 +1645,54 @@
           }
         }); 
 
+        monitoringEnable.addEventListener('change', () => {
+          if (monitoringEnable.checked) {
+            removeMonitoring.checked = false;
+          }
+        });
+        removeMonitoring.addEventListener('change', () => {
+          if (removeMonitoring.checked) {
+            monitoringEnable.checked = false;
+            openvpnMonitoringEnable.checked = false;
+            piKvmMonitoringEnable.checked = false;
+            airGradientMonitoring.checked = false;
+            starLinkMonitoring.checked = false;
+            shellyPlugMonitoring.checked = false;
+          }
+        });
+
         openvpnMonitoringEnable.addEventListener('change', () => {
           if (openvpnMonitoringEnable.checked) {
             monitoringEnable.checked = true;
+            removeMonitoring.checked = false;
           }
         });
 
         piKvmMonitoringEnable.addEventListener('change', () => {
           if (piKvmMonitoringEnable.checked) {
             monitoringEnable.checked = true;
+            removeMonitoring.checked = false;
           }
         });
         
         airGradientMonitoring.addEventListener('change', () => {
           if (airGradientMonitoring.checked) {
             monitoringEnable.checked = true;
+            removeMonitoring.checked = false;
           }
         });
 
         starLinkMonitoring.addEventListener('change', () => {
           if (starLinkMonitoring.checked) {
             monitoringEnable.checked = true;
+            removeMonitoring.checked = false;
           }
         });
 
         shellyPlugMonitoring.addEventListener('change', () => {
           if (shellyPlugMonitoring.checked) {
             monitoringEnable.checked = true;
+            removeMonitoring.checked = false;
           }
         });
 
