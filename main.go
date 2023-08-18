@@ -109,6 +109,8 @@ type Config struct {
 	ShellyPlugPort              string `yaml:"shelly_port"`
 	ShellyPlugHttpUser          string `yaml:"shelly_plug_http_username"`
 	ShellyPlugHttpPassword      string `yaml:"shelly_plug_http_password"`
+	XRayEnable                  bool   `yaml:"xray_enable"`
+	RemoveXRay                  bool   `yaml:"remove_xray"`
 	IPAddress                   string // to pass your IP address to the template
 }
 
@@ -473,6 +475,8 @@ func saveConfig(w http.ResponseWriter, r *http.Request) {
 		ShellyPlugPort:              r.FormValue("shelly_port"),
 		ShellyPlugHttpUser:          r.FormValue("shelly_plug_http_username"),
 		ShellyPlugHttpPassword:      r.FormValue("shelly_plug_http_password"),
+		XRayEnable:                  r.FormValue("xray_enable") == "on",
+		RemoveXRay:                  r.FormValue("remove_xray") == "on",
 	}
 	if r.FormValue("unbound_dns_hide") == "on" {
 		config.UndoundDNSHide = "yes"

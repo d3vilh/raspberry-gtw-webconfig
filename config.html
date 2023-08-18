@@ -845,6 +845,25 @@
           </tr>
         </table>
 
+        <h1>XRay Server</h1>
+        <p>Fast Shadowsocks and XTLS-Reality Server and UI setup.</p>
+          <table>
+            <tr>
+              <td>
+                <input type="checkbox" name="xray_enable" id="xray_enable" title="Enables XRay Server and its Web UI" {{if .Config.XRayEnable}}checked{{end}}>
+              </td>
+              <td>
+                <label for="xray_enable" title="Enables XRay Server and its Web UI"><b>Install Xray Server</b></label>
+              </td>
+              <td>
+                <input type="checkbox" name="remove_xray" id="remove_xray" title="Removes XRAY Server and its Web UI" {{if .Config.RemoveXRay}}checked{{end}}>
+              </td>
+              <td>
+                <label for="remove_xray" title="Removes XRay Server and its Web UI">Uninstall XRay Server</label>
+              </td>
+            </tr>
+          </table>
+
       <h1>qBitTorrent</h1>
       <p>An open-source software torrent tracker</p>
         <table>
