@@ -1254,15 +1254,17 @@
         <td><a href="http://{{ .Config.IPAddress }}:80" target="_blank">http://{{.Config.IPAddress}}:80</a></td>
         <td><b> &nbsp Tech. DNS:</b></td>
         <td><a href="http://{{ .Config.IPAddress }}:5380" target="_blank">http://{{.Config.IPAddress}}:5380</a></td>
+        <td><b> &nbsp QbitTorrent:</b></td>
+        <td><a href="http://{{ .Config.IPAddress }}:8090" target="_blank">http://{{.Config.IPAddress}}:8090</a></td>
         <td></td>
       </tr>
       <tr>
         <td><b>OpenVPN:</b></td>
         <td><a href="http://{{ .Config.IPAddress }}:8080" target="_blank">http://{{.Config.IPAddress}}:8080</a></td>
-        <td><b> &nbsp QbitTorrent:</b></td>
-        <td><a href="http://{{ .Config.IPAddress }}:8090" target="_blank">http://{{.Config.IPAddress}}:8090</a></td>
         <td><b> &nbsp WireGuard:</b></td>
         <td><a href="http://{{ .Config.IPAddress }}:5000" target="_blank">http://{{.Config.IPAddress}}:5000</a></td>
+        <td><b> &nbsp XRay Server:</b></td>
+        <td><a href="http://{{ .Config.IPAddress }}:54321" target="_blank">http://{{.Config.IPAddress}}:54321</a></td>
         <td></td>
       </tr>
     </table><br><br>
@@ -1624,6 +1626,8 @@
 
         const shellyPlugMonitoring = document.getElementById('shelly_plug_monitoring_enable');
         const removeShellyPlugMonitoring = document.getElementById('remove_shelly_plug_monitoring');
+        const xRayEnable = document.getElementById('xray_enable');
+        const removeXRay = document.getElementById('remove_xray');
 
         portainerEnable.addEventListener('change', () => {
           if (portainerEnable.checked) {
@@ -1813,6 +1817,18 @@
           if (removeShellyPlugMonitoring.checked) {
             shellyPlugMonitoring.checked = false;
             shellyplugmonitoringConfigRows.forEach(row => row.style.display = 'none');
+          }
+        });
+
+        xRayEnable.addEventListener('change', () => {
+          if (xRayEnable.checked) {
+            removeXRay.checked = false;
+          }
+        });
+
+        removeXRay.addEventListener('change', () => {
+          if (removeXRay.checked) {
+            xRayEnable.checked = false;
           }
         });
 
