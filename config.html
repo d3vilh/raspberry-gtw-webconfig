@@ -424,7 +424,7 @@
 
       <span>You can't use TechnitiumDNS and Unbound + Pi-Hole at the same time, as both utilize same 53 port for DNS.</span><br>
 
-      <h1>OpenVPN</h1>
+      <h1>OpenVPN Server</h1>
       <p>OpenVPN Server Setup</p>
         <table>
           <tr>
@@ -500,16 +500,151 @@
               <span> Client.ovpn profile connect line.</span>
             </td>
           </tr>
-          <tr>
+
+          <tr openvpn-server="config">
+              <td>
+                <input type="checkbox" name="easyrsa_config" id="easyrsa_config" title="Change default EasyRSA parameters.">
+              </td>
+              <td>
+                <label for="easyrsa_config" title="Change default EasyRSA parameters."><b>Set EasyRSA parameters</b></label>
+                <span>Change default EasyRSA parameters.</span>
+              </td>
+          </tr>
+
+          <tr openvpn-server="easy-rsa">
             <td>
-              &nbsp
+              <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
-              &nbsp
+              <label for="easyrsa_dn" title="Leave this as-is. org for traditional, cn_only for CN only.">EASYRSA DN:</label>
+              <input type="text" name="easyrsa_dn" placeholder="org" title="Leave this as-is. org for traditional, cn_only for CN only." value="{{.Config.OpenVPNServerEasyDn}}" style="width: 50px;">
+              <span>Define X509 DN mode. "org" - original Country/City/etc. format. "cn_only" - just CN value.</span>
+            </td>
+          </tr>
+          <tr openvpn-server="easy-rsa">
+            <td>
+              <input type="checkbox" style="visibility: hidden;" disabled>
+            </td>
+            <td>
+              <label for="easyrsa_req_country" title="The two-letter country code (e.g. UA).">EASYRSA REQ_COUNTRY:</label>
+              <input type="text" name="easyrsa_req_country" placeholder="UA" title="The two-letter country code (e.g. UA)." value="{{.Config.OpenVPNServerEasyReqCountry}}" style="width: 50px;">
+              <span> The two-letter country code (e.g. UA).</span>
+            </td>
+          </tr>
+          <tr openvpn-server="easy-rsa">
+            <td>
+              <input type="checkbox" style="visibility: hidden;" disabled>
+            </td>
+            <td>
+              <label for="easyrsa_req_province" title="State or province.">EASYRSA REQ_PROVINCE:</label>
+              <input type="text" name="easyrsa_req_province" placeholder="KY" title="State or province." value="{{.Config.OpenVPNServerEasyReqProv}}">
+              <span> The state or province (e.g. KY or Kyiv).</span>
+            </td>
+          </tr>
+          <tr openvpn-server="easy-rsa">
+            <td>
+              <input type="checkbox" style="visibility: hidden;" disabled>
+            </td>
+            <td>
+              <label for="easyrsa_req_city" title="The city of the organization.">EASYRSA REQ_CITY:</label>
+              <input type="text" name="easyrsa_req_city" placeholder="Kyiv" title="The city of the organization." value="{{.Config.OpenVPNServerEasyReqCity}}">
+              <span> The city of the organization.</span>
+            </td>
+          </tr>
+          <tr openvpn-server="easy-rsa">
+            <td>
+              <input type="checkbox" style="visibility: hidden;" disabled>
+            </td>
+            <td>
+              <label for="easyrsa_req_org" title="The name of the organization.">EASYRSA REQ_ORG:</label>
+              <input type="text" name="easyrsa_req_org" placeholder="SweetHome" title="The name of the organization." value="{{.Config.OpenVPNServerEasyReqOrg}}">
+              <span> The name of the organization.</span>
+            </td>
+          </tr>
+          <tr openvpn-server="easy-rsa">
+            <td>
+              <input type="checkbox" style="visibility: hidden;" disabled>
+            </td>
+            <td>
+              <label for="easyrsa_req_email" title="The email address of the organization.">EASYRSA REQ_EMAIL:</label>
+              <input type="text" name="easyrsa_req_email" placeholder="sweet@home.net" title="The email address of the organization." value="{{.Config.OpenVPNServerEasyReqEmail}}">
+              <span> The email address of the organization.</span>
+            </td>
+          </tr>
+          <tr openvpn-server="easy-rsa">
+            <td>
+              <input type="checkbox" style="visibility: hidden;" disabled>
+            </td>
+            <td>
+              <label for="easyrsa_req_ou" title="The name of the organizational unit.">EASYRSA REQ_OU:</label>
+              <input type="text" name="easyrsa_req_ou" placeholder="WC" title="The name of the organizational unit." value="{{.Config.OpenVPNServerEasyReqOu}}">
+              <span> The name of the organizational unit.</span>
+            </td>
+          </tr>
+          <tr openvpn-server="easy-rsa">
+            <td>
+              <input type="checkbox" style="visibility: hidden;" disabled>
+            </td>
+            <td>
+              <label for="easyrsa_req_cn" title="The name of the Common Name.">EASYRSA REQ_CN:</label>
+              <input type="text" name="easyrsa_req_cn" placeholder="server" title="The name of the Common Name." value="{{.Config.OpenVPNServerEasyReqCn}}">
+              <span> The name of the Common Name.</span>
+            </td>
+          </tr>
+          <tr openvpn-server="easy-rsa">
+            <td>
+              <input type="checkbox" style="visibility: hidden;" disabled>
+            </td>
+            <td>
+              <label for="easyrsa_key_size" title="The KeySize. Leave as-is - 2048.">EASYRSA KEY_SIZE:</label>
+              <input type="text" name="easyrsa_key_size" placeholder="2048" title="The KeySize. Leave as-is - 2048." value="{{.Config.OpenVPNServerEasyKeySize}}" style="width: 50px;">
+              <span> Size in bits for your keypairs. The recommended value is 2048.</span>
+            </td>
+          </tr>
+          <tr openvpn-server="easy-rsa">
+            <td>
+              <input type="checkbox" style="visibility: hidden;" disabled>
+            </td>
+            <td>
+              <label for="easyrsa_ca_expire" title="Number of days until the root CA expires.">EASYRSA CA_EXPIRE:</label>
+              <input type="text" name="easyrsa_ca_expire" placeholder="3650" title="Number of days until the root CA expires." value="{{.Config.OpenVPNServerEasyCaExpire}}" style="width: 50px;">
+              <span> Number of days until the Server root CA expires.</span>
+            </td>
+          </tr>
+          <tr openvpn-server="easy-rsa">
+            <td>
+              <input type="checkbox" style="visibility: hidden;" disabled>
+            </td>
+            <td>
+              <label for="easyrsa_cert_expire" title="Number of days until Client certificates expire.">EASYRSA CERT_EXPIRE:</label>
+              <input type="text" name="easyrsa_cert_expire" placeholder="825" title="Number of days until Client certificates expire." value="{{.Config.OpenVPNServerEasyCertExpire}}" style="width: 50px;">
+              <span> Number of days until Client certificates expire.</span>
+            </td>
+          </tr>
+          <tr openvpn-server="easy-rsa">
+            <td>
+              <input type="checkbox" style="visibility: hidden;" disabled>
+            </td>
+            <td>
+              <label for="easyrsa_cert_renew" title="Number of days before expiration to automatically renew certificates.">EASYRSA CERT_RENEW:</label>
+              <input type="text" name="easyrsa_cert_renew" placeholder="30" title="Number of days before expiration to automatically renew certificates." value="{{.Config.OpenVPNServerEasyCertRenew}}" style="width: 50px;">
+              <span> Number of days before expiration to automatically renew certificates.</span>
+            </td>
+          </tr>
+          <tr openvpn-server="easy-rsa">
+            <td>
+              <input type="checkbox" style="visibility: hidden;" disabled>
+            </td>
+            <td>
+              <label for="easyrsa_crl_days" title="Number of days until the CRL expires.">EASYRSA CRL_DAYS:</label>
+              <input type="text" name="easyrsa_crl_days" placeholder="180" title="Number of days until the CRL expires." value="{{.Config.OpenVPNEasyCrlDays}}" style="width: 50px;">
+              <span> Number of days until the CRL expires.</span>
             </td>
           </tr>
         </table>
-        <p>OpenVPN Client Setup</p>
+
+        <h1>OpenVPN Client</h1>
+        <p>Classic OpenVPN Client Setup (no Gluetun)</p>
         <table>
           <tr>
             <td>
@@ -1397,10 +1532,13 @@
       // Hide/show rows based on OpenVPN Server enable value  
         const OpenVPNServerEnable = document.getElementById('ovpn_server_enable');
         const OpenVPNServerConfigRows = document.querySelectorAll('tr[openvpn-server="config"]');
+        const OpenVPNServerEasyRSAEnable = document.getElementById('easyrsa_config');
+        const OpenVPNServerEasyRSAConfigRows = document.querySelectorAll('tr[openvpn-server="easy-rsa"]');
         const removeOvpnServer = document.getElementById('remove_ovpn_server');
 
-        // Hide the OpenVPN Server config rows by default
+        // Hide the OpenVPN Server and EasyRSA config rows by default
         OpenVPNServerConfigRows.forEach(row => row.style.display = 'none');
+        OpenVPNServerEasyRSAConfigRows.forEach(row => row.style.display = 'none');
 
         OpenVPNServerEnable.addEventListener('change', () => {
           if (OpenVPNServerEnable.checked) {
@@ -1411,10 +1549,20 @@
           }
         });
 
+        OpenVPNServerEasyRSAEnable.addEventListener('change', () => {
+          if (OpenVPNServerEasyRSAEnable.checked) {
+            OpenVPNServerEasyRSAConfigRows.forEach(row => row.style.display = '');
+          } else {
+            OpenVPNServerEasyRSAConfigRows.forEach(row => row.style.display = 'none');
+          }
+        });
+
         removeOvpnServer.addEventListener('change', () => {
           if (removeOvpnServer.checked) {
             OpenVPNServerEnable.checked = false;
+            OpenVPNServerEasyRSAEnable.checked = false;
             OpenVPNServerConfigRows.forEach(row => row.style.display = 'none');
+            OpenVPNServerEasyRSAConfigRows.forEach(row => row.style.display = 'none');
           }
         });
 
