@@ -49,6 +49,19 @@ type Config struct {
 	OpenVPNServerGuestSub       string `yaml:"ovpn_guest_subnet"`
 	OpenVPNServerHomeSub        string `yaml:"ovpn_home_subnet"`
 	OpenVPNServerRemoteOpt      string `yaml:"ovpn_remote"`
+	OpenVPNServerEasyDn         string `yaml:"easyrsa_dn"`
+	OpenVPNServerEasyReqCountry string `yaml:"easyrsa_req_country"`
+	OpenVPNServerEasyReqProv    string `yaml:"easyrsa_req_province"`
+	OpenVPNServerEasyReqCity    string `yaml:"easyrsa_req_city"`
+	OpenVPNServerEasyReqOrg     string `yaml:"easyrsa_req_org"`
+	OpenVPNServerEasyReqEmail   string `yaml:"easyrsa_req_email"`
+	OpenVPNServerEasyReqOu      string `yaml:"easyrsa_req_ou"`
+	OpenVPNServerEasyReqCn      string `yaml:"easyrsa_req_cn"`
+	OpenVPNServerEasyKeySize    string `yaml:"easyrsa_key_size"`
+	OpenVPNServerEasyCaExpire   string `yaml:"easyrsa_ca_expire"`
+	OpenVPNServerEasyCertExpire string `yaml:"easyrsa_cert_expire"`
+	OpenVPNServerEasyCertRenew  string `yaml:"easyrsa_cert_renew"`
+	OpenVPNEasyCrlDays          string `yaml:"easyrsa_crl_days"`
 	OpenVPNClient               bool   `yaml:"ovpn_client_enable"`
 	RemoveOpenVPNClient         bool   `yaml:"remove_ovpn_client"`
 	OpenVPNClientCert           string `yaml:"ovpn_client_cert"`
@@ -415,6 +428,19 @@ func saveConfig(w http.ResponseWriter, r *http.Request) {
 		OpenVPNServerGuestSub:       r.FormValue("ovpn_guest_subnet"),
 		OpenVPNServerHomeSub:        r.FormValue("ovpn_home_subnet"),
 		OpenVPNServerRemoteOpt:      r.FormValue("ovpn_remote"),
+		OpenVPNServerEasyDn:         r.FormValue("easyrsa_dn"),
+		OpenVPNServerEasyReqCountry: r.FormValue("easyrsa_req_country"),
+		OpenVPNServerEasyReqProv:    r.FormValue("easyrsa_req_province"),
+		OpenVPNServerEasyReqCity:    r.FormValue("easyrsa_req_city"),
+		OpenVPNServerEasyReqOrg:     r.FormValue("easyrsa_req_org"),
+		OpenVPNServerEasyReqEmail:   r.FormValue("easyrsa_req_email"),
+		OpenVPNServerEasyReqOu:      r.FormValue("easyrsa_req_ou"),
+		OpenVPNServerEasyReqCn:      r.FormValue("easyrsa_req_cn"),
+		OpenVPNServerEasyKeySize:    r.FormValue("easyrsa_key_size"),
+		OpenVPNServerEasyCaExpire:   r.FormValue("easyrsa_ca_expire"),
+		OpenVPNServerEasyCertExpire: r.FormValue("easyrsa_cert_expire"),
+		OpenVPNServerEasyCertRenew:  r.FormValue("easyrsa_cert_renew"),
+		OpenVPNEasyCrlDays:          r.FormValue("easyrsa_crl_days"),
 		OpenVPNClient:               r.FormValue("ovpn_client_enable") == "on",
 		RemoveOpenVPNClient:         r.FormValue("remove_ovpn_client") == "on",
 		OpenVPNClientCert:           "webinstall-client.ovpn",
