@@ -37,6 +37,20 @@ unbound_dns_ipv6: "no"                          # enable ipv6 support
 unbound_dns_num_threads: "1"                    # Keep 1, unless understand you really need it.
 unbound_dns_upstream_4_pihole: "127.0.0.1#5335" # Use local Unbound DNS as upstream DNS server IP.
 
+#    _____ _____       _____ _____    _____                     
+#   |   __|  _  |_____| __  |  _  |  |   __|___ ___ _ _ ___ ___ 
+#   |__   |     |     | __ -|     |  |__   | -_|  _| | | -_|  _|
+#   |_____|__|__|_|_|_|_____|__|__|  |_____|___|_|  \_/|___|_|  
+# SAMBA Server. Testing only. Not ready for production.
+samba_enable: false                              # Set true to enable SAMBA
+remove_samba: false                              # Set true to remove SAMBA
+
+samba_user: "admin"                              # SAMBA username
+samba_password: "gagaZush"                       # !Change this password!
+samba_netbios_name: "Raspberry-gw"               # SAMBA NetBIOS name
+samba_workgroup: "WORKGROUP"                     # SAMBA workgroup
+samba_torrents_share: false                      # Set true to enable torrents share
+
 #    _____ _ _____     _     
 #   |  _  |_|  |  |___| |___ 
 #   |   __| |     | . | | -_|
