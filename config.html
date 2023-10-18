@@ -1020,6 +1020,14 @@
         <table>
           <tr qbittorrent="config">
             <td>
+              <input type="checkbox" name="samba_torrents_share" id="samba_torrents_share" title="Enables SAMBA sharing for downloaded torrents" {{if .Config.SambaTorrentsShare}}checked{{end}}>
+            </td>
+            <td>
+              <label for="samba_torrents_share" title="Enables SAMBA sharing for downloaded torrents"><b>Enable Torrents sharing with SAMBA Server</b></label>
+            </td>
+          </tr>
+          <tr qbittorrent="config">
+            <td>
               &nbsp
             </td>
             <td>
@@ -1081,6 +1089,66 @@
             </td>
           </tr>
         </table>
+
+        <h1>SAMBA Server</h1>
+        <p>Samba is a free software re-implementation of the SMB networking protocol</p>
+          <table>
+            <tr>
+              <td>
+                <input type="checkbox" name="samba_enable" id="samba_enable" title="Enables SAMBA Server" {{if .Config.SambaEnable}}checked{{end}}>
+              </td>
+              <td>
+                <label for="samba_enable" title="Enables SAMBA Server"><b>Install SAMBA Server</b></label>
+              </td>
+              <td>
+                <input type="checkbox" name="remove_samba" id="remove_samba" title="Removes SAMBA Server" {{if .Config.RemoveSamba}}checked{{end}}>
+              </td>
+              <td>
+                <label for="remove_samba" title="Removes SAMBA Server ">Uninstall SAMBA Server</label>
+              </td>
+            </tr>
+          </table>
+          <table>
+            <tr samba="config">
+              <td>
+                &nbsp
+              </td>
+              <td>
+                <label for="samba_user" title="SAMBA share user">SAMBA share user:</label> 
+                <input type="text" autocomplete="off" name="samba_user" placeholder="admin" title="SAMBA default user" value="{{.Config.SambaUser}}"> 
+              </td>
+            </tr>
+            <tr samba="config">
+              <td>
+                &nbsp
+              </td>
+              <td>
+                <label for="samba_password" title="SAMBA share user password">SAMBA share user password:</label> 
+                <input type="text" autocomplete="off" name="samba_password" placeholder="Change this password!" title="SAMBA share user password" value="{{.Config.SambaPassword}}"> 
+                <span>Change this default password.</span>
+              </td>
+            </tr>
+            <tr samba="config">
+              <td>
+                &nbsp
+              </td>
+              <td>
+                <label for="samba_netbios_name" title="SAMBA NetBIOS name">SAMBA NetBIOS name:</label> 
+                <input type="text" name="samba_netbios_name" placeholder="Raspberry-gw" title="SAMBA NetBIOS name" value="{{.Config.SambaNetbiosName}}"> 
+                <span>Do not change it unless you know what you are doing.</span>
+              </td>
+            </tr>
+            <tr samba="config">
+              <td>
+                &nbsp
+              </td>
+              <td>
+                <label for="samba_workgroup" title="SAMBA workgroup">SAMBA workgroup:</label> 
+                <input type="text" name="samba_workgroup" placeholder="WORKGROUP" title="SAMBA workgroup" value="{{.Config.SambaWorkgroup}}"> 
+                <span>Do not change it unless you know what you are doing.</span>
+              </td>
+            </tr>
+          </table>
 
       <h1>Monitoring</h1>
       <p>Raspberry-monitoring setup.</p>
@@ -1688,6 +1756,23 @@
           }
         });
 
+      // Hide/show rows based on SAMBA server enable value  
+        const sambaEnable = document.getElementById('samba_enable');
+        const removeSamba = document.getElementById('remove_samba');
+        const sambaConfigRows = document.querySelectorAll('tr[samba="config"]');
+
+      // Hide the SAMBA server config rows by default
+        sambaConfigRows.forEach(row => row.style.display = 'none');
+
+        sambaEnable.addEventListener('change', () => {
+          if (sambaEnable.checked) {
+            removeSamba.checked = false;
+            sambaConfigRows.forEach(row => row.style.display = '');
+          } else {
+            sambaConfigRows.forEach(row => row.style.display = 'none');
+          }
+        });
+
       // Hide/show rows based on PiKVM server enable value  
         const pikvmmonitoringEnable = document.getElementById('pikvm_monitoring_enable');
         const pikvmmonitoringConfigRows = document.querySelectorAll('tr[pikvm-monitoring="config"]');
@@ -1751,6 +1836,7 @@
         const removeOppnClient = document.getElementById('remove_ovpn_client');
 
         const qbittorrentEnable = document.getElementById('qbittorrent_enable');
+        const sambatorrentsShare = document.getElementById('samba_torrents_share');     // SAMBA torrents share
         const qbittorrentInsideVpn = document.getElementById('qbittorrent_inside_vpn');
         const qbitTorrentInGluetun = document.getElementById('qbittorrent_inside_gluetun');
 
@@ -1883,6 +1969,33 @@
             glueTunConfigRows.forEach(row => row.style.display = 'none');
           }
         }); 
+
+        sambatorrentsShare.addEventListener('change', () => {
+          if (sambatorrentsShare.checked) {
+            sambaEnable.checked = true;
+            qbittorrentEnable.checked = true;
+            removeSamba.checked = false;
+            sambaConfigRows.forEach(row => row.style.display = '');
+          }
+        });   
+
+        sambaEnable.addEventListener('change', () => {
+          if (sambaEnable.checked) {
+            removeSamba.checked = false;
+            sambaConfigRows.forEach(row => row.style.display = '');
+          } else {
+            sambatorrentsShare.checked = false;
+            sambaConfigRows.forEach(row => row.style.display = 'none');
+          }
+        });
+
+        removeSamba.addEventListener('change', () => {
+          if (removeSamba.checked) {
+            sambaEnable.checked = false;
+            sambatorrentsShare.checked = false;
+            sambaConfigRows.forEach(row => row.style.display = 'none');
+          }
+        });
 
         monitoringEnable.addEventListener('change', () => {
           if (monitoringEnable.checked) {
