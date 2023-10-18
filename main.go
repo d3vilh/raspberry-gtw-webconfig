@@ -96,6 +96,13 @@ type Config struct {
 	QbitTorrentInVPN            bool   `yaml:"qbittorrent_inside_vpn"`
 	QbitTorrentInGluetun        bool   `yaml:"qbittorrent_inside_gluetun"`
 	QbitTorrentWebuiPort        string `yaml:"qbittorrent_webui_port"`
+	SambaEnable                 bool   `yaml:"samba_enable"`
+	RemoveSamba                 bool   `yaml:"remove_samba"`
+	SambaUser                   string `yaml:"samba_user"`
+	SambaPassword               string `yaml:"samba_password"`
+	SambaNetbiosName            string `yaml:"samba_netbios_name"`
+	SambaWorkgroup              string `yaml:"samba_workgroup"`
+	SambaTorrentsShare          bool   `yaml:"samba_torrents_share"`
 	MonitoringEnable            bool   `yaml:"monitoring_enable"`
 	RemoveMonitoring            bool   `yaml:"remove_monitoring"`
 	MonitoringGrafPassword      string `yaml:"monitoring_grafana_admin_password"`
@@ -475,6 +482,13 @@ func saveConfig(w http.ResponseWriter, r *http.Request) {
 		QbitTorrentInVPN:            r.FormValue("qbittorrent_inside_vpn") == "on",
 		QbitTorrentInGluetun:        r.FormValue("qbittorrent_inside_gluetun") == "on",
 		QbitTorrentWebuiPort:        r.FormValue("qbittorrent_webui_port"),
+		SambaEnable:                 r.FormValue("samba_enable") == "on",
+		RemoveSamba:                 r.FormValue("remove_samba") == "on",
+		SambaUser:                   r.FormValue("samba_user"),
+		SambaPassword:               r.FormValue("samba_password"),
+		SambaNetbiosName:            r.FormValue("samba_netbios_name"),
+		SambaWorkgroup:              r.FormValue("samba_workgroup"),
+		SambaTorrentsShare:          r.FormValue("samba_torrents_share") == "on",
 		MonitoringEnable:            r.FormValue("monitoring_enable") == "on",
 		RemoveMonitoring:            r.FormValue("remove_monitoring") == "on",
 		MonitoringGrafPassword:      r.FormValue("monitoring_grafana_admin_password"),
