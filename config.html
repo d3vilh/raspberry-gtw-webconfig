@@ -1746,12 +1746,14 @@
             qBitTorrentConfigRows.forEach(row => row.style.display = '');
           } else {
             qBitTorrentConfigRows.forEach(row => row.style.display = 'none');
+            sambatorrentsShare.checked = false;
           }
         });
 
         removeQBitTorrent.addEventListener('change', () => {
           if (removeQBitTorrent.checked) {
             qBitTorrentEnable.checked = false;
+            sambatorrentsShare.checked = false;
             qBitTorrentConfigRows.forEach(row => row.style.display = 'none');
           }
         });
