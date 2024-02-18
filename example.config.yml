@@ -143,7 +143,7 @@ gluetun_vpnclient_custom: false                 # Set true to enable custom Open
 glue_ovpn_custom_conf: "webinstall-client.ovpn" # Set your OpenVPN custom configuration. See
 
 # WIREGUARD CLIENT PART:
-gluetun_wireguard_private_key: "yCbHtK...X2c="  # Valid base 58 Wireguard Client key. Wireguard client private key to use.
+gluetun_wireguard_private_key: "TblPoK...2c="  # Valid base 58 Wireguard Client key. Wireguard client private key to use.
 gluetun_wireguard_public_key: "none"            # Valid base 58 Wireguard Server key. Wireguard Server public key to use.
 gluetun_wireguard_preshared_key: "none"         #
 gluetun_wireguard_address: "10.99.99.99/32"     # Valid IP network interface address in the format xx.xx.xx.xx/xx or ff:ff:ff...:ff/128
