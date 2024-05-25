@@ -9,9 +9,9 @@ To build the webinstall binary:
 go build -o webinstall main.go
 ```
 
-To build the webinstall binary for specified arch (arm64):
+To build the webinstall binary for specified arch (arm64) with musl-gcc:
 ```shell
-GOARCH=arm64 GOOS=linux go build -o webinstall main.go
+CC=musl-gcc GOARCH=arm64 GOOS=linux go build -o webinstall main.go
 ```
 
 To compress new binary with upx:
