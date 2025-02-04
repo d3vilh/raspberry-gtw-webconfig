@@ -131,6 +131,8 @@ type Config struct {
 	ShellyPlugHttpPassword      string `yaml:"shelly_plug_http_password"`
 	XRayEnable                  bool   `yaml:"xray_enable"`
 	RemoveXRay                  bool   `yaml:"remove_xray"`
+	RustdeskEnable              bool   `yaml:"rustdesk_enable"`
+	RemoveRustdesk              bool   `yaml:"remove_rustdesk"`
 	IPAddress                   string // to pass your IP address to the template
 }
 
@@ -517,6 +519,8 @@ func saveConfig(w http.ResponseWriter, r *http.Request) {
 		ShellyPlugHttpPassword:      r.FormValue("shelly_plug_http_password"),
 		XRayEnable:                  r.FormValue("xray_enable") == "on",
 		RemoveXRay:                  r.FormValue("remove_xray") == "on",
+		RustdeskEnable:              r.FormValue("rustdesk_enable") == "on",
+		RemoveRustdesk:              r.FormValue("remove_rustdesk") == "on",
 	}
 	if r.FormValue("unbound_dns_hide") == "on" {
 		config.UndoundDNSHide = "yes"

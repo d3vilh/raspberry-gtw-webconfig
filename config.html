@@ -1150,6 +1150,25 @@
             </tr>
           </table>
 
+          <h1>Rustdesk Server</h1>
+          <p>The Fast Open-Source Remote Access and Support Software</p>
+            <table>
+              <tr>
+                <td>
+                  <input type="checkbox" name="rustdesk_enable" id="rustdesk_enable" title="Enables Rustdesk Server" {{if .Config.RustdeskEnable}}checked{{end}}>
+                </td>
+                <td>
+                  <label for="rustdesk_enable" title="Enables Rustdesk Server"><b>Install Rustdesk Server</b></label>
+                </td>
+                <td>
+                  <input type="checkbox" name="remove_rustdesk" id="remove_rustdesk" title="Removes Rustdesk Server" {{if .Config.RemoveRustdesk}}checked{{end}}>
+                </td>
+                <td>
+                  <label for="remove_rustdesk" title="Removes Rustdesk Server">Uninstall Rustdesk Server</label>
+                </td>
+              </tr>
+            </table>
+
       <h1>Monitoring</h1>
       <p>Raspberry-monitoring setup.</p>
       <table>
@@ -1864,6 +1883,8 @@
         const removeShellyPlugMonitoring = document.getElementById('remove_shelly_plug_monitoring');
         const xRayEnable = document.getElementById('xray_enable');
         const removeXRay = document.getElementById('remove_xray');
+        const rustdeskEnable = document.getElementById('rustdesk_enable');
+        const removeRustdesk = document.getElementById('remove_rustdesk');
 
         portainerEnable.addEventListener('change', () => {
           if (portainerEnable.checked) {
@@ -2094,6 +2115,19 @@
             xRayEnable.checked = false;
           }
         });
+
+        rustdeskEnable.addEventListener('change', () => {
+          if (rustdeskEnable.checked) {
+            removeRustdesk.checked = false;
+          }
+        });
+
+        removeRustdesk.addEventListener('change', () => {
+          if (removeRustdesk.checked) {
+            rustdeskEnable.checked = false;
+          }
+        });
+
 
       // OVPN and Gluetun configuration upload section
         document.addEventListener('DOMContentLoaded', () => {
