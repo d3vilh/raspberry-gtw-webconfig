@@ -133,6 +133,11 @@ type Config struct {
 	RemoveXRay                  bool   `yaml:"remove_xray"`
 	RustdeskEnable              bool   `yaml:"rustdesk_enable"`
 	RemoveRustdesk              bool   `yaml:"remove_rustdesk"`
+	Socks5Enable                bool   `yaml:"socks5_enable"`
+	RemoveSocks5                bool   `yaml:"remove_socks5"`
+	Socks5Port                  string `yaml:"socks5_port"`
+	Socks5User                  string `yaml:"socks5_user"`
+	Socks5Password              string `yaml:"socks5_password"`
 	IPAddress                   string // to pass your IP address to the template
 }
 
@@ -521,6 +526,11 @@ func saveConfig(w http.ResponseWriter, r *http.Request) {
 		RemoveXRay:                  r.FormValue("remove_xray") == "on",
 		RustdeskEnable:              r.FormValue("rustdesk_enable") == "on",
 		RemoveRustdesk:              r.FormValue("remove_rustdesk") == "on",
+		Socks5Enable:                r.FormValue("socks5_enable") == "on",
+		RemoveSocks5:                r.FormValue("remove_socks5") == "on",
+		Socks5Port:                  r.FormValue("socks5_port"),
+		Socks5User:                  r.FormValue("socks5_user"),
+		Socks5Password:              r.FormValue("socks5_password"),
 	}
 	if r.FormValue("unbound_dns_hide") == "on" {
 		config.UndoundDNSHide = "yes"
