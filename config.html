@@ -746,7 +746,7 @@
             </td>
           </tr>
         </table>
-        <table
+        <table>
           <tr gluetun-client="config">
             <td>
               <input type="checkbox" style="visibility: hidden;" disabled>
@@ -954,7 +954,7 @@
         <table>
           <tr wireguard-server="config">
             <td>
-              &nbsp
+              <input type="checkbox" style="visibility: hidden;" disabled>
             </td>
             <td>
             <label for="wireguard_user" title="WireGuard Server username">WireGuard Server Web UI User:</label>  
@@ -998,6 +998,53 @@
               </td>
             </tr>
           </table>
+
+          <h1>Socks5 Server</h1>
+          <p>Socks5 Server setup.</p>
+            <table>
+              <tr>
+                <td>
+                  <input type="checkbox" name="socks5_enable" id="socks5_enable" title="Enables SOCKS5 Server" {{if .Config.Socks5Enable}}checked{{end}}>
+                </td>
+                <td>
+                  <label for="socks5_enable" title="Enables SOCKS5 Server"><b>Install SOCKS5 Server</b></label>
+                </td>
+                <td>
+                  <input type="checkbox" name="remove_socks5" id="remove_socks5" title="Removes SOCKS5 Server" {{if .Config.RemoveSocks5}}checked{{end}}>
+                </td>
+                <td>
+                  <label for="remove_socks5" title="Removes SOCKS5 Server and its Web UI">Uninstall SOCKS5 Server</label>
+                </td>
+              </tr>
+            </table>
+            <table>
+              <tr socks5-server="config">
+                <td>
+                  <input type="checkbox" style="visibility: hidden;" disabled>
+                </td>
+                <td>
+                <label for="socks5_user" title="SOCKS5 Server username">SOCKS5 Server Auth User:</label>  
+                <input type="text" autocomplete="off" name="socks5_user" placeholder="admin" title="SOCKS5 Server username" value="{{.Config.Socks5User}}">
+                </td>
+              <tr socks5-server="config">
+                <td>
+                  &nbsp
+                </td>
+                <td>
+                <label for="socks5_password" title="SOCKS5 Server password">SOCKS5 Server Auth Password:</label>  
+                <input type="password" autocomplete="off" name="socks5_password" placeholder="Change this password!" title="SOCKS5 Server password" value="{{.Config.Socks5Password}}">
+                </td>
+              </tr>
+              <tr socks5-server="config">
+                <td>
+                  &nbsp
+                </td>
+                <td>
+                 <label for="socks5_port" title="Port for your SOCKS5 server">SOCKS5 Server Port:</label>  
+                 <input type="text" name="socks5_port" placeholder="1080" title="Port for your SOCKS5 server" value="{{.Config.Socks5Port}}">
+                </td>
+              </tr>
+            </table>
 
       <h1>qBitTorrent</h1>
       <p>An open-source software torrent tracker</p>
@@ -1748,6 +1795,30 @@
           if (removeWireGuardServer.checked) {
             wireguardServerEnable.checked = false;
             wireguardServerConfigRows.forEach(row => row.style.display = 'none');
+          }
+        });
+
+      // Hide/show rows based on SOCKS5 server enable value  
+      const socks5ServerEnable = document.getElementById('socks5_enable');
+        const removeSocks5Server = document.getElementById('remove_socks5');
+        const socks5ServerConfigRows = document.querySelectorAll('tr[socks5-server="config"]');
+
+        // Hide the SOCKS5 server config rows by default
+        socks5ServerConfigRows.forEach(row => row.style.display = 'none');
+
+        socks5ServerEnable.addEventListener('change', () => {
+          if (socks5ServerEnable.checked) {
+            removeSocks5Server.checked = false;
+            socks5ServerConfigRows.forEach(row => row.style.display = '');
+          } else {
+            socks5ServerConfigRows.forEach(row => row.style.display = 'none');
+          }
+        });
+
+        removeSocks5Server.addEventListener('change', () => {
+          if (removeSocks5Server.checked) {
+            socks5ServerEnable.checked = false;
+            socks5ServerConfigRows.forEach(row => row.style.display = 'none');
           }
         });
 
